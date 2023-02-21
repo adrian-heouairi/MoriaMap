@@ -1,0 +1,30 @@
+* Réunion <2023-02-15 Wed>
+  - Code source et javadoc en anglais
+  - Communication sans lien avec un ticket ou une MR en particulier sur discord
+  - Privilégier les commentaires sur issue/MR => tout le contenu est regroupé 
+    aux endroits où il doit être
+  - Faire des réunions courtes souvent (idéal quotidiennement: /daily meetings/)
+    en distanciel ou presentiel entre chaque mercredi.
+
+* Réunion <2023-02-18 Sat>
+** Analyse des besoins/conception
+   - ~Vertex~
+     Représente une station, identifié par GPS ou Nom station au choix. Autre 
+     type pour point de départ/arrivée (uniformise le calcul avec mélange de 
+     section à pied et en train par exemple) ?
+   - ~Edge~
+     Strategy pattern pour le calcul de distance/temps selon si on est à
+     pied, en train, à vélo, etc...
+     - ~DistanceEdge~
+       Arête étiquetée par une distance
+     - ~TimeEdge~
+       Arête étiquetée par un temps de parcours
+   - ~Graph~
+     Regroupe les sommets et les arêtes
+   - ~NetParser~
+     Lis la description d'un réseau arbitraire
+   - ~ScheduleParser~
+     Lis la description d'horaire par station
+** CI/CD
+   Les machines de la fac ne semblent pas permettre le téléchargement de
+   dépendances lors des pipelines => contacter les profs sur moodle
