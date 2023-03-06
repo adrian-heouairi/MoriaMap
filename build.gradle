@@ -10,7 +10,7 @@ version '0.1'
 mainClassName = group + '.Main'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
