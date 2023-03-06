@@ -28,3 +28,10 @@
 ** CI/CD
    Les machines de la fac ne semblent pas permettre le téléchargement de
    dépendances lors des pipelines => contacter les profs sur moodle
+* Réunion <2023-02-22 Wed>
+  Adopter SCRUM pour organisation du travail:
+  Séparation du travail en tâches et attribution à chacun, à finir avant la 
+  fin du sprint, date de fin à déterminer selon la quantité de tâches.
+  Mise en place d'un repo mirroir sur GitHub afin de profiter du CI/CD de 
+  GitHub.
+  Elaboration du diagramme des cas d'utilisation.
