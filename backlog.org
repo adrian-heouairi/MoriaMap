@@ -35,3 +35,11 @@
   Mise en place d'un repo mirroir sur GitHub afin de profiter du CI/CD de 
   GitHub.
   Elaboration du diagramme des cas d'utilisation.
+* Réunion <2023-03-05 Sun>
+  Travail sur la conception logiciel, notamment la modélisation du réseau
+
+* Réunion <2023-03-06 Mon>
+  Travail de conception sur les parsers, stockage des horaires de passage en 
+  mémoire, lancement du programme, naivigateur, calcul de routes.
+
+  
