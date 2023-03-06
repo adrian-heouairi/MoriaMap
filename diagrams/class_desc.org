@@ -1,0 +1,26 @@
+* Classes
+
+** ~Graph~
+
+** ~Vertex~
+
+** ~Edge~
+
+** ~TransportNetwork~
+   Etend ~Graph~.
+
+** ~TransportScheduleParser~
+   Permet de charger en mémoire les horaires de passage par ~Line~ par ~Station~
+   de départ, construit une Map<Pair<String, String>, List<String>> qui associe
+   une liste d'horaires sous forme de String à une paire (~Line~, ~Station~) 
+   sous forme de String.
+
+** ~Line~
+   Maintient
+
+** ~Station~
+   Maintient une liste de ~TransportSchedule~
+
+** ~TransportSchedule~
+   Décrit le passage d'un transport par une ~Station~ à un moment donné sur une
+   ~Line~ vers un voisin.
