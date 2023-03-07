@@ -1,26 +1,86 @@
+* Déroulement
+  Lors du lancement du programme, on attend en boucle une ~Query~, à laquelle on
+  peut répondre ou non selon si on a chargé les informations nécessaires en 
+  mémoire.
+
 * Classes
+** Application
+   Point d'entrée du logiciel. main() prend en argument les chemins vers les 
+   fichiers reseau et horaires. Maintient un ~Navigator~. 
+   Le programme propose en boucle les fonctionnalités dispo, après choix gère
+   la récupération des données d'entrée, éxécute le calcul, fourni le résultat
+   puis recommence.
+
+** ~Navigator~
+   Permet de calculer les ~Route~ dans un graphe de transport, donc maintient un
+   graphe de transport arbitraire.
+
+** ~Route~
+   Décrit un itinéraire dans un graphe de transport d'un point A vers un point B
+   qui initialement correspond à une suite (arrêts, segment), où l'arrêt du
+   premier élement de la liste est A et le champ segment.to du dernier segment
+   de la liste est B.
+
+** ~Query~
+   Décrit les requêtes que l'on formule au programme:
+   - Afficher les horaires de passage pour un arrêt donné :: 
+        TransportScheduleQuery(String -> ~Stop~)
+   - Calculer un itinéraire ::
+        TripQuery(String -> ~Stop~, String -> ~Stop~, String -> ~Time~)
+
+*** ~TripQuery~
+    Décrit le trajet que veut effectuer un utilisateur, est construit par
+    l'application et est envoyé au navigateur. Encapsule un point de départ, un
+    point d'arrivée et un horaire minimale (ne pas partir avant mais peut être
+    plus tard). Les points sont des ~GeographicPosition~.
+
+*** ~TransportScheduleQuery~
+    Décrit la requête de l'utilisateur lorsqu'il demande à afficher les horaires
+    de passages pour un arrêt donné. L'utilisateur donne le nom de l'arrêt, si 
+    plusieurs résultats (plusieurs arrêts avec le même nom) -> exception, fonc. 
+    à réaliser plus tard.
 
 ** ~Graph~
+   Un graphe connexe orienté pondéré.
 
 ** ~Vertex~
-
+   Un sommet d'un graphe.
+   
 ** ~Edge~
+   Une arête orientée pondérée d'un graphe.
 
 ** ~TransportNetwork~
    Etend ~Graph~.
+   Représnte un réseau de transport arbitraire. Renseigne chaque ~Stop~
+   de leurs horaires de passages de transport.
 
 ** ~TransportScheduleParser~
-   Permet de charger en mémoire les horaires de passage par ~Line~ par ~Station~
+   Permet de charger en mémoire les horaires de passage par ~Line~ par ~Stop~
    de départ, construit une Map<Pair<String, String>, List<String>> qui associe
-   une liste d'horaires sous forme de String à une paire (~Line~, ~Station~) 
+   une liste d'horaires sous forme de String à une paire (~Line~, ~Stop~) 
    sous forme de String.
 
 ** ~Line~
-   Maintient
+   Décrit une section de réseau en regroupant des ~Stop~ reliés par des 
+   ~TransportSegment~. Se caractérise par des terminus de départ, représentés par
+   des ~Stop~.
 
-** ~Station~
-   Maintient une liste de ~TransportSchedule~
+** ~Stop~
+   Représente un arrêt dans un réseau de transport.
+   Maintient une liste de ~TransportSchedule~, produite par le parcours de 
+   ~TransportNetwork~. Se trouve à une certaine position géographique. Maintient
+   une liste des ~Line~ dans lesquelles il se trouve.
 
 ** ~TransportSchedule~
-   Décrit le passage d'un transport par une ~Station~ à un moment donné sur une
-   ~Line~ vers un voisin.
+   Décrit le passage d'un transport par un ~Stop~ à un moment donné sur une
+   ~Line~ vers un voisin direct (qui sert pour indiquer la direction).
+
+** ~TransportSegment~
+   Représente une jonction entre ~Stop~ d'un ~TransportNetwork~. Encapsule une 
+   distance, un temps de trajet et les ~Stop~ qu'elle relie (orientée).
+
+* Données
+** Réseau
+** Horaires
+   D'après la spec, associé à une ligne et ses terminus de départ (on trouve les
+   terminus grâce au fichier d'horaires).
