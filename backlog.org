@@ -43,3 +43,19 @@
   mémoire, lancement du programme, naivigateur, calcul de routes.
 
   
+* Réunion <2023-03-10 Fri>
+  Problème avec la modélisation actuelle: on ne voit pas les éventuelles 
+  correspondances (ex: Ligne 13 St-Denis -> La Fourche, correspondance -> 
+  Asnières). Solution: considérer une ligne comme n'ayant que deux terminus
+  (qui peut être le même dans le cas d'une circulaire) et faire plusieurs
+  lignes 13, une 13.A qui va de St-Denis à Montrouge et une autre de Asnières
+  à Montrouge.
+
+  Nouvelle du client: on a les fichiers CSV mercredi <2023-03-15>.
+
+  Feature probable: afficher le plan d'une ligne sans considérer la position
+  géographique.
+
+  C'est OK de faire la précédente modélisation (avec GeographicVertex etc), on
+  utilisera ~instanceof~ au besoin pour déterminer si un graphe en particulier 
+  est un ~TransportNetwork~.
