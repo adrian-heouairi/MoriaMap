@@ -36,7 +36,7 @@ public final class GeographicPosition {
         new GeographicPosition(90.0, 0.0);
 
     /**
-     * The greographic position of the south pole on Earth.
+     * The geographic position of the south pole on Earth.
      */
     public static final GeographicPosition SOUTH_POLE =
         new GeographicPosition(-90.0, 0.0);
@@ -67,6 +67,7 @@ public final class GeographicPosition {
      *
      * @param  latitude a value between +/- 90 Celsius degrees
      * @param  longitude a value between +/- 180 Celsius degrees
+     * @return a new GeographicPosition at latitude and longitude
      * @throws IllegalArgumentException if the values for latitude or longitude
      *         are not valid
      */
@@ -83,7 +84,7 @@ public final class GeographicPosition {
      * @param p1 a GeographicPosition
      * @param p2 a GeographicPosition
      * @param radius the radius of the sphere on which p1 and p2 are
-     * @throw IllegalArgumentException if radius <= 0.0
+     * @throws IllegalArgumentException if radius is inferior or equal to 0.0
      * @return the euclidean distance between p1 and p2
      */
     public static double euclideanDistance(
@@ -164,6 +165,8 @@ public final class GeographicPosition {
      * and each value is rounded to 4 decimal places for 11.1m precision at the
      * ecuator.
      *
+     * @param  radius the distance from this GeographicPosition and the center
+     *         of the XYZ coordinate system
      * @return an array containing the projection on each axis of this
      *         GeographicPosition in the order X Y Z
      * @throws IllegalArgumentException if radius is negative
@@ -193,6 +196,8 @@ public final class GeographicPosition {
      * Computes the cartesian representation with `toCartesian` and converts the
      * result to a list.
      *
+     * @param  radius the distance from this GeographicPosition and the center
+     *         of the XYZ coordinate system
      * @return a list containing the cartesian representation of this
      *         GeographicPosition in the order X Y Z
      */
@@ -221,6 +226,11 @@ public final class GeographicPosition {
             && other.longitude == this.longitude;
     }
 
+    /**
+     * Returns the hash code of this GeographicPosition.
+     *
+     * @return the hash code of this GeographicPosition.
+     */
     @Override public int hashCode() {
         final int prime = 7;
         int hash = 1;

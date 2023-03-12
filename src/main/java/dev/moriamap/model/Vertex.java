@@ -32,19 +32,25 @@ public abstract class Vertex {
     }
 
     /**
-     * Adds a neighbor to the caller.
-     * @param neighbor to be added.
-     * @return true if neighbor was added, false if it was already there.
+     * Adds the specified Vertex to this Vertex neighbors if it is not already
+     * a neighbor.
+     *
+     * @param neighbor the Vertex to add to this Vertex neighbors
+     * @return true if the specified vertex was added to this Vertex neighbors
+     * @throws IllegalArgumentException if specified Vertex is this Vertex
+     * @throws NullPointerException if specified Vertex is null
      */
     public boolean addNeighbor(Vertex neighbor) {
-
+        if (this == neighbor)
+            throw new IllegalArgumentException("Can not add this to neighbors");
+        if (neighbor == null)
+            throw new NullPointerException("Can not add null to neighbors");
         if (!this.neighbors.contains(neighbor)) {
             this.neighbors.add(neighbor);
             return true;
         }
         return false;
     }
-
 
     /**
      * Removes a neighbor to the caller.
