@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 
 /**
  * A geographic position is a pair of angles that describe the offset to the
- * ecuator and to the prime meridian (without taking into account the altitude).
+ * equator and to the prime meridian (without taking into account the altitude).
  */
 public final class GeographicPosition {
 
@@ -64,7 +64,6 @@ public final class GeographicPosition {
 
     /**
      * Creates a new GeographicPosition at specified latitude and longitude.
-     *
      * @param  latitude a value between +/- 90 Celsius degrees
      * @param  longitude a value between +/- 180 Celsius degrees
      * @return a new GeographicPosition at latitude and longitude
@@ -80,12 +79,11 @@ public final class GeographicPosition {
     /**
      * Converts the specified GeographicPositions to cartesian representation
      * and computes the euclidean distance between the obtained vectors.
-     *
-     * @param p1 a GeographicPosition
-     * @param p2 a GeographicPosition
-     * @param radius the radius of the sphere on which p1 and p2 are
-     * @throws IllegalArgumentException if radius is inferior or equal to 0.0
+     * @param  p1 a GeographicPosition
+     * @param  p2 a GeographicPosition
+     * @param  radius the radius of the sphere on which p1 and p2 are
      * @return the euclidean distance between p1 and p2
+     * @throws IllegalArgumentException if radius is inferior or equal to 0.0
      */
     public static double euclideanDistance(
       GeographicPosition p1,
@@ -104,9 +102,8 @@ public final class GeographicPosition {
     /**
      * Returns the euclidean distance between the specified GeographicPosition
      * on Earth. Equivalent to `euclideanDistance(p1, p2, EARTH_RADIUS)`.
-     *
-     * @param p1 a GeographicPosition
-     * @param p2 a GeographicPosition
+     * @param  p1 a GeographicPosition
+     * @param  p2 a GeographicPosition
      * @return the euclidean distance between p1 and p2 with Earth's radius
      */
     public static double euclideanDistanceOnEarth(
@@ -119,8 +116,7 @@ public final class GeographicPosition {
     /**
      * Computes the euclidean distance on Earth from this GeographicPosition
      * to the specified GeographicPosition.
-     *
-     * @param other a GeographicPosition
+     * @param  other a GeographicPosition
      * @return `euclideanDistanceOnEarth(this, other)`
      */
     public double distanceFrom(GeographicPosition other) {
@@ -136,7 +132,6 @@ public final class GeographicPosition {
     /**
      * Gets the value of the angle in Celsius degrees formed by this
      * GeographicPosition and the Equator (latitude of 0.0).
-     *
      * @return the latitude coordinate of this GeographicPosition
      */
     public double getLatitude() {
@@ -146,7 +141,6 @@ public final class GeographicPosition {
     /**
      * Gets the value of the angle in Celsius degrees formed by this
      * GeographicPosition and the prime meridian (longitude of 0.0).
-     *
      * @return the longitude coordinate of this GeographicPosition
      */
     public double getLongitude() {
@@ -163,8 +157,7 @@ public final class GeographicPosition {
      *     Z-axis = radius * sin(this.latitude)
      *
      * and each value is rounded to 4 decimal places for 11.1m precision at the
-     * ecuator.
-     *
+     * equator.
      * @param  radius the distance from this GeographicPosition and the center
      *         of the XYZ coordinate system
      * @return an array containing the projection on each axis of this
@@ -195,7 +188,6 @@ public final class GeographicPosition {
     /**
      * Computes the cartesian representation with `toCartesian` and converts the
      * result to a list.
-     *
      * @param  radius the distance from this GeographicPosition and the center
      *         of the XYZ coordinate system
      * @return a list containing the cartesian representation of this
@@ -212,7 +204,6 @@ public final class GeographicPosition {
     /**
      * Returns true if this.latitude == ((GeographicPosition)object).latitude
      * and this.longitude == ((GeographicPosition)object).longitude.
-     *
      * @return this.latitude == ((GeographicPosition)object).latitude
      *         and this.longitude == ((GeographicPosition)object).longitude
      */
@@ -228,7 +219,6 @@ public final class GeographicPosition {
 
     /**
      * Returns the hash code of this GeographicPosition.
-     *
      * @return the hash code of this GeographicPosition.
      */
     @Override public int hashCode() {
