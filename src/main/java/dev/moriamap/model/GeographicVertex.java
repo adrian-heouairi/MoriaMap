@@ -10,7 +10,6 @@ public class GeographicVertex extends Vertex {
 
     /**
      * Class constructor specifying geographic position.
-     *
      * @param pos the geographic position of this new GeographicVertex
      */
     protected GeographicVertex(GeographicPosition pos) {
@@ -19,17 +18,18 @@ public class GeographicVertex extends Vertex {
 
     /**
      * Creates a new GeographicVertex at specified position.
-     *
      * @param  pos the geographic position of this new GeographicVertex
      * @return a new GeographicVertex at specified position
+     * @throws IllegalArgumentException if pos is null     
      */
     public static GeographicVertex at(GeographicPosition pos) {
+        if (pos == null)
+            throw new IllegalArgumentException("Position can not be null");
         return new GeographicVertex(pos);
     }
 
     /**
      * Creates a new GeographicVertex at specified latitude and longitude.
-     *
      * @param lat the latitude of this GeographicVertex
      * @param lon the longitude of this GeographicVertex
      * @return a new GeographicVertex at specified geographic position
@@ -42,7 +42,6 @@ public class GeographicVertex extends Vertex {
 
     /**
      * Gets the geographic position of this GeographicVertex.
-     *
      * @return the geographic position of this GeographicVertex.
      */
     public GeographicPosition getGeographicPosition() {
