@@ -47,4 +47,31 @@ public class GeographicVertex extends Vertex {
     public GeographicPosition getGeographicPosition() {
         return this.geographicPosition;
     }
+
+    /**
+     * Returns true if this.geographicPosition == ((GeographicVertex)object).geographicPosition.
+     *
+     * @return this.geographicPosition == ((GeographicVertex)object).geographicPosition
+     */
+    @Override public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || object.getClass() != this.getClass())
+            return false;
+        GeographicVertex other = (GeographicVertex) object;
+        return other.geographicPosition.equals(this.geographicPosition);
+    }
+
+    /**
+     * Returns the hash code of this GeographicVertex.
+     *
+     * @return the hash code of this GeographicVertex.
+     */
+    @Override public int hashCode() {
+        final int prime = 11;
+        int hash = 1;
+        hash *= prime;
+        hash += Math.ceil(this.geographicPosition.hashCode());
+        return hash;
+    }
 }
