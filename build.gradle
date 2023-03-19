@@ -27,3 +27,9 @@ jacocoTestReport {
     dependsOn test
     sourceDirectories.from files(sourceSets.main.allJava.srcDirs)
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+}
