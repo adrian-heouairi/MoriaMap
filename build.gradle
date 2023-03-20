@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'idea'
     id 'jacoco'
+    id "org.sonarqube" version "3.5.0.2730"
 }
 
 group 'dev.moriamap'
@@ -26,10 +27,21 @@ tasks.named('test') {
 jacocoTestReport {
     dependsOn test
     sourceDirectories.from files(sourceSets.main.allJava.srcDirs)
+
+    reports {
+        xml.enabled true
+    }
 }
 
 jar {
     manifest {
         attributes 'Main-Class': mainClassName
+    }
+}
+
+sonar {
+    properties {
+        property "sonar.login", "admin"
+        property "sonar.password", "F9Erj73eUynRrGP"
     }
 }
