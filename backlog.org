@@ -62,3 +62,18 @@
   Mise à jour de la modélisation prenant en compte les variants de lignes.
   Conception de l'algorithme de génération de réseau arbitraire à partir du 
   fichier de données.
+* Réunion <2023-03-22 Wed>
+  Corriger les ~assert()~ en ~assertTrue()~.
+  Trouver une fonction qui considère le temps et la distance pour le poids.
+  Implémenter l'algo DFS pour PLAN_0.
+  Implémenter l'algo Dijsktra pour PLAN_1.
+  Ajouter les issues de PLAN_* et LECT_*
+  Problème conception:
+  - Boucle Variant-TransportSegment
+    Pour cette boucle il suffit que TransportSegment connaisse un identifiant de
+    Variant ("8 variant 1" par exemple). Donc Variant doit avoir un id de Line
+  - Boucle Variant-Line
+    Variant n'a pas besoin de connaitre la ligne, juste un id.
+  - Boucle Vertex-Edge
+    On casse la boucle en indexant l'agrégation de Edge par Vertex
+    (donne une Map<Vertex, List<Edge>>)
