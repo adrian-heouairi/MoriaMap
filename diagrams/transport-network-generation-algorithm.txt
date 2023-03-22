@@ -1,0 +1,40 @@
+Algorithme de génération de réseau arbitraire à partir du fichier de données
+
+input: liste de tuples (nom1, lat1, lon1, nom2, lat2, lon2, line_name variant_id, durée, distance)
+output: TransportNetwork
+
+// On suppose les données sans doublons
+procedure(List<String> tuples):
+    List<Stop> STOPS = empty()
+    List<Variant> VARIANTS = empty()
+    List<Line> LINES = empty()
+    Pour t dans tuples:
+        Stop S1 = null;
+        Stop S2 = null;
+        S'il existe un STOP (t.nom1, t.lat1, t.lon1) dans STOPS:
+            S1 = le stop dans STOPS
+        Sinon
+            S1 = new Stop(t.nom1, t.lat1, t.lon1)
+            ajouter S1 à la liste des STOPS
+        S'il existe un STOP (t.nom2, t.lat2, t.lon2) dans STOPS:
+            S2 = le stop dans STOPS
+        Sinon
+            S2 = new Stop(t.nom2, t.lat2, t.lon2)
+            ajouter S2 à la liste des STOPS
+        Line L = null;
+        S'il existe une LINE (t.line_name) dans LINES:
+            L = la line dans LINES
+        Sinon
+            L = new Line(t.line_name)
+            LINES.add(l)
+        Variant V = null;
+        S'il existe un VARIANT (L, t.variant_id) dans VARIANTS:
+            V = le variant dans VARIANTS
+        Sinon
+            V = new Variant(L, t.variant_id)
+            ajouter V à la liste des VARIANTS
+            ajouter V à la liste des VARIANTS de la ligne L
+        TransportSegment SEGMENT = new TransportSegment(S1, S2, t.durée, t.distance, V)
+        ajouter SEGMENT à la liste des arêtes sortantes de S1
+        ajouter SEGMENT au variant V
+    return new TransportNetwork(STOPS, LINES)

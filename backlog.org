@@ -42,7 +42,6 @@
   Travail de conception sur les parsers, stockage des horaires de passage en 
   mémoire, lancement du programme, naivigateur, calcul de routes.
 
-  
 * Réunion <2023-03-10 Fri>
   Problème avec la modélisation actuelle: on ne voit pas les éventuelles 
   correspondances (ex: Ligne 13 St-Denis -> La Fourche, correspondance -> 
@@ -59,3 +58,7 @@
   C'est OK de faire la précédente modélisation (avec GeographicVertex etc), on
   utilisera ~instanceof~ au besoin pour déterminer si un graphe en particulier 
   est un ~TransportNetwork~.
+* Réunion <2023-03-18 Sat>
+  Mise à jour de la modélisation prenant en compte les variants de lignes.
+  Conception de l'algorithme de génération de réseau arbitraire à partir du 
+  fichier de données.
