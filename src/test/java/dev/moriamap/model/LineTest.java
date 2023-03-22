@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LineTest {
+class LineTest {
 
     @Test void testLineStaticFactory() {
         Line l = Line.of("13");
@@ -82,6 +82,6 @@ public class LineTest {
 
     @Test void testLineIsNotEqualToNull() {
         Line l = Line.of("14");
-        assertNotEquals(l,null);
+        assertNotEquals(null,l);
     }
 }

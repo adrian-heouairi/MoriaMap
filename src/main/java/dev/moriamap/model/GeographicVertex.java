@@ -71,7 +71,7 @@ public class GeographicVertex extends Vertex {
         final int prime = 11;
         int hash = 1;
         hash *= prime;
-        hash += Math.ceil(this.geographicPosition.hashCode());
+        hash += this.geographicPosition.hashCode();
         return hash;
     }
 }
