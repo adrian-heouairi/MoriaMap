@@ -4,33 +4,33 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class VariantTest {
+class VariantTest {
 
-    @Test public void testConstruction() {
+    @Test void testConstruction() {
         Variant v = Variant.empty(1, Line.of("14"));
         assertEquals(1, v.getId());
     }
 
-    @Test public void testEmptyVariantWithNegativeIdThrowsException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> Variant.empty(-1, Line.of("3"))
+    @Test void testEmptyVariantWithNegativeIdThrowsException() {
+        Line l = Line.of("3");
+        assertThrows(IllegalArgumentException.class, () -> Variant.empty(-1,l)
                 );
     }
 
-    @Test public void testEmptyVariantWithNullLineThrowsException() {
+    @Test void testEmptyVariantWithNullLineThrowsException() {
         assertThrows(IllegalArgumentException.class,
                 () -> Variant.empty(1, null)
         );
     }
 
-    @Test public void variantsHavingSameIdAndLinesWithSameReferencesAreEqual() {
+    @Test void variantsHavingSameIdAndLinesWithSameReferencesAreEqual() {
         Line l = Line.of("14");
         Variant v = Variant.empty(1,l);
         Variant v1 = Variant.empty(1,l);
         assertEquals(v,v1);
     }
 
-    @Test public void variantsHavingSameIdAndSemanticallySameLinesAreEqual() {
+    @Test void variantsHavingSameIdAndSemanticallySameLinesAreEqual() {
         Line l = Line.of("14");
         Line l1 = Line.of("14");
         Variant v = Variant.empty(1,l);
@@ -38,35 +38,35 @@ public class VariantTest {
         assertEquals(v, v1);
     }
 
-    @Test public void testVariantIsEqualToItself() {
+    @Test void testVariantIsEqualToItself() {
         Variant v = Variant.empty(1, Line.of("13"));
         assertEquals(v, v);
     }
 
-    @Test public void testVariantInstanceIsNotEqualToNull() {
+    @Test void testVariantInstanceIsNotEqualToNull() {
         Variant v = Variant.empty(1, Line.of("14"));
-        assertNotEquals(v, null);
+        assertNotEquals(null, v);
     }
 
-    @Test public void testObjectIsNotEqualToVariant() {
+    @Test void testObjectIsNotEqualToVariant() {
         Object o = new Object();
         Variant v = Variant.empty(3,Line.of("4"));
         assertNotEquals(v,o);
     }
 
-    @Test public void testVariantsWithDifferentIdAndSameLineAreNotEqual(){
+    @Test void testVariantsWithDifferentIdAndSameLineAreNotEqual(){
         Variant v = Variant.empty(2,Line.of("4"));
         Variant v1 = Variant.empty(4, Line.of("4"));
         assertNotEquals(v,v1);
     }
 
-    @Test public void testVariantOfSameIdInDifferentLinesAreNotEqual() {
+    @Test void testVariantOfSameIdInDifferentLinesAreNotEqual() {
         Variant v = Variant.empty(2, Line.of("2"));
         Variant v1 = Variant.empty(2, Line.of("3"));
         assertNotEquals(v,v1);
     }
 
-    @Test public void testGetLine() {
+    @Test void testGetLine() {
         Line l = Line.of("13");
         Variant v = Variant.empty(3, l);
         assertEquals(l, v.getLine());

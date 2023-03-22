@@ -90,11 +90,11 @@ public final class GeographicPosition {
       GeographicPosition p2,
       double radius
     ) {
-        double[] p1_cart = p1.toCartesian(radius);
-        double[] p2_cart = p2.toCartesian(radius);
+        double[] p1Cart = p1.toCartesian(radius);
+        double[] p2Cart = p2.toCartesian(radius);
         double res = 0.0;
-        for (int i = 0; i < p1_cart.length; i++) {
-            res += Math.pow(p2_cart[i] - p1_cart[i], 2);
+        for (int i = 0; i < p1Cart.length; i++) {
+            res += Math.pow(p2Cart[i] - p1Cart[i], 2);
         }
         return Math.sqrt(res);
     }
@@ -167,22 +167,21 @@ public final class GeographicPosition {
     public double[] toCartesian(double radius) {
         if (radius <= 0.0)
             throw new IllegalArgumentException("Radius can not be negative");
-        double lat_rad = this.latitude * Math.PI / 180.0;
-        double lon_rad = this.longitude * Math.PI / 180.0;
-        double z = radius * Math.sin(lat_rad);
-        double tmp = radius * Math.cos(lat_rad);
-        double x = tmp * Math.cos(lon_rad);
-        double y = tmp * Math.sin(lon_rad);
+        double latRad = this.latitude * Math.PI / 180.0;
+        double lonRad = this.longitude * Math.PI / 180.0;
+        double z = radius * Math.sin(latRad);
+        double tmp = radius * Math.cos(latRad);
+        double x = tmp * Math.cos(lonRad);
+        double y = tmp * Math.sin(lonRad);
         final int places = 4;
         BigDecimal bdx = new BigDecimal(Double.toString(x));
         BigDecimal bdy = new BigDecimal(Double.toString(y));
         BigDecimal bdz = new BigDecimal(Double.toString(z));
-        double[] res = {
+        return new double[]{
             bdx.setScale(places, RoundingMode.HALF_UP).doubleValue(),
             bdy.setScale(places, RoundingMode.HALF_UP).doubleValue(),
             bdz.setScale(places, RoundingMode.HALF_UP).doubleValue()
         };
-        return res;
     }
 
     /**

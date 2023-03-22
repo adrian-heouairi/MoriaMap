@@ -22,7 +22,7 @@ public abstract class Graph {
      * Builds an empty Graph.
      * This graph does not have vertices nor edges.
      */
-    public Graph() {
+    protected Graph() {
         this.vertices = new ArrayList<>();
         this.edges = new ArrayList<>();
     }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.*;
 import java.util.List;
 import java.util.ArrayList;
 
-public class GeographicPositionTest {
+class GeographicPositionTest {
 
     @Test void latitudeOfNullIslandIs0() {
         GeographicPosition sut = GeographicPosition.NULL_ISLAND;
@@ -131,30 +131,30 @@ public class GeographicPositionTest {
 
     @Test void sameGPInstancesAreEqual() {
         GeographicPosition pos = GeographicPosition.at(42.0, -32.0);
-        assert(pos.equals(pos));
+        assertEquals(pos,pos);
     }
 
     @Test void gpInstanceIsNotEqualToNull() {
         GeographicPosition pos = GeographicPosition.at(27.435, 59.235);
-        assertFalse(pos.equals(null));
+        assertNotEquals(null,pos);
     }
 
     @Test void sameGPAreEqual() {
         GeographicPosition p1 = GeographicPosition.at(43.234, 35.4853);
         GeographicPosition p2 = GeographicPosition.at(43.234, 35.4853);
-        assert(p1.equals(p2) && p2.equals(p1));
+        assertTrue(p1.equals(p2) && p2.equals(p1));
     }
 
     @Test void geographicPositionIsNotEqualToInteger() {
         GeographicPosition p1 = GeographicPosition.at(54.34, 89.245);
         Integer i = 5;
-        assert(!i.equals(p1) && !p1.equals(i));
+        assertTrue(!i.equals(p1) && !p1.equals(i));
     }
 
     @Test void hashCodeOfEqualObjectIsEqual() {
         GeographicPosition p1 = GeographicPosition.at(43.352, 59.435);
         GeographicPosition p2 = GeographicPosition.at(43.352, 59.435);
-        assert(
+        assertTrue(
           p1.hashCode() == p2.hashCode()
           && p1.equals(p2)
           && p2.equals(p1)
@@ -164,12 +164,12 @@ public class GeographicPositionTest {
     @Test void differentLongitudeOfGPsMakesThemNotEqual() {
         GeographicPosition p1 = GeographicPosition.at(45.235, 139.3);
         GeographicPosition p2 = GeographicPosition.at(45.235, -24.355);
-        assert(!p1.equals(p2) && !p2.equals(p1));
+        assertTrue(!p1.equals(p2) && !p2.equals(p1));
     }
 
     @Test void differentLatitudeOfGPsMakesThemNotEqual() {
         GeographicPosition p1 = GeographicPosition.at(39.3, -24.355);
         GeographicPosition p2 = GeographicPosition.at(45.235, -24.355);
-        assert(!p1.equals(p2) && !p2.equals(p1));
+        assertTrue(!p1.equals(p2) && !p2.equals(p1));
     }
 }

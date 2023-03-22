@@ -15,7 +15,7 @@ public abstract class Vertex {
     /**
      * Builds a Vertex which does not have neighbors.
      */
-    public Vertex() {
+    protected Vertex() {
         this.neighbors = new ArrayList<>();
     }
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GeographicVertexTest {
+class GeographicVertexTest {
 
     @Test void geoVertexHasNoNeighborsOnCreation() {
         GeographicVertex sut = GeographicVertex.at(
@@ -86,7 +86,7 @@ public class GeographicVertexTest {
 
     @Test void GeographicVertexIsNotEqualToNull() {
         GeographicVertex v = GeographicVertex.at(58.134, 12.4);
-        assertNotEquals(v,null);
+        assertNotEquals(null,v);
     }
 
     @Test void instanceOfDifferentClassIsNotEqual() {
