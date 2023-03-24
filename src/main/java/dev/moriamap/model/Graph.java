@@ -81,8 +81,8 @@ public abstract class Graph {
     }
 
     /**
-     * @param vertex some Vertex
      * {@return the list of outgoing Edges of the specified Vertex}
+     * @param vertex some Vertex
      * @throws IllegalArgumentException if vertex is null
      * @throws NoSuchElementException if vertex is not in this Graph
      */
