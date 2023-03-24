@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 public abstract class Graph {
 
     // A map that associates a Vertex to its outgoing edges
-    private Map<Vertex, List<Edge>> vertexToOutgoingEdges;
+    private final Map<Vertex, List<Edge>> vertexToOutgoingEdges;
 
     /**
      * Creates a new empty Graph.
@@ -94,6 +94,6 @@ public abstract class Graph {
         List<Edge> edges = this.vertexToOutgoingEdges.get(vertex);
         if (edges == null)
             return new ArrayList<>();
-        return edges;
+        return new ArrayList<>(edges); // Return a copy instead of the original
     }
 }
