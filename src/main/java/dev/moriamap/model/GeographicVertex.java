@@ -6,7 +6,7 @@ package dev.moriamap.model;
 public class GeographicVertex extends Vertex {
 
     // The geographic position of this GeographicVertex
-    private final GeographicPosition geographicPosition;
+    protected final GeographicPosition geographicPosition;
 
     /**
      * Class constructor specifying geographic position.

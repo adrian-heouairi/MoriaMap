@@ -34,4 +34,37 @@ public class Stop extends GeographicVertex {
         return this.name;
     }
 
+    /**
+     * Returns true if this is equal to the given object.
+     * <p>
+     *     Two stops are equal if they have the same position and the same name.
+     * </p>
+     *
+     * @param object to compare with
+     * @return true if this is equal to the given object
+     */
+    @Override public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || object.getClass() != this.getClass())
+            return false;
+        Stop other = (Stop) object;
+        return other.geographicPosition.equals(this.geographicPosition) &&
+                other.name.equals(this.name);
+    }
+
+    /**
+     * Returns the hash code of this Stop.
+     *
+     * @return the hash code of this Stop.
+     */
+    @Override public int hashCode() {
+        final int prime = 13;
+        int hash = super.hashCode();
+        hash *= prime;
+        hash += this.name.hashCode();
+
+        return hash;
+    }
+
 }
