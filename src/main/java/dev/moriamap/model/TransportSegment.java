@@ -5,7 +5,7 @@ import java.time.Duration;
  * A TransportSegment is an Edge of our Graph
  */
 public class TransportSegment extends Edge{
-    
+
     /** The variant's name of this TransportSegment */
     public final String variantName;
 
