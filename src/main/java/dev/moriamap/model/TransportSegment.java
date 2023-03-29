@@ -6,26 +6,22 @@ import java.time.Duration;
  */
 public class TransportSegment extends Edge{
     
-    // The variant's id of this TransportSegment
-    public final String lineVariantName;
+    /** The variant's name of this TransportSegment */
+    public final String variantName;
 
-    // The travel time of this TransportSegment
+    /** The line's name of this TransportSegment */
+    public final String lineName;
+
+    /** The travel time of this TransportSegment */
     public final Duration travelTime;
 
-    // The distance of this TransportSegment
+    /** The distance of this TransportSegment */
     public final double distance;
 
-    /**
-     * The constructor of TransportSegment
-     * @param from The origin of this TransportSegment
-     * @param to The destination of this TransportSegment
-     * @param lineVariantName The name of the line and variant of this TransportSegment
-     * @param travelTime The travel time of this TransportSegment
-     * @param distance The distance of this Transport Segment
-     */
-    private TransportSegment(Vertex from, Vertex to,String lineVariantName,Duration travelTime, double distance){
+    private TransportSegment(Vertex from, Vertex to,String variantName, String lineName,Duration travelTime, double distance){
         super(from, to);
-        this.lineVariantName = lineVariantName;
+        this.variantName = variantName;
+        this.lineName = lineName;
         this.travelTime = travelTime;
         this.distance = distance;
     }
@@ -34,13 +30,16 @@ public class TransportSegment extends Edge{
      * Static factory method returning a TransportSegment
      * @param from The origin of this TransportSegment
      * @param to The destination of this TransportSegment
-     * @param lineVariantName The name of the line and variant of this TransportSegment
+     * @param lineName The name of the line of this TransportSegment
+     * @param variantName The name of the variant of this TransportSegment
      * @param travelTime The travel time of this TransportSegment
      * @param distance The distance of this Transport Segment
      * @return a new TransportSegment
      */
-    public static TransportSegment from(Vertex from, Vertex to, String lineVariantName, Duration travelTime, double distance){
-        return new TransportSegment(from,to,lineVariantName,travelTime,distance);
+    public static TransportSegment from(Vertex from, Vertex to, String lineName,String variantName, Duration travelTime, double distance){
+        if(lineName == null || variantName == null || travelTime == null)
+            throw new IllegalArgumentException("Null parameters are not allowed");
+        return new TransportSegment(from,to,lineName,variantName,travelTime,distance);
     }
 
     /**
@@ -67,7 +66,7 @@ public class TransportSegment extends Edge{
         if (object == null || object.getClass() != this.getClass())
             return false;
         TransportSegment other = (TransportSegment) object;
-        return this.lineVariantName.equals(other.lineVariantName) && this.distance == other.distance && this.travelTime.equals(other.travelTime);
+        return this.lineName.equals(other.lineName) && this.variantName.equals(other.variantName) && this.distance == other.distance && this.travelTime.equals(other.travelTime);
     }
 
     /**
@@ -78,7 +77,8 @@ public class TransportSegment extends Edge{
         final int prime = 13;
         int hash = 1;
         hash *= prime;
-        hash += this.lineVariantName.hashCode();
+        hash += this.lineName.hashCode();
+        hash += this.variantName.hashCode();
         hash += this.travelTime.hashCode();
         hash += Long.valueOf(Double.doubleToLongBits(this.distance)).hashCode();
         return hash;
