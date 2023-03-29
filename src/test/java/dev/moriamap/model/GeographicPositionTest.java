@@ -136,7 +136,7 @@ class GeographicPositionTest {
 
     @Test void gpInstanceIsNotEqualToNull() {
         GeographicPosition pos = GeographicPosition.at(27.435, 59.235);
-        assertNotEquals(null,pos);
+        assertNotEquals(pos,null);
     }
 
     @Test void sameGPAreEqual() {

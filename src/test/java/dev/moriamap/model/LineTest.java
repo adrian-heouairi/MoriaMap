@@ -19,7 +19,7 @@ class LineTest {
 
     @Test void testAddingTwiceTheSameVariantsDoesNothing() {
         Line l = Line.of("14");
-        Variant v = Variant.empty(1,l);
+        Variant v = Variant.empty(1,"14");
         l.addVariant(v);
         assertEquals(1, l.getVariants().size());
     }
@@ -34,7 +34,7 @@ class LineTest {
     @Test void testAddingAVariantWhichWasAddedBeforeDoesNothing() {
         Line l = Line.of("14");
 
-        Variant v = Variant.empty(1,l);
+        Variant v = Variant.empty(1,"14");
         l.addVariant(v);
         assertFalse(l.addVariant(v));
     }
@@ -42,19 +42,24 @@ class LineTest {
     @Test void testLinesThatDoNotHaveSameNumberOfVariantsAreNotEqual() {
         Line l = Line.of("14");
         Line l1 = Line.of("14");
-        Variant v = Variant.empty(1,l);
-        Variant v1 = Variant.empty(2,l);
+        Variant v = Variant.empty(1,"14");
+        Variant v1 = Variant.empty(2,"14");
         l.addVariant(v);
         l.addVariant(v1);
         l1.addVariant(v);
         assertNotEquals(l,l1);
     }
 
+    @Test void testEqualsOnItselfReturnsTrue(){
+        Line l = Line.of("14");
+        assertEquals(l,l);
+    }
+
     @Test void testLinesSameLinesWithSameVariantsAreEqual() {
         Line l = Line.of("14");
         Line l1 = Line.of("14");
-        Variant v = Variant.empty(1,l);
-        Variant v1 = Variant.empty(2,l);
+        Variant v = Variant.empty(1,"14");
+        Variant v1 = Variant.empty(2,"14");
         l.addVariant(v);
         l.addVariant(v1);
         l1.addVariant(v);
@@ -65,8 +70,8 @@ class LineTest {
     @Test void testLinesThatHaveAtLeastOneDifferentVariantAreNotEqual() {
             Line l = Line.of("14");
             Line l1 = Line.of("14");
-            Variant v = Variant.empty(1,l);
-            Variant v1 = Variant.empty(2,l);
+            Variant v = Variant.empty(1,"14");
+            Variant v1 = Variant.empty(2,"14");
             l.addVariant(v);
             l.addVariant(v1);
             l1.addVariant(v1);
@@ -82,6 +87,15 @@ class LineTest {
 
     @Test void testLineIsNotEqualToNull() {
         Line l = Line.of("14");
-        assertNotEquals(null,l);
+        assertNotEquals(l,null);
+    }
+
+    @Test void hashCodeOfSemanticallyEqualLinesAreEqual(){
+        Line l = Line.of("14");
+        Line l1 = Line.of("14");
+        Variant v = Variant.empty(1,"14");
+        l.addVariant(v);
+        l1.addVariant(v);
+        assertEquals(l.hashCode(), l1.hashCode());
     }
 }

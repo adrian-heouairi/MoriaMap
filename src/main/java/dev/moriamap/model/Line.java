@@ -115,5 +115,20 @@ public final class Line {
         return this.name.equals(other.name);
     }
 
+    /**
+     * Gets the hash code of this line
+     * @return the hash code of this line
+     */
+    @Override public int hashCode(){
+        final int prime = 13;
+        int hash = 1;
+        hash *= prime;
+        hash += this.name.hashCode();
+        for(int i=0;i<this.variants.size();i++){
+            hash += this.variants.get(i).hashCode();
+        }
+        return hash;
+    }
+
 
 }
