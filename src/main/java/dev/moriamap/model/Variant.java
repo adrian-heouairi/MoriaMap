@@ -7,10 +7,14 @@ import java.util.List;
  */
 public final class Variant {
 
-    // id of this variant.
-    public final int id;
+    /**
+     * The id of this variant.
+     */
+    public final String id;
 
-    // the line to which this variant belongs.
+    /**
+     * The line to which this variant belongs.
+     */
     public final String lineName;
 
     private List<TransportSegment> transportSegments;
@@ -21,7 +25,7 @@ public final class Variant {
      * @param id of this Variant
      * @param lineName of this Variant
      */
-    private Variant(int id, String lineName) {
+    private Variant(String id, String lineName) {
         this.id = id;
         this.lineName = lineName;
         this.transportSegments = new ArrayList<>();
@@ -34,10 +38,7 @@ public final class Variant {
      * @param lineName of this Variant
      * @return a new empty Variant with the given id and lineName
      */
-    public static Variant empty(int id, String lineName) {
-        if (id < 0) {
-            throw new IllegalArgumentException("id can not be negative.");
-        }
+    public static Variant empty(String id, String lineName) {
         
         if (lineName == null) {
             throw new IllegalArgumentException(" lineName can not be null");
@@ -107,7 +108,7 @@ public final class Variant {
         final int prime = 13;
         int hash = 1;
         hash *= prime;
-        hash += this.id;
+        hash += this.id.hashCode();
         hash += this.lineName.hashCode();
         for(int i=0;i<this.transportSegments.size();i++){
             hash += this.transportSegments.get(i).hashCode();
