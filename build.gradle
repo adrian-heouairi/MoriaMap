@@ -29,7 +29,7 @@ jacocoTestReport {
     sourceDirectories.from files(sourceSets.main.allJava.srcDirs)
 
     reports {
-        xml.enabled true
+        xml.required = true
     }
     finalizedBy jacocoTestCoverageVerification
 }
