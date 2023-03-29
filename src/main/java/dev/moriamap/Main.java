@@ -1,9 +1,7 @@
 package dev.moriamap;
 
 class Main {
-
-	public static void main( String[] args ) {
-		System.out.println( "Hello World!" );
-	}
-
+	public static void main(String[] args) {
+        throw new UnsupportedOperationException("Can not run");
+    }
 }
