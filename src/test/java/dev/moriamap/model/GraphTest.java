@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.HashMap;
 
 class GraphTest {
-    class DummyGraph extends Graph {}
-    class DummyVertex extends Vertex {}
-    class DummyEdge extends Edge {
+    static class DummyGraph extends Graph {}
+    static class DummyVertex extends Vertex {}
+    static class DummyEdge extends Edge {
         public DummyEdge() { super(new DummyVertex(), new DummyVertex()); }
         public DummyEdge(Vertex from, Vertex to) { super(from, to); }
         public double getWeight() { return 0; }
