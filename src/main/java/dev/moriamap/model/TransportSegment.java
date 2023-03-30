@@ -7,22 +7,22 @@ import java.time.Duration;
 public class TransportSegment extends Edge{
 
     /** The variant's name of this TransportSegment */
-    public final String variantName;
+    private String variantName;
 
     /** The line's name of this TransportSegment */
-    public final String lineName;
+    private String lineName;
 
-    /** The travel time of this TransportSegment */
-    public final Duration travelTime;
+    /** The travel duration of this TransportSegment */
+    private Duration travelDuration;
 
     /** The distance of this TransportSegment */
-    public final double distance;
+    private double distance;
 
-    private TransportSegment(Vertex from, Vertex to,String variantName, String lineName,Duration travelTime, double distance){
+    private TransportSegment(Stop from, Stop to,String lineName, String variantName,Duration travelDuration, double distance){
         super(from, to);
         this.variantName = variantName;
         this.lineName = lineName;
-        this.travelTime = travelTime;
+        this.travelDuration = travelDuration;
         this.distance = distance;
     }
 
@@ -32,14 +32,14 @@ public class TransportSegment extends Edge{
      * @param to The destination of this TransportSegment
      * @param lineName The name of the line of this TransportSegment
      * @param variantName The name of the variant of this TransportSegment
-     * @param travelTime The travel time of this TransportSegment
+     * @param travelDuration The travel time of this TransportSegment
      * @param distance The distance of this Transport Segment
      * @return a new TransportSegment
      */
-    public static TransportSegment from(Vertex from, Vertex to, String lineName,String variantName, Duration travelTime, double distance){
-        if(lineName == null || variantName == null || travelTime == null)
+    public static TransportSegment from(Stop from, Stop to, String lineName,String variantName, Duration travelDuration, double distance){
+        if(lineName == null || variantName == null || travelDuration == null)
             throw new IllegalArgumentException("Null parameters are not allowed");
-        return new TransportSegment(from,to,lineName,variantName,travelTime,distance);
+        return new TransportSegment(from,to,lineName,variantName,travelDuration,distance);
     }
 
     /**
@@ -48,14 +48,42 @@ public class TransportSegment extends Edge{
      */
     @Override
     public double getWeight(){
-        return travelTime.getSeconds() + distance;
+        return travelDuration.getSeconds() + distance;
+    }
+
+    /**
+     * {@return the line's name of this TransportSegment}
+     */
+    public String getLineName(){
+        return this.lineName;
+    }
+
+    /**
+     * {@return the variant's name of this TransportSegment}
+     */
+    public String getVariantName(){
+        return this.variantName;
+    }
+
+    /**
+     * {@return the travel duration name of this TransportSegment}
+     */
+    public Duration getTravelDuration(){
+        return this.travelDuration;
+    }
+
+    /**
+     * {@return the distance of this TransportSegment}
+     */
+    public double getDistance(){
+        return this.distance;
     }
 
     /**
      * Check if this transport segment is equal to the given transport segment.
      * <p>
-     *     Two transport segment are equal if they have the same lineVariantName, the same
-     *     distance and the same travelTime
+     *     Two transport segment are equal if they have the same from, the same to, 
+     *      lineVariantName, the same distance and the same travelDuration
      * </p>
      * @param object to be compared to
      * @return true if this is equal to object
@@ -66,7 +94,9 @@ public class TransportSegment extends Edge{
         if (object == null || object.getClass() != this.getClass())
             return false;
         TransportSegment other = (TransportSegment) object;
-        return this.lineName.equals(other.lineName) && this.variantName.equals(other.variantName) && this.distance == other.distance && this.travelTime.equals(other.travelTime);
+        return (this.getFrom()).equals(other.getFrom()) && (this.getTo()).equals(other.getTo()) 
+               && this.lineName.equals(other.lineName) && this.variantName.equals(other.variantName) 
+               && this.distance == other.distance && this.travelDuration.equals(other.travelDuration);
     }
 
     /**
@@ -77,9 +107,11 @@ public class TransportSegment extends Edge{
         final int prime = 13;
         int hash = 1;
         hash *= prime;
+        hash += ((Stop)this.getFrom()).hashCode();
+        hash += ((Stop)this.getTo()).hashCode();
         hash += this.lineName.hashCode();
         hash += this.variantName.hashCode();
-        hash += this.travelTime.hashCode();
+        hash += this.travelDuration.hashCode();
         hash += Long.valueOf(Double.doubleToLongBits(this.distance)).hashCode();
         return hash;
     }
