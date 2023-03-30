@@ -1,10 +1,12 @@
-Algorithme de génération de réseau arbitraire à partir du fichier de données
+Algorithme de génération de réseau de transport arbitraire à partir du fichier de données
 
-input: liste de tuples (nom1, lat1, lon1, nom2, lat2, lon2, line_name variant_id, durée, distance)
+input: liste de tuples (record) (nom1, lat1, lon1, nom2,
+lat2, lon2, line_name, variant_id, durée, distance)
 output: TransportNetwork
 
 // On suppose les données sans doublons
-procedure(List<String> tuples):
+procedure(List<EdgeTuple> tuples):
+    Map<Vertex, List<Edge>> adjacencyList = new HashMap<>()
     List<Stop> STOPS = empty()
     List<Variant> VARIANTS = empty()
     List<Line> LINES = empty()
@@ -28,13 +30,15 @@ procedure(List<String> tuples):
             L = new Line(t.line_name)
             LINES.add(l)
         Variant V = null;
-        S'il existe un VARIANT (L, t.variant_id) dans VARIANTS:
+        S'il existe un VARIANT (t.line_name, t.variant_id) dans VARIANTS:
             V = le variant dans VARIANTS
         Sinon
-            V = new Variant(L, t.variant_id)
+            V = new Variant(t.line_name, t.variant_id)
             ajouter V à la liste des VARIANTS
             ajouter V à la liste des VARIANTS de la ligne L
-        TransportSegment SEGMENT = new TransportSegment(S1, S2, t.durée, t.distance, V)
-        ajouter SEGMENT à la liste des arêtes sortantes de S1
+        TransportSegment SEGMENT = new TransportSegment(
+            S1, S2, t.durée, t.distance, t.line_name, t.variant_id
+        )
+        ajouter SEGMENT à la liste des arêtes sortantes de S1 (rajouter à adjacencyList)
         ajouter SEGMENT au variant V
-    return new TransportNetwork(STOPS, LINES)
+    return new TransportNetwork(adjacencyList, LINES)
