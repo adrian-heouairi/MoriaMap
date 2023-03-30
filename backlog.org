@@ -77,3 +77,12 @@
   - Boucle Vertex-Edge
     On casse la boucle en indexant l'agrégation de Edge par Vertex
     (donne une Map<Vertex, List<Edge>>)
+* Réunion <2023-03-29 Wed>
+  Précédents problèmes corrigés. Modifier l'implémentation du parser de réseau
+  arbitraire pour être en accord avec la spécification de l'algo, SURTOUT 
+  séparer le traitement de l'entrée CSV (format qui peut changer) de la création
+  des objets. Appliquer la même méthode pour le parser d'horaires (attendre que 
+  le fichier de données soit mis à jour). Mis à jour de la conception de Stop ->
+  on retire les TransportSchedules car calculables facilement à partir d'un 
+  Variant (voir doc discord décrivant le pseudo-code). Changement de 
+  l'identfiant d'un Variant -> devient une String pour plus de flexibilité.
