@@ -41,6 +41,7 @@ public final class CSVParser {
      * @param resourcePath to CSV file
      * @return a list of lists of strings containing raw data.
      * @throws InconsistentCSVLinesException if two lines do not have same number of fields
+     * @throws IOException if a problem occurs while freeing resources.
      */
     public static List<List<String>> extractLines(String resourcePath) throws InconsistentCSVLinesException, IOException {
         if (resourcePath == null) {
