@@ -86,3 +86,12 @@
   on retire les TransportSchedules car calculables facilement à partir d'un 
   Variant (voir doc discord décrivant le pseudo-code). Changement de 
   l'identfiant d'un Variant -> devient une String pour plus de flexibilité.
+
+* Réunion <2023-03-21 Fri>
+  - Discussions sur l'algorithme de ~Variant.getStart()~.
+  - Création de toutes les issues pour ~LECT_NET~, notamment réflexion sur le
+    type qui doit être pris en entrée par les parseurs (il a été déterminé que
+    InputStream est le meilleur).
+  - Discussions sur l'algorithme de génération de ~TransportNetwork~ :
+    certaines parties seront remplacées par de simples appels à
+    ~TransportNetwork.findStop(Stop)~ et ~TransportNetwork.findLine(String)~.
