@@ -229,4 +229,63 @@ public final class GeographicPosition {
         hash += Math.ceil(this.longitude);
         return hash;
     }
+
+    /** Two format : Decimal or complete
+     * Decimal : 2.17 
+     * Degree Minute Second : 24 12 35 N
+     * @param latitude a String that contains the latitude in one of the two format
+     * @param longitude a String that contains the longitude in one of the two format
+     * @return a GeographicPosition
+    */
+    public static GeographicPosition from(String latitude,String longitude){
+        if(latitude == null || longitude == null)
+            throw new IllegalArgumentException("one of the argument is null");
+
+        Double latitudeDouble ;
+        Double longitudeDouble ;
+
+        if(latitude.contains("N") || latitude.contains("S")){ // if contains N or S then Complete Format for latitude
+            latitudeDouble = readCompleteFormat(latitude);
+        }else{ 
+            try{ 
+                latitudeDouble = Double.parseDouble(latitude); 
+            }catch(Exception e){
+                throw new IllegalArgumentException("Wrong format for the latitude");
+            } 
+    
+        }
+        
+        if(longitude.contains("E") || longitude.contains("W")){
+            longitudeDouble = readCompleteFormat(longitude);
+        }else{ 
+            try{ 
+                longitudeDouble = Double.parseDouble(longitude); 
+            }catch(Exception e){
+                throw new IllegalArgumentException("Wrong format for the latitude");
+            }
+        }
+
+        return new GeographicPosition(latitudeDouble, longitudeDouble);
+    }
+
+    /** read the Degree Minute Second and return a Decimal in the form double 
+     * @param str either the latitude or the longitude in this format : 24 12 35 N
+     * @return a double corresponding to the decimal format
+     */
+    private static Double readCompleteFormat(String str){
+        String[] array = str.split(" "); 
+        
+        if(str.matches("^([\\d]+ ){3}[NESW]$")){
+            Double decimal = Double.parseDouble(array[0]);
+            Double minute = Double.parseDouble(array[1]) / 60;
+            Double second = Double.parseDouble(array[2]) / 3600;
+            int orientation = 1;
+            if(array[3].equals("S") || array[3].equals("W"))
+                orientation = -1;
+
+            return (decimal + minute + second) * orientation;
+        }else{ throw new IllegalArgumentException("Wrong format of string for the latitude/longitude"); }
+
+        
+    }
 }
