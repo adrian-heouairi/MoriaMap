@@ -87,7 +87,7 @@ class LineTest {
 
     @Test void testLineIsNotEqualToNull() {
         Line l = Line.of("14");
-        assertNotEquals(l,null);
+        assertNotEquals(null, l);
     }
 
     @Test void hashCodeOfSemanticallyEqualLinesAreEqual(){

@@ -42,7 +42,7 @@ class TransportSegmentTest {
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
-        assertNotEquals(ts, null);
+        assertNotEquals(null, ts);
     }
 
     @Test void testObjectIsNotEqualToTransportSegment(){

@@ -1,10 +1,8 @@
 package dev.moriamap.model;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.sql.Time;
+import java.time.LocalTime;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +15,25 @@ class VariantTest {
     }
 
     @Test void emptyVariantWithNullLineThrowsException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> Variant.empty("1", null));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> Variant.empty("1", null)
+        );
     }
 
     @Test void emptyVariantWithNullNameThrowsException() {
-        assertThrows(IllegalArgumentException.class,
-                () -> Variant.empty(null, "14"));
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> Variant.empty(null, "14")
+        );
     }
 
     @Test void variantsHavingSameIdAndLinesWithSameReferencesAreEqual() {
         Variant v = Variant.empty("1","14");
         Variant v1 = Variant.empty("1","14");
-        Time t = new Time(0);
-        v.addTrainDeparture(t);
-        v1.addTrainDeparture(t);
+        LocalTime t = LocalTime.of(0, 0);
+        v.addDeparture(t);
+        v1.addDeparture(t);
         assertEquals(v,v1);
     }
 
@@ -74,21 +76,21 @@ class VariantTest {
     @Test void variantsWithDifferentTrainDepartureSizeAreNotEqual(){
         Variant v = Variant.empty("1","14");
         Variant v1 = Variant.empty("1","14");
-        Time t1 = new Time(0);
-        Time t2 = new Time(1);
-        v.addTrainDeparture(t1);
-        v.addTrainDeparture(t2);
-        v1.addTrainDeparture(t2);
+        LocalTime t1 = LocalTime.of(0, 0);
+        LocalTime t2 = LocalTime.of(1, 0);
+        v.addDeparture(t1);
+        v.addDeparture(t2);
+        v1.addDeparture(t2);
         assertNotEquals(v, v1);
     }
 
     @Test void variantsWithDifferentTrainDepartureAreNotEqual(){
         Variant v = Variant.empty("1","14");
         Variant v1 = Variant.empty("1","14");
-        Time t1 = new Time(0);
-        Time t2 = new Time(1);
-        v.addTrainDeparture(t1);
-        v1.addTrainDeparture(t2);
+        LocalTime t1 = LocalTime.of(0, 0);
+        LocalTime t2 = LocalTime.of(1, 0);
+        v.addDeparture(t1);
+        v1.addDeparture(t2);
         assertNotEquals(v, v1);
     }
 
@@ -153,15 +155,15 @@ class VariantTest {
     @Test void addNullTimeToVariantThrowsException(){
         Variant v = Variant.empty("1", "14");
         assertThrows(IllegalArgumentException.class,
-                () -> v.addTrainDeparture(null)
+                () -> v.addDeparture(null)
         );
     }
 
     @Test void addingTwiceTheSameTimeToVariantReturnFalse(){
         Variant v = Variant.empty("1", "14");
-        Time t = new Time(0);
-        v.addTrainDeparture(t);
-        assertFalse(v.addTrainDeparture(t));
+        LocalTime t = LocalTime.of(0, 0);
+        v.addDeparture(t);
+        assertFalse(v.addDeparture(t));
     }
 
     @Test void getTransportSegments(){
@@ -180,13 +182,13 @@ class VariantTest {
         assertEquals("14", v.getLineName());
     }
 
-    @Test void getTrainDepartures(){
+    @Test void getDepartures(){
         Variant v = Variant.empty("1", "14");
-        Time t = new Time(0);
-        List<Time> res = new ArrayList<Time>();
+        LocalTime t = LocalTime.of(0, 0);
+        List<LocalTime> res = new ArrayList<LocalTime>();
         res.add(t);
-        v.addTrainDeparture(t);
-        assertEquals(res, v.getTrainDepartures());
+        v.addDeparture(t);
+        assertEquals(res, v.getDepartures());
     }
 
     @Test void hashCodeOfSemanticallyEqualVariantsAreEqual(){
@@ -197,9 +199,9 @@ class VariantTest {
         TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
         v1.addTransportSegment(ts);
         v2.addTransportSegment(ts);
-        Time t = new Time(0);
-        v1.addTrainDeparture(t);
-        v2.addTrainDeparture(t);
+        LocalTime t = LocalTime.of(0, 0);
+        v1.addDeparture(t);
+        v2.addDeparture(t);
         assertEquals(v1.hashCode(), v2.hashCode());
     }
 

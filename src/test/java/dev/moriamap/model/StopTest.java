@@ -58,7 +58,7 @@ class StopTest {
     }
     @Test void stopIsNotEqualToNull() {
         Stop v = Stop.from("Stop", GeographicPosition.at(18.59,18.43));
-        assertNotEquals(v, null);
+        assertNotEquals(null, v);
     }
 
     @Test void semanticallyEqualStopsAreEqual() {
