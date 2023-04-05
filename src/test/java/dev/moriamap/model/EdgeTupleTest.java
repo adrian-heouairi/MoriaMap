@@ -3,6 +3,7 @@ package dev.moriamap.model;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,9 @@ class EdgeTupleTest {
     @Test void returnedListHasExpectedSize() {
         List<List<String>> lines = new ArrayList<>();
         try {
-            lines = CSVParser.extractLines("/map_data.csv");
+
+            InputStream resouce = CSVParserTest.class.getResourceAsStream("/map_data.csv");
+            lines = CSVParser.extractLines(resouce);
         } catch (Exception e) {
             e.printStackTrace();
         }

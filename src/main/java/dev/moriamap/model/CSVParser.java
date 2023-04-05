@@ -43,16 +43,12 @@ public final class CSVParser {
      * @throws InconsistentCSVLinesException if two lines do not have same number of fields
      * @throws IOException if a problem occurs while freeing resources.
      */
-    public static List<List<String>> extractLines(String resourcePath) throws InconsistentCSVLinesException, IOException {
-        if (resourcePath == null) {
+    public static List<List<String>> extractLines(InputStream resource) throws InconsistentCSVLinesException, IOException {
+        if (resource == null) {
             throw new IllegalArgumentException("Path can not be null");
         }
-        InputStream in = CSVParser.class.getResourceAsStream(resourcePath);
         List<List<String>> content = new ArrayList<>();
-        if(in == null) {
-            throw new IllegalArgumentException("InputStream is null");
-        }
-        Scanner sc = new Scanner(in);
+        Scanner sc = new Scanner(resource);
         while (sc.hasNextLine()){
             content.add(CSVParser.parseCSVLine(sc.nextLine(),";"));
 
@@ -68,7 +64,7 @@ public final class CSVParser {
         if (!same) {
             throw new InconsistentCSVLinesException();
         }
-        in.close();
+        resource.close();
         return content;
     }
 }

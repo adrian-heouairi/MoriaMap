@@ -3,6 +3,7 @@ package dev.moriamap.model;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,12 +16,14 @@ class CSVParserTest {
     }
     @Test void extractedInconsistentDataThrowsException() {
         assertThrows(InconsistentCSVLinesException.class,() ->{
-            CSVParser.extractLines("/InconsistentCSV.csv");
+            InputStream resouce = CSVParserTest.class.getResourceAsStream("/InconsistentCSV.csv");
+            CSVParser.extractLines(resouce);
         });
     }
 
     @Test void parserExtractsExceptedNumberOfLines() throws InconsistentCSVLinesException, IOException {
-        List<List<String>> lines = CSVParser.extractLines("/map_data.csv");
+        InputStream resouce = CSVParserTest.class.getResourceAsStream("/map_data.csv");
+        List<List<String>> lines = CSVParser.extractLines(resouce);
         assertEquals(1770,lines.size());
     }
 
