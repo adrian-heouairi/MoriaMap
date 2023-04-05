@@ -38,8 +38,8 @@ class VariantTest {
     }
 
     @Test void variantsHavingSameIdAndSameLineNameAndSameTransportSegmentsAreEqual() {
-        Variant v = Variant.empty("1","14");
-        Variant v1 = Variant.empty("1","14");
+        Variant v = Variant.empty("Variant 1","14");
+        Variant v1 = Variant.empty("Variant 1","14");
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
@@ -49,29 +49,47 @@ class VariantTest {
     }
 
     @Test void variantsHavingSameIdAndSameLineNameAndDifferentTransportSegmentsAreNotEqual() {
-        Variant v = Variant.empty("1","14");
-        Variant v1 = Variant.empty("1","14");
+        Variant v = Variant.empty("Variant 1","14");
+        Variant v1 = Variant.empty("Variant 1","14");
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts1 = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
-        TransportSegment ts2 = TransportSegment.from(s1, s2, "14","Variant 2", Duration.ZERO, 0.0);
+        TransportSegment ts2 = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 1.0);
         v.addTransportSegment(ts1);
         v1.addTransportSegment(ts2);
         assertNotEquals(v,v1);
     }
 
     @Test void variantsHavingSameIdAndSameLineNameAndDifferentTransportSegmentsSizeAreNotEqual() {
-        Variant v = Variant.empty("1","14");
-        Variant v1 = Variant.empty("1","14");
+        Variant v = Variant.empty("Variant 1","14");
+        Variant v1 = Variant.empty("Variant 1","14");
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts1 = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
-        TransportSegment ts2 = TransportSegment.from(s1, s2, "14","Variant 2", Duration.ZERO, 0.0);
+        TransportSegment ts2 = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 1.0);
         v.addTransportSegment(ts1);
         v.addTransportSegment(ts2);
         v1.addTransportSegment(ts2);
         assertNotEquals(v,v1);
     }
+
+    @Test void addANotConcordingTransportSegmentLineName(){
+        Variant v = Variant.empty("Variant 1", "14");
+        Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
+        Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
+        TransportSegment ts = TransportSegment.from(s1, s2, "13","Variant 1", Duration.ZERO, 0.0);
+        assertThrows(IllegalArgumentException.class,
+                () -> v.addTransportSegment(ts));
+    }
+    @Test void addANotConcordingTransportSegmentVariantName(){
+        Variant v = Variant.empty("Variant 1", "14");
+        Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
+        Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
+        TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 2", Duration.ZERO, 0.0);
+        assertThrows(IllegalArgumentException.class,
+                () -> v.addTransportSegment(ts));
+    }
+
 
     @Test void variantsWithDifferentTrainDepartureSizeAreNotEqual(){
         Variant v = Variant.empty("1","14");
@@ -136,7 +154,7 @@ class VariantTest {
     }
 
     @Test void addATransportSegmentToVariant(){
-        Variant v = Variant.empty("1", "14");
+        Variant v = Variant.empty("Variant 1", "14");
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
@@ -144,7 +162,7 @@ class VariantTest {
     }
 
     @Test void addingTwiceTheSameTransportSegmentReturnFalse(){
-        Variant v = Variant.empty("1", "14");
+        Variant v = Variant.empty("Variant 1", "14");
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
@@ -167,7 +185,7 @@ class VariantTest {
     }
 
     @Test void getTransportSegments(){
-        Variant v = Variant.empty("1", "14");
+        Variant v = Variant.empty("Variant 1", "14");
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
@@ -192,8 +210,8 @@ class VariantTest {
     }
 
     @Test void hashCodeOfSemanticallyEqualVariantsAreEqual(){
-        Variant v1 = Variant.empty("1", "14");
-        Variant v2 = Variant.empty("1", "14");
+        Variant v1 = Variant.empty("Variant 1", "14");
+        Variant v2 = Variant.empty("Variant 1", "14");
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
@@ -206,7 +224,7 @@ class VariantTest {
     }
 
     private Variant newVariantHelper(){
-        Variant v = Variant.empty("1", "14");
+        Variant v = Variant.empty("Variant 1", "14");
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         Stop s3 = Stop.from("s3",GeographicPosition.SOUTH_POLE);

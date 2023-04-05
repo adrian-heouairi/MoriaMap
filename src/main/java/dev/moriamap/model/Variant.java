@@ -102,14 +102,17 @@ public final class Variant {
     }
 
     /**
-     * Adds the given TransportSegment to this Variant.
-     * @param ts the TransportSegment to add
-     * @return true if the given TransportSegment was added
-     * @throws IllegalArgumentException if ts is null
+     * Add the given TransportSegment to our TransportSegments list.
+     * @param ts TransportSegment to be added
+     * @return false if the given transport segment was added
+     * @throws IllegalArgumentException if the TransportSegment is Null or if the names don't correspond
      */
     public boolean addTransportSegment(TransportSegment ts){
-        if (ts == null)
-            throw new IllegalArgumentException(NULL_ARG_ERR_MSG);
+        if (ts == null) {
+            throw new IllegalArgumentException("Null TransportSegment is not allowed");
+        }
+        if(!(this.lineName.equals(ts.getLineName()) && this.name.equals(ts.getVariantName())))
+            throw new IllegalArgumentException("Line name or Variant nane don't correspond");
         if (this.transportSegments.contains(ts))
             return false;
         return this.transportSegments.add(ts);
