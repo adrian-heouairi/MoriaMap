@@ -66,7 +66,7 @@ public class TransportSegment extends Edge{
     }
 
     /**
-     * {@return the travel duration name of this TransportSegment}
+     * {@return the travel duration of this TransportSegment}
      */
     public Duration getTravelDuration(){
         return this.travelDuration;
