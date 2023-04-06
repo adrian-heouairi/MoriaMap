@@ -53,7 +53,7 @@ public abstract class Graph {
      * @param vertex the Vertex to add
      * @throws IllegalArgumentException if the given vertex is null
      */
-    public void addVertex(Vertex vertex) {
+    protected void addVertex(Vertex vertex) {
         if (vertex == null)
             throw new IllegalArgumentException(NULL_ARGUMENT_ERROR_MSG);
         this.vertexToOutgoingEdges.putIfAbsent(vertex, null);
@@ -66,7 +66,7 @@ public abstract class Graph {
      * @param edge the Edge to add
      * @throws IllegalArgumentException if the given edge is null
      */
-    public void addEdge(Edge edge) {
+    protected void addEdge(Edge edge) {
         if (edge == null)
             throw new IllegalArgumentException("Edge can not be null");
         Vertex from = edge.getFrom();
