@@ -16,28 +16,28 @@ class TransportScheduleTest {
 
 	@Test void constructorPassingNullTimeTest() {
 		assertThrows(
-				  NullPointerException.class,
+				  IllegalArgumentException.class,
 				  () -> new TransportSchedule( null, stop, terminus, variant )
 					);
 	}
 
 	@Test void constructorPassingNullStopTest() {
 		assertThrows(
-				  NullPointerException.class,
+				  IllegalArgumentException.class,
 				  () -> new TransportSchedule( time, null, terminus, variant )
 					);
 	}
 
 	@Test void constructorPassingNullTerminusTest() {
 		assertThrows(
-				  NullPointerException.class,
+				  IllegalArgumentException.class,
 				  () -> new TransportSchedule( time, stop, null, variant )
 					);
 	}
 
 	@Test void constructorPassingNullVariantTest() {
 		assertThrows(
-				  NullPointerException.class,
+				  IllegalArgumentException.class,
 				  () -> new TransportSchedule( time, stop, terminus, null )
 					);
 	}

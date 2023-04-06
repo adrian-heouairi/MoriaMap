@@ -23,7 +23,7 @@ public record TransportSchedule(
 	 */
 	public TransportSchedule {
 		if( time == null || stop == null || terminus == null || variant == null )
-			throw new NullPointerException( "No TransportSchedule values can be null" );
+			throw new IllegalArgumentException( "No TransportSchedule values can be null" );
 	}
 
 }

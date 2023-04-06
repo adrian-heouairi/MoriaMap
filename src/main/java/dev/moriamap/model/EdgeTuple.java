@@ -29,6 +29,24 @@ public record EdgeTuple(String fromName,
                         double distance) {
 
     /**
+     * This record holds datas for an Edge
+     * @param fromName name of first stop of the edge
+     * @param fromLongitude longitude of startStop of the edge
+     * @param fromLatitude latitude of startStop of the edge
+     * @param toName name of destinationStop of the edge
+     * @param toLongitude longitude of destinationStop of the edge
+     * @param toLatitude latitude of destinationStop of the edge
+     * @param lineName the name of the line containing this transport edge
+     * @param variantName the variant name
+     * @param duration the duration form startStop to destinationStop
+     * @param distance distance between the two stops of this edge tuple
+     */
+    public EdgeTuple {
+        if( fromName == null || toName == null || lineName == null || variantName == null || duration == null )
+            throw new IllegalArgumentException("No non-primitive EdgeTuple values can be null");
+    }
+
+    /**
      * Transforms a list of strings representing a CSV file line to an EdgeTuple.
      * <p>
      *     The format of fields is assumed to be correct.
