@@ -13,6 +13,6 @@ cd moriamap.git
 git remote set-url --push origin https://"$3":"$4"@github.com/SkyNalix/MoriaMap.git
 
 while sleep 30; do
-  git fetch -p origin
-  git push --mirror
+    git fetch -p origin
+    git push --mirror
 done
