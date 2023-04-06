@@ -3,7 +3,7 @@ package dev.moriamap.model;
 /**
  * A Vertex at a geographic position.
  */
-public class GeographicVertex extends Vertex {
+public class GeographicVertex implements Vertex {
 
     /**
      * The geographic position of this GeographicVertex.

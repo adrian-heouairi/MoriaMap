@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 class GraphTest {
     static class DummyGraph extends Graph {}
-    static class DummyVertex extends Vertex {}
+    static class DummyVertex implements Vertex {}
     static class DummyEdge extends Edge {
         public DummyEdge() { super(new DummyVertex(), new DummyVertex()); }
         public DummyEdge(Vertex from, Vertex to) { super(from, to); }
