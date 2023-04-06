@@ -92,7 +92,7 @@ public final class TransportNetwork extends Graph {
 
     /**
      * Add a line to the TransportNetwork.
-     * {@return true if added, false if already present}
+     * @return true if added, false if already present
      * @param line the Line to add
      * @throws IllegalArgumentException if line is null
      */
