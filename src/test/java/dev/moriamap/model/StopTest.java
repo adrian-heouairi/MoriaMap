@@ -2,8 +2,6 @@ package dev.moriamap.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
-import java.util.List;
-import java.util.ArrayList;
 
 class StopTest {
     @Test void stopConstructorTest(){
@@ -65,5 +63,10 @@ class StopTest {
         Stop v = Stop.from("Stop", GeographicPosition.at(18.59,18.42));
         Stop w = Stop.from("Stop", GeographicPosition.at(18.59,18.42));
         assertEquals(v,w);
+    }
+
+    @Test void toStringTest() {
+        Stop s = Stop.from("Stop", GeographicPosition.at(15.59,18.43));
+        assertEquals("Stop",s.toString());
     }
 }

@@ -1,16 +1,17 @@
 package dev.moriamap;
 
+import dev.moriamap.model.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.time.Duration;
-
-import dev.moriamap.model.GeographicPosition;
-import dev.moriamap.model.Line;
-import dev.moriamap.model.Stop;
-import dev.moriamap.model.TransportNetwork;
-import dev.moriamap.model.TransportSegment;
-import dev.moriamap.model.Variant;
 
 class Main {
 
+    /**
+     * Create an example transport network
+     * @return a TransportNetwork reprenting a small network
+     */
     private static TransportNetwork createTransportNetwork(){
         TransportNetwork res = TransportNetwork.empty();
         Line l1 = Line.of("Ligne 1");
@@ -119,7 +120,7 @@ class Main {
         l4.addVariant(v1l4);
         l4.addVariant(v2l4);
 
-        //Add lines, stops and transport segments  to the TransportNetwork 
+        //Add lines, stops and transport segments  to the TransportNetwork
         res.addLine(l1);
         res.addLine(l2);
         res.addLine(l3);
@@ -165,7 +166,37 @@ class Main {
         return res;
     }
 
-	public static void main(String[] args) {
-        throw new UnsupportedOperationException("Can not run");
+    public static void main(String[] args) {
+        TransportNetwork tn = createTransportNetwork();
+        Scanner inputScanner = new Scanner(System.in);
+
+        System.out.println( "At any moment waiting for an input, " +
+                            "pressing ENTER without typing anything exit the program\n" );
+        while(true) {
+            System.out.print( "Name of the starting stop: " );
+            String startStopName = inputScanner.nextLine();
+            if(startStopName.isBlank()) break;
+
+            System.out.print( "Name of the target stop: " );
+            String targetStopName = inputScanner.nextLine();
+            if(targetStopName.isBlank()) break;
+
+            Stop start = tn.getStopByName( startStopName );
+            Stop target = tn.getStopByName( targetStopName );
+            if(start == null || target == null) {
+                System.out.println( "One of the stops was not found, please check your inputs and repeat" );
+            } else {
+                try {
+                    Map<Vertex, Edge> dfs = tn.depthFirstSearch( start );
+                    List<Edge> path = Graph.getRouteFromTraversal( dfs, start, target );
+                    PrettyPrinter.printEdgePath( path );
+                } catch(Exception e) {
+                    System.out.println( "An issue occured during the path finding, please check your inputs and repeat" );
+                }
+            }
+            System.out.println();
+        }
+        inputScanner.close();
     }
+
 }

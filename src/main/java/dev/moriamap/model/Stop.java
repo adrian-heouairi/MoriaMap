@@ -67,4 +67,13 @@ public class Stop extends GeographicVertex {
         return hash;
     }
 
+    /**
+     * Return the name of the stop
+     * @return the stop's name
+     */
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

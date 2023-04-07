@@ -56,3 +56,7 @@ sonar {
         property "sonar.password", "F9Erj73eUynRrGP"
     }
 }
+
+run {
+    standardInput = System.in
+}
