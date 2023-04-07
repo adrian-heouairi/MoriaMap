@@ -1,6 +1,5 @@
 package dev.moriamap.model;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,12 +19,12 @@ public final class CSVParser {
      * @param delimiter fields separators
      * @return a list of strings containing each field
      */
-    public static List<String> parseCSVLine(String line, String delimiter) {
+    public static List<String> parseCSVLine(String line, String delimiter) throws InconsistentCSVException {
         if (line == null) {
             throw new IllegalArgumentException("Line can not be null.");
         }
         if (line.equals("")) {
-            throw new IllegalArgumentException("Line can not be empty.");
+            throw new InconsistentCSVException();
         }
         if (delimiter == null) {
             throw new IllegalArgumentException("Delimiter can not be null.");
@@ -40,10 +39,9 @@ public final class CSVParser {
      * Parses a CSV file.
      * @param resource to CSV file
      * @return a list of lists of strings containing raw data.
-     * @throws InconsistentCSVLinesException if two lines do not have same number of fields
-     * @throws IOException if a problem occurs while freeing resources.
+     * @throws InconsistentCSVException if two lines do not have same number of fields
      */
-    public static List<List<String>> extractLines(InputStream resource) throws InconsistentCSVLinesException, IOException {
+    public static List<List<String>> extractLines(InputStream resource) throws InconsistentCSVException {
         if (resource == null) {
             throw new IllegalArgumentException("Path can not be null");
         }
@@ -62,9 +60,8 @@ public final class CSVParser {
             }
         }
         if (!same) {
-            throw new InconsistentCSVLinesException();
+            throw new InconsistentCSVException();
         }
-        resource.close();
         return content;
     }
 }

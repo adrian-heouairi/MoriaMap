@@ -15,13 +15,13 @@ class CSVParserTest {
         });
     }
     @Test void extractedInconsistentDataThrowsException() {
-        assertThrows(InconsistentCSVLinesException.class,() ->{
+        assertThrows(InconsistentCSVException.class,() ->{
             InputStream resouce = CSVParserTest.class.getResourceAsStream("/InconsistentCSV.csv");
             CSVParser.extractLines(resouce);
         });
     }
 
-    @Test void parserExtractsExceptedNumberOfLines() throws InconsistentCSVLinesException, IOException {
+    @Test void parserExtractsExceptedNumberOfLines() throws InconsistentCSVException, IOException {
         InputStream resouce = CSVParserTest.class.getResourceAsStream("/map_data.csv");
         List<List<String>> lines = CSVParser.extractLines(resouce);
         assertEquals(1770,lines.size());
@@ -40,6 +40,6 @@ class CSVParserTest {
     }
 
     @Test void parseLineThrowsExceptionIfLineIsEmpty() {
-        assertThrows(IllegalArgumentException.class,()->CSVParser.parseCSVLine("",";"));
+        assertThrows(InconsistentCSVException.class,()->CSVParser.parseCSVLine("",";"));
     }
 }
