@@ -275,7 +275,7 @@ public final class GeographicPosition {
     private static Double readCompleteFormat(String str){
         String[] array = str.split(" "); 
         
-        if(str.matches("^([\\d]+ ){3}[NESW]$")){
+        if(str.matches("^(\\d+ ){3}[NESW]$")){
             Double decimal = Double.parseDouble(array[0]);
             Double minute = Double.parseDouble(array[1]) / 60;
             Double second = Double.parseDouble(array[2]) / 3600;

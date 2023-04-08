@@ -95,3 +95,28 @@
   - Discussions sur l'algorithme de génération de ~TransportNetwork~ :
     certaines parties seront remplacées par de simples appels à
     ~TransportNetwork.findStop(Stop)~ et ~TransportNetwork.findLine(String)~.
+
+* Réunion <2023-04-06 Thu>
+  Réunion pour finir la conception autour de LECT_TIME. L'UML sera mis à jour.
+  Les issues suivantes seront créées :
+  - Création de la classe Passages qui encapsule une List<TransportSchedule>
+    et permet d'interroger cette liste, utile pour PLAN_1 car pour donner des
+    poids aux arêtes il faut le temps d'attente avant le prochain train.
+  - méthode Passages TransportNetwork.getPassagesAt(Stop) qui fournit tous
+    les passages de transport à un Stop donné, utilise l'algorithme écrit par
+    Guillermo.
+  - record DepartureTuple qui représente une ligne dans le CSV d'horaires et
+    fournit comme EdgeTuple une fonction
+    List<List<String>> -> List<DepartureTuple>.
+  - DeparturesParser qui fournit public static void
+    addDeparturesTo(TransportNetwork tn, InputStream departures) avec l'algo
+    suivant :
+    pour chaque t dans List<DepartureTuple> {
+      obtenir la ligne l de nom t.ligne dans tn.getLines() (ou exception)
+      obtenir le variant v de nom t.variant dans l.getVariants() (ou exception)
+      vérifier que t.station == v.getStart() sinon throw exception
+      v.addDeparture(t.heure)
+    }
+  - Variant.getDepartures() : retourner la liste triée
+  - enlever TransportSchedule.terminus car c'est juste
+    ts.variant().getEnd()

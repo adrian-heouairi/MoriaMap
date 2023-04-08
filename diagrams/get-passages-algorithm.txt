@@ -1,0 +1,19 @@
+class TransportNetwork {
+    public Passages getPassages(Stop s) {
+        List<Variant> variantsOfStop = empty()
+        pour chaque variant v dans this.getVariants() {
+            si s est dans v.getStops() et !s.equals(v.getEnd()) then variantsOfStop.add(v)
+        }
+
+        List<TransportSchedule> transportSchedules
+        Pour v dans variantsOfStop {
+            Duration travelTime = v.getTravelTimeTo(s)
+            pour chaque LocalTime t dans v.getDepartures() {
+                TransportSchedule ts = new TransportSchedule(t + travelTime, s, v)
+                transportSchedules.add(ts)
+            }
+        }
+
+        return Passages.of(transportSchedules)
+    }
+}
