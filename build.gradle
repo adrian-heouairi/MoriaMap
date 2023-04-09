@@ -48,6 +48,7 @@ jar {
     manifest {
         attributes 'Main-Class': mainClassName
     }
+    archiveFileName = 'MoriaMap.jar'
 }
 
 sonar {
