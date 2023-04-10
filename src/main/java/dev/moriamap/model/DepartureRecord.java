@@ -62,12 +62,13 @@ public record DepartureRecord(
     }
 
     /**
-     * {@returns a DepartureRecord corresponding to the data in the given tuple}
+     * {@return a DepartureRecord corresponding to the data in the given tuple}
+     * Throws DateTimeParseException if the departure time value cannot be
+     * parsed.
      * @param tuple data as a String tuple
      * @throws NullPointerException if tuple is null
      * @throws IllegalArgumentException if the size of tuple is different than
      *                                  VALID_TUPLE_SIZE
-     * @throws DateTimeParseException if the departure time cannot be parsed
      */
     public static DepartureRecord fromTuple(List<String> tuple) {
         Objects.requireNonNull(tuple);
@@ -84,14 +85,14 @@ public record DepartureRecord(
 
     /**
      * Returns a list of DepartureRecords corresponding to the data given as
-     * a list of String tuples.
+     * a list of String tuples. Throws DateTimeParseException if the departure
+     * time value cannot be parsed.
      * @param tuples a list of tuples corresponding to DepartureRecords as
      *        String tuples
      * @return the corresponding list of DepartureRecords
      * @throws NullPointerException if tuples or one of the tuples is null
      * @throws IllegalArgumentException if the size of one or more of the tuples
      *                                  in tuples is not VALID_TUPLE_SIZE
-     * @throws DateTimeParseException if the departure time cannot be parsed
      */
     public static List<DepartureRecord> fromTuples(List<List<String>> tuples) {
         Objects.requireNonNull(tuples);
