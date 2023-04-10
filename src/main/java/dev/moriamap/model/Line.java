@@ -2,6 +2,8 @@ package dev.moriamap.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.NoSuchElementException;
 
 /**
  * Represents a line of a transport network.
@@ -130,5 +132,43 @@ public final class Line {
         return hash;
     }
 
+    /**
+     * {@return true if this Line contains a Variant of given name}
+     * @param name the name to test
+     * @throws NullPointerException if name is null
+     */
+    public boolean containsVariantNamed(String name) {
+        Objects.requireNonNull(name);
+        for (Variant variant: this.variants) {
+            if (variant.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    /**
+     * {@return the Variant of given name in this Line}
+     * @param name the name of the Variant to get
+     * @throws NullPointerException if name is null
+     * @throws NoSuchElementException if there is no Variant in this Line with
+     *                                the given name
+     * @throws IllegalStateException if a Variant of given name is considered
+     *                               present but could not be recovered
+     */
+    public Variant getVariantNamed(String name) {
+        if (!this.containsVariantNamed(name)) {
+            throw new NoSuchElementException(
+              "No Variant of given name were found"
+            );
+        }
+        for (Variant variant: this.variants) {
+            if (variant.getName().equals(name)) {
+                return variant;
+            }
+        }
+        throw new IllegalStateException(
+          "Variant present but could not be recovered"
+        );
+    }
 }

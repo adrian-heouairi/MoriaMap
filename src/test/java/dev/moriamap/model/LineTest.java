@@ -1,8 +1,8 @@
 package dev.moriamap.model;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.NoSuchElementException;
 
 class LineTest {
 
@@ -97,5 +97,54 @@ class LineTest {
         l.addVariant(v);
         l1.addVariant(v);
         assertEquals(l.hashCode(), l1.hashCode());
+    }
+
+    @Test void getVariantNamedWithNullThrowsException() {
+        var sut = Line.of("13");
+        assertThrows(
+          NullPointerException.class,
+          () -> sut.getVariantNamed(null)
+        );
+    }
+
+    @Test void getVariantNamedWhenAbsentInEmptyLineThrowsException() {
+        var sut = Line.of("12");
+        var v = Variant.empty("v", "12");
+        var name = v.getName();
+        assertThrows(
+          NoSuchElementException.class,
+          () -> sut.getVariantNamed(name)
+        );
+    }
+
+    @Test void containsVariantNullNamedThrowsException() {
+        var sut = Line.of("11");
+        assertThrows(
+          NullPointerException.class,
+          () -> sut.containsVariantNamed(null)
+        );
+    }
+
+    @Test void containsVariantNamedWhenVariantPresentReturnsTrue() {
+        var sut = Line.of("10");
+        var v = Variant.empty("find me", "10");
+        sut.addVariant(v);
+        assertTrue(sut.containsVariantNamed(v.getName()));
+    }
+
+    @Test void containsVariantNameWhenVariantAbsentReturnsFalse() {
+        var sut = Line.of("9");
+        var v = Variant.empty("absent", "9");
+        assertFalse(sut.containsVariantNamed(v.getName()));
+    }
+
+    @Test void getVariantNamedWhenPresentReturnsSuchVariant() {
+        var sut = Line.of("8");
+        var v1 = Variant.empty("present", "8");
+        var v2 = Variant.empty("present too", "8");
+        var name = v1.getName();
+        sut.addVariant(v1);
+        sut.addVariant(v2);
+        assertEquals(v1, sut.getVariantNamed(name));
     }
 }
