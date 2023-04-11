@@ -11,54 +11,41 @@ class TransportScheduleTest {
 
 	LocalTime time = LocalTime.of( 4,20,4);
 	Stop stop = Stop.from( "stop1", GeographicPosition.at( 12, 21 ) );
-	Stop terminus = Stop.from( "stop2", GeographicPosition.at( 34, 11 ) );
 	Variant variant = Variant.empty( "Variant 2", "14" );
 
 	@Test void constructorPassingNullTimeTest() {
 		assertThrows(
 				  IllegalArgumentException.class,
-				  () -> new TransportSchedule( null, stop, terminus, variant )
+				  () -> new TransportSchedule( null, stop, variant )
 					);
 	}
 
 	@Test void constructorPassingNullStopTest() {
 		assertThrows(
 				  IllegalArgumentException.class,
-				  () -> new TransportSchedule( time, null, terminus, variant )
-					);
-	}
-
-	@Test void constructorPassingNullTerminusTest() {
-		assertThrows(
-				  IllegalArgumentException.class,
-				  () -> new TransportSchedule( time, stop, null, variant )
+				  () -> new TransportSchedule( time, null, variant )
 					);
 	}
 
 	@Test void constructorPassingNullVariantTest() {
 		assertThrows(
 				  IllegalArgumentException.class,
-				  () -> new TransportSchedule( time, stop, terminus, null )
+				  () -> new TransportSchedule( time, stop, null )
 					);
 	}
 
 	@Test void getterTimeTest() {
-		TransportSchedule schedule = new TransportSchedule( time, stop, terminus, variant );
+		TransportSchedule schedule = new TransportSchedule( time, stop, variant );
 		assertEquals(time, schedule.time());
 	}
 
 	@Test void getterStopTest() {
-		TransportSchedule schedule = new TransportSchedule( time, stop, terminus, variant );
+		TransportSchedule schedule = new TransportSchedule( time, stop, variant );
 		assertEquals(stop, schedule.stop());
 	}
 
-	@Test void getterTerminusTest() {
-		TransportSchedule schedule = new TransportSchedule( time, stop, terminus, variant );
-		assertEquals(terminus, schedule.terminus());
-	}
-
 	@Test void getterVariantTest() {
-		TransportSchedule schedule = new TransportSchedule( time, stop, terminus, variant );
+		TransportSchedule schedule = new TransportSchedule( time, stop, variant );
 		assertEquals(variant, schedule.variant());
 	}
 
