@@ -1,0 +1,31 @@
+Au lancement de programme, Main:
+1 - demander path pour charger réseau [LECT_NET]
+2 - demander path pour charger horaires
+3 - créer navigator
+4 - en boucle:
+    proposer une action possible
+    traiter action
+    afficher resultat
+
+Actions proposés à user -> query:
+1 - trajet non opti entre deux ARRETS [PLAN_0]
+2 - horaires de passages pour un ARRET [LECT_TIME]
+3 - trajet opti entre deux ARRETS [PLAN_1]
+4 - trajet opti entre deux POINTS GEOGRAPHIQUES [PLAN_2]
+5 - trajet opti entre deux POINTS GEOGRAPHIQUES avec possible section
+    intermediaire à pied [PLAN_3]
+
+Entrée/query:
+1 - arrêt src et dst  -> (String, String) <=> (nom src, nom dst)
+2 - stop              -> String           <=> nom arrêt
+3 - arrêt src et dst  -> (String, String) <=> (nom src, nom dst)
+4 - points src et dst -> (String, String) <=> (gps src, gps dst)
+5 - points src et dst -> (String, String) <=> (gps src, gps dst)
+
+1ère idée:
+Dans Navigator
+ + processQuery(Query) qui check le type de query et appelle une methode private
+   correspondant au type de query
+
+2ème idée:
+Query serait une interface, avec une méthode execute(Graph)
