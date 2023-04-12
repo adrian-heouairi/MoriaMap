@@ -78,7 +78,7 @@ class DepartureRecordTest {
     }
 
     @Test void departureRecordFromUnparsableDepartureTimeThrowsException() {
-        List<String> tuple = Arrays.asList("", "", "invalid", "");
+        List<String> tuple = Arrays.asList("", "", "114:25", "");
         assertThrows(
           DateTimeParseException.class,
           () -> DepartureRecord.fromTuple(tuple)
@@ -120,7 +120,7 @@ class DepartureRecordTest {
 
     @Test void depRecordsFromTuplesWithInvalidDepartureTimeThrowsException() {
         List<List<String>> tuples = Arrays.asList(
-          Arrays.asList("", "", "i", "")
+          Arrays.asList("", "", "66:42", "")
         );
         assertThrows(
           DateTimeParseException.class,

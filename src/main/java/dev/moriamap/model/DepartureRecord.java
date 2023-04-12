@@ -75,10 +75,15 @@ public record DepartureRecord(
         if (tuple.size() != VALID_TUPLE_SIZE) {
             throw new IllegalArgumentException("Invalid tuple size");
         }
+
+        String time = tuple.get(DEPARTURE_TIME_TUPLE_INDEX);
+        String[] timeArray = time.split(":");
+        String timeCorrectFormat = String.format("%02d",Integer.parseInt(timeArray[0])) + ":" + timeArray[1];
+
         return new DepartureRecord(
           tuple.get(LINE_NAME_TUPLE_INDEX),
           tuple.get(TERMINUS_NAME_TUPLE_INDEX),
-          LocalTime.parse(tuple.get(DEPARTURE_TIME_TUPLE_INDEX)),
+          LocalTime.parse(timeCorrectFormat) ,
           tuple.get(VARIANT_NAME_TUPLE_INDEX)
         );
     }
@@ -102,4 +107,5 @@ public record DepartureRecord(
         }
         return records;
     }
+
 }
