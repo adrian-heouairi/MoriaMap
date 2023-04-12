@@ -417,4 +417,25 @@ class VariantTest {
         sut.addTransportSegment(ts7);
         assertEquals(Duration.ofMinutes(28), sut.getTravelTimeTo(s8));
     }
+
+    @Test void getStopsReturnTheOrderedListOfStop(){
+        Variant v = Variant.empty("Variant 1", "14");
+        Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
+        Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
+        Stop s3 = Stop.from("s3",GeographicPosition.SOUTH_POLE);
+        Stop s4 = Stop.from("s4",GeographicPosition.SOUTH_POLE);
+        TransportSegment ts1 = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
+        TransportSegment ts2 = TransportSegment.from(s2, s3, "14","Variant 1", Duration.ZERO, 0.0);
+        TransportSegment ts3 = TransportSegment.from(s3, s4, "14","Variant 1", Duration.ZERO, 0.0);
+        v.addTransportSegment(ts1);
+        v.addTransportSegment(ts3);
+        v.addTransportSegment(ts2);
+        List<Stop> res = new ArrayList<>();
+        res.add(s1);
+        res.add(s2);
+        res.add(s3);
+        res.add(s4);
+        assertEquals(res, v.getStops());
+    }
+
 }
