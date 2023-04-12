@@ -61,3 +61,7 @@ sonar {
 run {
     standardInput = System.in
 }
+
+javadoc {
+    options.addBooleanOption('Xwerror', true)
+}
