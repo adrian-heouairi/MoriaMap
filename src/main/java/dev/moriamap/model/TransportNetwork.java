@@ -1,5 +1,7 @@
 package dev.moriamap.model;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,27 @@ public final class TransportNetwork extends Graph {
                 return s;
         }
         return null;
+    }
+
+    /**
+     * {@return a list containing all the Passages for a given Stop }
+     * @param s the Stop for which we want the Passages
+     */
+    public Passages getPassages(Stop s){
+        List<Variant> variantsOfStop = new ArrayList<>();
+        for(Variant v : this.getVariants()){
+            if(v.getStops().contains(s) && !s.equals(v.getEnd()))
+                variantsOfStop.add(v);
+        }
+        List<TransportSchedule> transportSchedules = new ArrayList<>();
+        for(Variant v : variantsOfStop){
+            Duration travelTime = v.getTravelTimeTo(s);
+            for(LocalTime t : v.getDepartures()){
+                TransportSchedule ts = new TransportSchedule(t.plus(travelTime), s, v);
+                transportSchedules.add(ts);
+            }
+        }
+        return Passages.of(transportSchedules);
     }
 
     /**

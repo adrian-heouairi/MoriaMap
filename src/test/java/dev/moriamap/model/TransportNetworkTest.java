@@ -3,6 +3,8 @@ package dev.moriamap.model;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -219,5 +221,40 @@ class TransportNetworkTest {
 
         tn.addTransportSegment(ts1);
         assertTrue(tn.getTransportSegments().contains(ts1));
+    }
+
+    @Test
+    void getPassagesAtStop() {
+        Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);
+        Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
+
+        TransportSegment ts = TransportSegment.from(s1, s2, "7B", "1",
+                Duration.ZERO, 4);
+
+
+        Variant v1 = Variant.empty("1", "7B");
+        v1.addTransportSegment(ts);
+
+        Line l = Line.of("7B");
+        l.addVariant(v1);
+
+        v1.addDeparture(LocalTime.MIN);
+        v1.addDeparture(LocalTime.MAX);
+
+
+        TransportNetwork tn = TransportNetwork.empty();
+        tn.addStop(s1);
+        tn.addStop(s2);
+        tn.addTransportSegment(ts);
+        tn.addLine(l);
+
+        List<TransportSchedule> res = new ArrayList<>();
+        TransportSchedule tsch1 = new TransportSchedule(LocalTime.MIN, s1, v1);
+        TransportSchedule tsch2 = new TransportSchedule(LocalTime.MAX, s1, v1);
+        res.add(tsch1);
+        res.add(tsch2);
+
+        assertEquals(res, tn.getPassages(s1).getTransportSchedules());
+        
     }
 }

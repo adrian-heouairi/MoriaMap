@@ -273,27 +273,4 @@ public final class Variant {
         }
         return res;
     }
-
-    /**
-     * {@return the list of Stop in the order of the traversal contained in this variant }
-     * @throws NoSuchElementException if during the traversal one of the stops
-     *                                encountered is not the destination and it
-     *                                has no outgoing segment.
-     * @throws IllegalStateException if the given stop has an outgoing segment
-     *                               in this Variant but was not found
-     */
-    public List<Stop> getStops(){
-        List<Stop> res = new ArrayList<>();
-        Stop cur = getStart();
-        TransportSegment ts = null;
-        Stop end = getEnd();
-        while(!cur.equals(end)){
-            res.add(cur);
-            ts = getOutgoingSegment(cur);
-            cur = (Stop)ts.getTo();
-        }
-        res.add(end);
-        return res;
-    }
 }
-
