@@ -83,10 +83,12 @@ public class TransportNetworkParser {
     }
 
     /**
-     * 
-     * @param stop the Stop that we just created 
-     * @param tn the TransportNetwork
-     * @return a Stop needed for the TransportSegment
+     * Finds a stop or adds a new one with the given specification to the given TransportNetwork.
+     * @param tn transport network to which the stop will be added
+     * @param name name of the stop
+     * @param latitude of the stop
+     * @param longitude of the stop
+     * @return the stop that had been added or found.
      */
     private static Stop generateStop(TransportNetwork tn,String name,double latitude,double longitude){
         Stop stop = Stop.from(name, GeographicPosition.at(latitude, longitude));
