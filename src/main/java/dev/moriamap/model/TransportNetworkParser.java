@@ -15,10 +15,10 @@ public class TransportNetworkParser {
      * @param tuples a List of EdgeTuple
      * @return a TransportNetwork corrsponding to the network given in argument
      */
-    public static TransportNetwork generateFromEdgeTuple(List<EdgeTuple> tuples ){
+    public static TransportNetwork generateFromEdgeTuple(List<EdgeRecord> tuples ){
         TransportNetwork tn = TransportNetwork.empty();
 
-        for(EdgeTuple t : tuples){
+        for(EdgeRecord t : tuples){
             
             Stop s1 = generateStop(tn,t.fromName(), t.fromLatitude(), t.fromLongitude());
             Stop s2 = generateStop(tn,t.toName(), t.toLatitude(), t.toLongitude());
@@ -40,11 +40,11 @@ public class TransportNetworkParser {
     /**
      * apply the algorithm described in diagrams/transport-network-generation-algorithm to produce a TransportNetwork
      * @param transportNetworkFileContent the stream to the data csv file 
-     * @throws InconsistentCSVException
+     * @throws InconsistentCSVException if the line of the given CSV does not contain the expected number of fields
      * @return a TransportNetwork corrsponding to the network given in argument
      */
     public static TransportNetwork generateFrom(InputStream transportNetworkFileContent) throws InconsistentCSVException{
-        List<EdgeTuple> tuples = EdgeTuple.fromTuples(CSVParser.extractLines(transportNetworkFileContent));
+        List<EdgeRecord> tuples = EdgeRecord.fromTuples(CSVParser.extractLines(transportNetworkFileContent));
         return generateFromEdgeTuple(tuples);
     }
     /**
@@ -52,7 +52,7 @@ public class TransportNetworkParser {
      * @param t the actual EdgeTuple that we are browsing
      * @return the Variant needed for the transportSegment contained in the Line or a new Variant
      */
-    private static Variant generateVariant(Line l,EdgeTuple t){
+    private static Variant generateVariant(Line l,EdgeRecord t){
         Variant v = null;
         for(Variant lv : l.getVariants()){
             if (lv.getName().equals(t.variantName()) && lv.getLineName().equals(t.lineName()))
@@ -72,7 +72,7 @@ public class TransportNetworkParser {
      * @param tn the TransportNetwork
      * @return the Line contained in the TransportNetwork or if null a new Line 
      */
-    private static Line generateLine(EdgeTuple t,TransportNetwork tn){
+    private static Line generateLine(EdgeRecord t,TransportNetwork tn){
         Line l = tn.findLine(t.lineName());
         if(l == null){
             l = Line.of(t.lineName());

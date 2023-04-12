@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
 class EdgeTupleTest {
 
-    EdgeTuple e = new EdgeTuple(
+    EdgeRecord e = new EdgeRecord(
             "Olympiades",
             40.5,
             40.5,
@@ -38,14 +38,14 @@ class EdgeTupleTest {
             e.printStackTrace();
         }
 
-        List<EdgeTuple> liste  = EdgeTuple.fromTuples(lines);
+        List<EdgeRecord> liste  = EdgeRecord.fromTuples(lines);
         assertEquals(1770,liste.size());
     }
 
     @Test void constructorParsingNullFromName() {
         assertThrows( IllegalArgumentException.class,
                 () ->{
-                    new EdgeTuple(
+                    new EdgeRecord(
                             null,
                             40.5,
                             40.5,
@@ -62,7 +62,7 @@ class EdgeTupleTest {
     @Test void constructorParsingNullToName() {
         assertThrows( IllegalArgumentException.class,
                 () ->{
-                    new EdgeTuple(
+                    new EdgeRecord(
                             "Olympiades",
                             40.5,
                             40.5,
@@ -79,7 +79,7 @@ class EdgeTupleTest {
     @Test void constructorParsingNullLineName() {
         assertThrows( IllegalArgumentException.class,
                 () ->{
-                    new EdgeTuple(
+                    new EdgeRecord(
                             "Olympiades",
                             40.5,
                             40.5,
@@ -96,7 +96,7 @@ class EdgeTupleTest {
     @Test void constructorParsingNullVariantName() {
         assertThrows( IllegalArgumentException.class,
                 () ->{
-                    new EdgeTuple(
+                    new EdgeRecord(
                             "Olympiades",
                             40.5,
                             40.5,
@@ -113,7 +113,7 @@ class EdgeTupleTest {
     @Test void constructorParsingNullDuration() {
         assertThrows( IllegalArgumentException.class,
                 () ->
-                    new EdgeTuple(
+                    new EdgeRecord(
                             "Olympiades",
                             40.5,
                             40.5,

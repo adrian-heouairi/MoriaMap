@@ -18,6 +18,7 @@ public final class CSVParser {
      * @param line to be parsed
      * @param delimiter fields separators
      * @return a list of strings containing each field
+     * @throws InconsistentCSVException if the line is empty
      */
     public static List<String> parseCSVLine(String line, String delimiter) throws InconsistentCSVException {
         if (line == null) {

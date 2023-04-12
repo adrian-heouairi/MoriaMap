@@ -17,7 +17,7 @@ import java.util.List;
  * @param duration the duration form startStop to destinationStop
  * @param distance distance between the two stops of this edge tuple
  */
-public record EdgeTuple(String fromName,
+public record EdgeRecord(String fromName,
                         double fromLongitude,
                         double fromLatitude,
                         String toName,
@@ -41,20 +41,20 @@ public record EdgeTuple(String fromName,
      * @param duration the duration form startStop to destinationStop
      * @param distance distance between the two stops of this edge tuple
      */
-    public EdgeTuple {
+    public EdgeRecord {
         if( fromName == null || toName == null || lineName == null || variantName == null || duration == null )
             throw new IllegalArgumentException("No non-primitive EdgeTuple values can be null");
     }
 
     /**
-     * Transforms a list of strings representing a CSV file line to an EdgeTuple.
+     * Transforms a list of strings to an EdgeTuple.
      * <p>
      *     The format of fields is assumed to be correct.
      * </p>
      * @param fields the field of the given line
      * @return an EdgeTuple represented by fields parameter
      */
-    private static EdgeTuple fromCSVLine(List<String> fields) {
+    private static EdgeRecord fromLine(List<String> fields) {
         String [] longitudeAndLatitude = fields.get(1).split(", ");
         double lon1 = Double.parseDouble(longitudeAndLatitude[0]);
         double lat1 = Double.parseDouble(longitudeAndLatitude[1]);
@@ -66,7 +66,7 @@ public record EdgeTuple(String fromName,
         String [] time = fields.get(5).split(":");
         Duration d = Duration.ofSeconds(Integer.parseInt(time[0].trim()) * 60L + Integer.parseInt(time[1].trim()));
 
-        return new EdgeTuple(fields.get(0),
+        return new EdgeRecord(fields.get(0),
                 lon1,
                 lat1,
                 fields.get(2),
@@ -80,14 +80,14 @@ public record EdgeTuple(String fromName,
     }
 
     /**
-     * Transforms lines of a CSV file into a list of EdgeTuples.
-     * @param lines list representing the lines of a CSV file
+     * Transforms lines of a list of lists of strings into a list of EdgeTuples.
+     * @param lines list containing information to create tuples
      * @return a list of EdgeTuples
      */
-    public static List<EdgeTuple> fromTuples(List<List<String>> lines) {
-        ArrayList<EdgeTuple> res = new ArrayList<>();
+    public static List<EdgeRecord> fromTuples(List<List<String>> lines) {
+        ArrayList<EdgeRecord> res = new ArrayList<>();
         for ( List<String> line: lines) {
-            res.add(fromCSVLine(line));
+            res.add(fromLine(line));
         }
         return res;
     }
