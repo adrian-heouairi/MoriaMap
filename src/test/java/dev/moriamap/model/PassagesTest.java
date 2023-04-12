@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class PassagesTest {
     private List<TransportSchedule> newListTransportScheduleHelper() {
@@ -35,5 +36,39 @@ class PassagesTest {
         Passages p = Passages.of(ltsch);
         assertEquals("At Lourmel: line 8 direction Boucicaut (variant 1): 00:00\n",
                 p.getFullDescription());
+    }
+
+    @Test
+    void passageIsEqualToItSelf() {
+        Passages p = Passages.of(newListTransportScheduleHelper());
+        assertEquals(p, p);
+    }
+
+    @Test
+    void instanceOfDifferentClassIsNotEqual() {
+        Passages p = Passages.of(newListTransportScheduleHelper());
+        Object o = new Object();
+        assertNotEquals(p,o);
+    }
+
+    @Test
+    void semanticallyEqualInstancesAreEqual() {
+        Passages p = Passages.of(newListTransportScheduleHelper());
+        Passages p1 = Passages.of(newListTransportScheduleHelper());
+
+        assertEquals(p,p1);
+    }
+
+    @Test
+    void passageIsNotEqualToNull() {
+        Passages p = Passages.of(newListTransportScheduleHelper());
+        assertNotEquals(null,p);
+    }
+
+    @Test
+    void equalInstancesHaveSameHashcode() {
+        Passages p = Passages.of(newListTransportScheduleHelper());
+        Passages p1 = Passages.of(newListTransportScheduleHelper());
+        assertEquals(p.hashCode(),p1.hashCode());
     }
 }

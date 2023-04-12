@@ -66,4 +66,31 @@ public final class Passages {
 
         return res.toString();
     }
+
+    /**
+     * @return this.transportSchedules == ((Passages)object).transportSchedules
+     */
+    @Override public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || object.getClass() != this.getClass())
+            return false;
+        Passages other = (Passages) object;
+        return other.transportSchedules.equals(this.transportSchedules);
+    }
+
+    /**
+     * @return the hash code of this Passages object.
+     */
+    @Override public int hashCode() {
+        final int prime = 17;
+        int hash = 1;
+
+        for (TransportSchedule tsch : this.transportSchedules) {
+            hash *= prime;
+            hash += tsch.hashCode();
+        }
+
+        return hash;
+    }
 }
