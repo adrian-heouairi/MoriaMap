@@ -1,7 +1,9 @@
 package dev.moriamap.model;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class StopTest {
     @Test void stopConstructorTest(){
@@ -29,12 +31,6 @@ class StopTest {
         Stop v = Stop.from("Stop1", GeographicPosition.at(15.59,18.43));
         Stop w = Stop.from("Stop", GeographicPosition.at(15.59,18.43));
         assertNotEquals(v,w);
-    }
-
-    @Test void stopsWithDifferentCoordinatesAreNotEqual() {
-        Stop v = Stop.from("Stop", GeographicPosition.at(18.59,18.43));
-        Stop w = Stop.from("Stop", GeographicPosition.at(15.59,18.43));
-        assertNotEquals(v.hashCode(),w.hashCode());
     }
 
     @Test void stopsWithDifferentCoordinatesAndDifferentNamesAreNotEqual() {

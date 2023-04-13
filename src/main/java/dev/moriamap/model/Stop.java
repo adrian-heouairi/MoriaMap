@@ -49,8 +49,7 @@ public class Stop extends GeographicVertex {
         if (object == null || object.getClass() != this.getClass())
             return false;
         Stop other = (Stop) object;
-        return other.geographicPosition.equals(this.geographicPosition) &&
-                other.name.equals(this.name);
+        return other.name.equals(this.name);
     }
 
     /**
@@ -60,7 +59,7 @@ public class Stop extends GeographicVertex {
      */
     @Override public int hashCode() {
         final int prime = 13;
-        int hash = super.hashCode();
+        int hash = 1;
         hash *= prime;
         hash += this.name.hashCode();
 
