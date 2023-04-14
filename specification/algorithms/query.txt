@@ -1,10 +1,8 @@
-Au lancement de programme, Main:
-1 - demander path pour charger réseau [LECT_NET]
-2 - demander path pour charger horaires
-3 - créer navigator
-4 - en boucle:
-    proposer une action possible
-    traiter action (dont afficher résultat)
+Au lancement de programme (réseau et horaires donnés en args au lancement):
+en boucle
+- proposer action
+- après choix action, prendre entrée nécessaire
+- traiter action
 
 Actions proposés à user -> query:
 1 - trajet non opti entre deux ARRETS [PLAN_0]
