@@ -13,11 +13,16 @@ Actions proposés à user -> query:
     intermediaire à pied [PLAN_3]
 
 Entrée/query:
-1 - arrêt src et dst  -> (String, String) <=> (nom src, nom dst)
-2 - stop              -> String           <=> nom arrêt
-3 - arrêt src et dst  -> (String, String) <=> (nom src, nom dst)
-4 - points src et dst -> (String, String) <=> (gps src, gps dst)
-5 - points src et dst -> (String, String) <=> (gps src, gps dst)
+1 - arrêt src et dst  -> (String, String)
+                     <=> (nom src, nom dst)
+2 - stop              ->  String
+                     <=>  nom arrêt
+3 - arrêt src et dst  -> (String, String, String)
+                     <=> (nom src, nom dst, heure de départ)
+4 - points src et dst -> (String, String, String)
+                     <=> (gps src, gps dst, heure de départ)
+5 - points src et dst -> (String, String, String)
+                     <=> (gps src, gps dst,  heure de départ)
 
 1ère idée: OUTDATED
 Dans Navigator (n'existera pas)
