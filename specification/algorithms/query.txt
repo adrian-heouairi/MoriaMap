@@ -4,8 +4,7 @@ Au lancement de programme, Main:
 3 - créer navigator
 4 - en boucle:
     proposer une action possible
-    traiter action
-    afficher resultat
+    traiter action (dont afficher résultat)
 
 Actions proposés à user -> query:
 1 - trajet non opti entre deux ARRETS [PLAN_0]
@@ -22,10 +21,11 @@ Entrée/query:
 4 - points src et dst -> (String, String) <=> (gps src, gps dst)
 5 - points src et dst -> (String, String) <=> (gps src, gps dst)
 
-1ère idée:
-Dans Navigator
+1ère idée: OUTDATED
+Dans Navigator (n'existera pas)
  + processQuery(Query) qui check le type de query et appelle une methode private
    correspondant au type de query
 
 2ème idée:
-Query serait une interface, avec une méthode execute(Graph)
+Query est une interface, avec une méthode execute(TransportNetwork), voir
+diagramme.
