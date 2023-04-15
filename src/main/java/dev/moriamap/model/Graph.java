@@ -20,6 +20,9 @@ public abstract class Graph {
     // A map that associates a Vertex to its outgoing edges
     private final Map<Vertex, List<Edge>> vertexToOutgoingEdges;
 
+    // The traversal strategy of this Graph, defaults to DFS
+    private TraversalStrategy traversalStrategy = new DFSTraversalStrategy();
+
     /**
      * Creates a new empty Graph.
      */
@@ -196,5 +199,23 @@ public abstract class Graph {
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Explores the vertices of this Graph, starting at src and stopping at dst
+     * if stopAtDestination is true. If weights is not empty and if the
+     * strategy involves weighted edges, each edge is considered according to
+     * its corresponding weight given by weights. The map returned corresponds
+     * to the association of each visited Vertex to its incoming Edge during the
+     * traversal.
+     */
+    Map<Vertex, Edge> traversal(
+      Vertex src,
+      Vertex dst,
+      Map<Edge, Double> weights,
+      boolean stopAtDestination
+    ) {
+        return this.traversalStrategy
+            .traversal(src, dst, weights, stopAtDestination, this);
     }
 }

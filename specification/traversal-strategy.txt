@@ -1,0 +1,9 @@
+traversal(Vertex, Vertex, Map<Edge, Double>, boolean): Map<Vertex, Edge>
+arguments: sommet de départ, sommet d'arrivée, poids associé à chaque arête,
+booléen indique s'il faut s'arrêter lorsque l'on trouve le sommet d'arrivée.
+sortie: map associant à chaque sommet rencontré lors du parcours son arc
+entrant.
+
+extractPath(Vertex, Vertex, Map<Vertex, Edge>): List<Edge>
+arguments: sommet de départ, sommet d'arrivée, association sommet/arc entrant
+sortie: liste d'arête représentant la traversée

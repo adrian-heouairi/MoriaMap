@@ -5,4 +5,5 @@ build
 .vscode
 *~
 *.drawio.bkp
+*.drawio.dtmp
 bin
