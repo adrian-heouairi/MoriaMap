@@ -1,6 +1,6 @@
 package dev.moriamap.model;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -22,25 +22,16 @@ class PrettyPrinterTest {
 
 	@Test
 	void emptyListTest() {
-		assertDoesNotThrow(
-				  () -> PrettyPrinter.printEdgePath(tn, new ArrayList<>() )
-						  );
+		assertEquals("",PrettyPrinter.printTransportSegmentPath(tn, new ArrayList<>() ));
 	}
 
 	@Test
-	void nonEmptyListTest() {
+	void nonEmptyListGiveNonEmptyStringTest() {
 		Stop start = tn.getStopByName( "Lourmel" );
 		Stop target = tn.getStopByName( "Hoche" );
-		try {
-			Map<Vertex, Edge> dfs = tn.depthFirstSearch( start );
-			List<Edge> path = Graph.getRouteFromTraversal( dfs, start, target );
-			assertDoesNotThrow(
-					() -> PrettyPrinter.printEdgePath(tn, path ));
-		} catch(Exception e) {
-			System.out.println( "An issue occurred during the path finding, please check your inputs and repeat" );
-			e.printStackTrace();
-		}
-
+		Map<Vertex, Edge> dfs = tn.depthFirstSearch( start );
+		List<Edge> path = Graph.getRouteFromTraversal( dfs, start, target );
+		assertNotEquals("", PrettyPrinter.printTransportSegmentPath(tn, path ));
 	}
 
 }

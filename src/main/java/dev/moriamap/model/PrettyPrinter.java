@@ -18,14 +18,16 @@ public class PrettyPrinter {
 				+ "\033[0m\n    ";
 	}
 
+
 	/**
 	 * Method that print the path
 	 * @param tn the transport network used for the path creation
 	 * @param path list of edges to print
+	 * @return The constructed String to print
 	 */
-	public static void printEdgePath(TransportNetwork tn, List<Edge> path ) {
+	public static String printTransportSegmentPath(TransportNetwork tn, List<Edge> path ) {
 		if(path.isEmpty())
-			return;
+			return "";
 		TransportSegment segment = (TransportSegment) path.get( 0 );
 		String currentLine = segment.getLineName();
 		StringBuilder stringBuilder = new StringBuilder();
@@ -45,7 +47,7 @@ public class PrettyPrinter {
 			else
 				stringBuilder.append( segment.getTo() );
 		}
-		System.out.println( stringBuilder );
+		return stringBuilder.toString();
 	}
 
 }
