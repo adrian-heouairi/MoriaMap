@@ -6,20 +6,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 class Main {
-
-    private static boolean getStopSchedules(TransportNetwork tn, Scanner inputScanner) {
-        System.out.print( "Name of the stop: " );
-        String stopName = inputScanner.nextLine();
-        if(stopName.isBlank()) return true;
-        Stop stop = tn.getStopByName(stopName);
-        if( stop == null ) {
-            System.out.println( "Stop was not found" );
-        }
-        Passages passages = tn.getPassages(stop);
-        System.out.println( passages.getFullDescription() );
-        return false;
-    }
-
+    
     public static void main(String[] args) {
         TransportNetwork tn = null;
         try {
@@ -50,10 +37,11 @@ class Main {
             System.out.print("Option: ");
             String option = inputScanner.nextLine();
             if (
-                    option.isBlank() || option.equals( "3" )
-                || (option.equals( "2" ) && getStopSchedules(tn, inputScanner))
+                    option.isBlank()
+                || option.equals("3")
             )
                 break;
+
             if(option.equals("1")) {
                 System.out.print( "Name of the starting stop: " );
                 String startStopName = inputScanner.nextLine();
@@ -64,6 +52,14 @@ class Main {
                 if(targetStopName.isBlank()) break;
                 PLAN0Query query = new PLAN0Query(startStopName, targetStopName);
                 query.execute( tn );
+            }
+
+            if(option.equals( "2" )) {
+                System.out.print( "Name of the stop: " );
+                String stopName =  inputScanner.nextLine();
+                if (stopName.isBlank()) break;
+                LECTTIMEQuery query = new LECTTIMEQuery(stopName);
+                query.execute(tn);
             }
             System.out.println();
         }
