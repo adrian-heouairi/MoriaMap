@@ -1,3 +1,23 @@
+################################################## Version mise à jour pour supporter les arêtes de marche à pied
+- public String TransportNetwork.getRouteDescription(List<Edge> route, LocalTime startTime):
+    // startTime doit être exactement le même que l'heure utilisée pour calculer les poids temporels sur chaque TransportSegment
+
+    LocalTime cur = startTime
+    List<LocalTime> lts = empty()
+    Pour Edge e dans route:
+        if e est un TransportSegment:
+            Passages p = tn.getPassages(e.getFrom())
+            LocalTime next = p.getNextWithWrap(cur, e.variantName(), e.lineName())
+            if next == null: throw new IllegalStateException("Il n'y a pas de transport sur ligne + variant")
+            ajouter next à lts
+            cur = next + e.getTravelTime()
+        else: // e est un WalkSegment
+            ajouter cur à lts
+            cur = cur + e.walkTime()
+
+    // ici retourner l'affichage complet du trajet avec horaire TODO Arbi
+
+################################################## Old
 -NOTES-
     Passages est un wrapper de List<TransportSchedule>, correspondant aux
     horaires de passage par un Stop donné. La classe fournit une méthode
