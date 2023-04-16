@@ -24,11 +24,9 @@ public interface TraversalStrategy {
      * @return a map that associates to each visited Vertex its incoming Edge
      *         when explored
      */
-    Map<Vertex, Edge> traversal(
-      Vertex src,
-      Vertex dst,
-      Map<Edge, Double> weights,
-      boolean stopAtDestination,
-      Graph graph
-    );
+    Map<Vertex, Edge> traversal(Vertex src,
+                                Vertex dst,
+                                Map<Edge, Double> weights,
+                                boolean stopAtDestination,
+                                Graph graph);
 }

@@ -34,6 +34,28 @@ public class DFSTraversalStrategy implements TraversalStrategy {
         if (stopAtDestination)
             Objects.requireNonNull(dst);
         Objects.requireNonNull(graph);
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!graph.contains(src))
+            throw new NoSuchElementException("Absent source Vertex");
+        if (src.equals(dst))
+            return new HashMap<>();
+        Deque<Vertex> stack = new ArrayDeque<>();
+        Map<Vertex, Edge> parents = new HashMap<>();
+        List<Vertex> visited = new ArrayList<>();
+        stack.push(src);
+        visited.add(src);
+        while (!stack.isEmpty()) {
+            Vertex tmp = stack.pop();
+            for (Edge outgoingEdge: graph.getOutgoingEdgesOf(tmp)) {
+                var to = outgoingEdge.getTo();
+                if (!visited.contains(to)) {
+                    visited.add(to);
+                    parents.put(to, outgoingEdge);
+                    if (to.equals(dst))
+                        return parents;
+                    stack.push(to);
+                }
+            }
+        }
+        return parents;
     }
 }

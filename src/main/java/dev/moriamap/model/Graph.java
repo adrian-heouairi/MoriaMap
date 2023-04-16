@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.Deque;
 import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Objects;
 
 /**
  * A graph is a set of vertices and a set of edges between those vertices.
@@ -162,11 +163,9 @@ public abstract class Graph {
      * @throws IllegalArgumentException if parents, src or dst are null
      * @throws NoSuchElementException if dst is not a key of parents
      */
-    public static List<Edge> getRouteFromTraversal(
-      Map<Vertex, Edge> parents,
-      Vertex src,
-      Vertex dst
-    ) {
+    public static List<Edge> getRouteFromTraversal(Map<Vertex, Edge> parents,
+                                                   Vertex src,
+                                                   Vertex dst) {
         if (parents == null || src == null || dst == null)
             throw new IllegalArgumentException(NULL_ARGUMENT_ERROR_MSG);
         if (!parents.containsKey(dst))
@@ -208,14 +207,32 @@ public abstract class Graph {
      * its corresponding weight given by weights. The map returned corresponds
      * to the association of each visited Vertex to its incoming Edge during the
      * traversal.
+     * @param src the starting Vertex of the traversal
+     * @param dst the Vertex at which the traversal stops if stopAtDestination
+     *            is true
+     * @param weights an association of Edges to their weight
+     * @param stopAtDestination a flag that indicates whether to stop when
+     *                          destination Vertex is found
+     * @return a map that associates to each visited Vertex its incoming Edge
+     *         when explored
+     * @throws NullPointerException if src is null or if dst is null and
+     *                              stopAtDestination is true
      */
-    Map<Vertex, Edge> traversal(
-      Vertex src,
-      Vertex dst,
-      Map<Edge, Double> weights,
-      boolean stopAtDestination
-    ) {
+    public Map<Vertex, Edge> traversal(Vertex src,
+                                       Vertex dst,
+                                       Map<Edge, Double> weights,
+                                       boolean stopAtDestination) {
         return this.traversalStrategy
             .traversal(src, dst, weights, stopAtDestination, this);
+    }
+
+    /**
+     * Sets the value of this Graph traversal strategy to the given strategy.
+     * @param newStrategy the new traversal strategy of this Graph
+     * @throws NullPointerException if newStrategy is null
+     */
+    public void setTraversalStrategy(TraversalStrategy newStrategy) {
+        Objects.requireNonNull(newStrategy);
+        this.traversalStrategy = newStrategy;
     }
 }
