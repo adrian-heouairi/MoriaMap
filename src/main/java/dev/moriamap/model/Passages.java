@@ -1,7 +1,10 @@
 package dev.moriamap.model;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * A Passages object represents every passage/departure of every transport
@@ -92,5 +95,44 @@ public final class Passages {
         }
 
         return hash;
+    }
+    
+    private List<TransportSchedule> getTransportScheduleForTheGivenLineAndVariant(String lineName, String variantName) {
+        List<TransportSchedule>res = new ArrayList<>();
+        for (TransportSchedule ts:transportSchedules) {
+            if (ts.variant().getName().equals(variantName) && ts.variant().getLineName().equals(lineName)) {
+                res.add(ts);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * This method returns the time at which the next transport of
+     * (lineName, variantName) will come at the Stop this Passages is for. 
+     * It returns null if there is no time. If there are no transports left
+     * for the day, the time of the first transport of the next day is returned.
+     * @param waitStart time at which we start waiting at the stop
+     * @param variantName of the transport we are waiting for
+     * @param lineName of the transport we are waiting for
+     * @return time at which next transport will come.
+     * If  waitStart is equal to the next transport time, it returns waitStart
+     */
+    public LocalTime getNextTimeWithWrap(LocalTime waitStart, String variantName, String lineName) {
+        Duration min = Duration.ofHours(25);
+        LocalTime target = null;
+        List<TransportSchedule> tsByLineAndVariant = getTransportScheduleForTheGivenLineAndVariant(lineName,variantName);
+        for (TransportSchedule ts : tsByLineAndVariant) {
+            Duration d = Duration.between(waitStart,ts.time()); 
+            if (d.isZero()) return waitStart;
+            if (d.isNegative()) {
+                d = d.plus(Duration.ofDays(1));
+            }
+            if (d.compareTo(min) < 0) {
+                target = ts.time();
+                min = d;
+            }
+        }
+        return target;
     }
 }
