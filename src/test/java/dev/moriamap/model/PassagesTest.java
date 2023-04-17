@@ -89,6 +89,33 @@ class PassagesTest {
     @Test
     void timeWrapsToNextDay() {
         Passages p = Passages.of(newListTransportScheduleHelper());
-        assertEquals(LocalTime.MIN,p.getNextTimeWithWrap(LocalTime.of(14,40),"1", "8"));
+        assertEquals(LocalTime.MIN,p.getNextTimeWithWrap(
+                LocalTime.of(14,40),
+                "1",
+                "8"));
+    }
+    
+    @Test
+    void weHaveTheCorrectAmountOfTimeUntilNextTransportArrives() {
+        Passages p = Passages.of(newListTransportScheduleHelper());
+        assertEquals(Duration.ofMinutes(2),p.getWaitTimeWithWrap(
+                LocalTime.of(14,35),
+                "1", 
+                "8"));
+    }
+    
+    @Test
+    void waitTimeWithWrapReturnsNullIfThereIsNoTrain() {
+        Passages p = Passages.of(newListTransportScheduleHelper());
+        assertNull(p.getWaitTimeWithWrap(LocalTime.of(12,43),"14","23"));
+    }
+    
+    @Test
+    void waitTimeWithWrapReturnsCorretTimeWhileWrapingToNextDay() {
+        Passages p = Passages.of(newListTransportScheduleHelper());
+        assertEquals(
+                Duration.ofMinutes(1), p.getWaitTimeWithWrap(
+                        LocalTime.of(23,59), "1",
+                        "8"));
     }
 }
