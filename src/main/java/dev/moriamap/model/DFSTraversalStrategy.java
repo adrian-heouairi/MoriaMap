@@ -36,7 +36,7 @@ public class DFSTraversalStrategy implements TraversalStrategy {
         Objects.requireNonNull(graph);
         if (!graph.contains(src))
             throw new NoSuchElementException("Absent source Vertex");
-        if (src.equals(dst))
+        if (src.equals(dst) && stopAtDestination)
             return new HashMap<>();
         Deque<Vertex> stack = new ArrayDeque<>();
         Map<Vertex, Edge> parents = new HashMap<>();

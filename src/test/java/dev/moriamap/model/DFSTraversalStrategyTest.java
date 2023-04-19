@@ -2,8 +2,7 @@ package dev.moriamap.model;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.HashSet;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 class DFSTraversalStrategyTest {
     static class DummyVertex implements Vertex {}
@@ -168,5 +167,23 @@ class DFSTraversalStrategyTest {
         graph.addEdge(e24);
         graph.addEdge(e32);
         assertTrue(graph.traversal(v2, v2, null, true).isEmpty());
+    }
+
+    @Test void dfsWhenSrcEqualsDestAndFlagFalseReturnsCompleteTraversal() {
+        var graph = new DummyGraph();
+        var v1 = new DummyVertex();
+        var v2 = new DummyVertex();
+        var v3 = new DummyVertex();
+        var e12 = new DummyEdge(v1, v2);
+        var e23 = new DummyEdge(v2, v3);
+        graph.addEdge(e12);
+        graph.addEdge(e23);
+        Map<Vertex, Edge> parents = graph.traversal(v1, v1, null, false);
+        Map<Vertex, Edge> empty = new HashMap<>();
+        assertNotEquals(empty, parents);
+        List<Edge> route = Graph.getRouteFromTraversal(parents, v2, v3);
+        List<Edge> res = new ArrayList<>();
+        res.add(e23);
+        assertEquals(res, route);
     }
 }
