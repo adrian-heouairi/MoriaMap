@@ -19,19 +19,19 @@ class PLAN0QueryTest {
 	@Test void startingStopNullTest() {
 		assertThrows(
 				  IllegalArgumentException.class,
-				  () -> new PLAN0Query( null, "Hoche" )
+				  () -> new PLAN0Query( null, null, "Hoche" )
 					);
 	}
 
 	@Test void targetStopNullTest() {
 		assertThrows(
 				  IllegalArgumentException.class,
-				  () -> new PLAN0Query( "Lourmet", null )
+				  () -> new PLAN0Query( null, "Lourmet", null )
 					);
 	}
 
 	@Test void startingStopNotFoundTest() {
-		PLAN0Query query = new PLAN0Query( "Java", "Hoche" );
+		PLAN0Query query = new PLAN0Query( null, "Java", "Hoche" );
 		assertDoesNotThrow(
 				  () -> query.execute( tn )
 						  );
@@ -40,7 +40,7 @@ class PLAN0QueryTest {
 	}
 
 	@Test void targetStopNotFoundTest() {
-		PLAN0Query query = new PLAN0Query( "Lourmel", "Ocaml" );
+		PLAN0Query query = new PLAN0Query( null, "Lourmel", "Ocaml" );
 		assertDoesNotThrow(
 				  () -> query.execute( tn )
 						  );
@@ -49,23 +49,13 @@ class PLAN0QueryTest {
 	}
 
 	@Test void noProblemsFoundTest() {
-		PLAN0Query query = new PLAN0Query( "Lourmel", "Hoche" );
+		PLAN0Query query = new PLAN0Query( null, "Lourmel", "Hoche" );
 		assertDoesNotThrow(
 				  () -> query.execute( tn )
 						  );
 		assertDoesNotThrow( () -> {
 			query.run( tn );
 		});
-	}
-
-	@Test void startStopNameGetterTest() {
-		PLAN0Query query = new PLAN0Query( "Lourmel", "Hoche" );
-		assertEquals( "Lourmel", query.startStopName() );
-	}
-
-	@Test void targetStopNameGetterTest() {
-		PLAN0Query query = new PLAN0Query( "Lourmel", "Hoche" );
-		assertEquals( "Hoche", query.targetStopName() );
 	}
 
 }
