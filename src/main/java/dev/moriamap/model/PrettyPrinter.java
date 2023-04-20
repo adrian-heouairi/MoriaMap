@@ -1,5 +1,6 @@
 package dev.moriamap.model;
 
+import java.time.Duration;
 import java.util.List;
 
 
@@ -33,20 +34,27 @@ public class PrettyPrinter {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append( lineChangeToString(tn, currentLine, segment) )
 					 .append( segment.getFrom() );
+		Duration totalDuration = Duration.ZERO;
 		for( int i = 0; i < path.size(); i++ ) {
 			Edge edge = path.get( i );
 			segment = (TransportSegment) edge;
+			totalDuration = totalDuration.plus( segment.getTravelDuration() );
+			String time = segment.getTravelDuration().toString().substring( 2 );
 			if( !segment.getLineName().equals( currentLine ) ) {
 				stringBuilder.append( "\n" )
-							 .append( lineChangeToString( tn, segment.getLineName(), segment ) );
-				currentLine = segment.getLineName();
-			} else
-				stringBuilder.append( " --> " );
+							 .append( lineChangeToString( tn, segment.getLineName(), segment ) )
+							 .append( segment.getFrom() );
+			}
+			stringBuilder.append( " --(" ).append( time ).append( ")--> " );
+			currentLine = segment.getLineName();
 			if( i == path.size()-1 )
 				stringBuilder.append( "\033[42m" ).append( segment.getTo() ).append( "\033[0m" );
 			else
 				stringBuilder.append( segment.getTo() );
 		}
+		stringBuilder.append("\n\nTotal traject duration: \033[5m\033[1m")
+				  .append(totalDuration.toString().substring( 2 ))
+				  .append("\033[0m");
 		return stringBuilder.toString();
 	}
 
