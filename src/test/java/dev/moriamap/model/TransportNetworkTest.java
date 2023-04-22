@@ -61,9 +61,9 @@ class TransportNetworkTest {
         Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
 
         TransportSegment ts1 = TransportSegment.from(s1, s2, "7B", "1",
-                Duration.ZERO, 4);
+                Duration.ofMinutes( 3 ), 4);
         TransportSegment ts2 = TransportSegment.from(s2, s1, "7B", "2",
-                Duration.ZERO, 4);
+                Duration.ofMinutes( 4 ), 4);
 
         Variant v1 = Variant.empty("1", "7B");
         v1.addTransportSegment(ts1);
@@ -150,9 +150,9 @@ class TransportNetworkTest {
         Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
         TransportSegment ts1 = TransportSegment.from(s1, s2, "7B", "1",
-                Duration.ZERO, 4);
+                Duration.ofMinutes( 3 ), 4);
         TransportSegment ts2 = TransportSegment.from(s2, s1, "7B", "2",
-                Duration.ZERO, 4);
+                Duration.ofMinutes( 4 ), 4);
         Variant v1 = Variant.empty("1", "7B");
         v1.addTransportSegment(ts1);
         Variant v2 = Variant.empty("2", "7B");
@@ -265,13 +265,79 @@ class TransportNetworkTest {
         Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
         TransportSegment ts1 = TransportSegment.from(s1, s2, "7B", "1",
-                Duration.ZERO, 4);
+                Duration.ofMinutes( 3 ), 4);
         TransportSegment ts2 = TransportSegment.from(s2, s1, "7B", "2",
-                Duration.ZERO, 4);
+                Duration.ofMinutes( 4 ), 4);
 
         var res = new HashMap<Edge, Double>();
         res.put(ts1,ts1.getDistance());
         res.put(ts2,ts2.getDistance());
         assertEquals(res, tn.getDistanceWeights());
     }
+
+    @Test
+    void getRouteDescriptionTestThrowException() {
+        var tn = newTransportNetworkHelper();
+        Stop s1 = tn.getStopByName( "s1" );
+        Stop s2 = tn.getStopByName( "s2" );
+        TransportSegment ts1 = TransportSegment.from(s1, s2, "7B", "1",
+                                                     Duration.ofMinutes( 3 ), 4);
+        TransportSegment ts2 = TransportSegment.from(s2, s1, "7B", "2",
+                                                     Duration.ofMinutes( 4 ), 4);
+        List<Edge> route = new ArrayList<>();
+        route.add(ts1);
+        route.add(ts2);
+        assertThrows(
+                  IllegalStateException.class,
+                  () -> tn.getRouteDescription(route, LocalTime.MIN)
+                    );
+    }
+
+    @Test
+    void getRouteDescriptionTest() {
+        var tn = newTransportNetworkHelper();
+        tn.getVariants().get(0).addDeparture( LocalTime.MIN );
+        tn.getVariants().get(1).addDeparture( LocalTime.of( 0,7,0 ) );
+
+        Stop s1 = tn.getStopByName( "s1" );
+        Stop s2 = tn.getStopByName( "s2" );
+        TransportSegment ts1 = TransportSegment.from(s1, s2, "7B", "1",
+                                                     Duration.ofMinutes( 3 ), 4);
+        TransportSegment ts2 = TransportSegment.from(s2, s1, "7B", "2",
+                                                     Duration.ofMinutes( 4 ), 4);
+        List<Edge> route = new ArrayList<>();
+        route.add(ts1);
+        route.add(ts2);
+
+        assertNotEquals( "", tn.getRouteDescription(route, LocalTime.MIN) );
+    }
+
+    @Test
+    void addDepartureToVariantThrowExceptionWithNullArgTest() {
+        var tn = newTransportNetworkHelper();
+        assertThrows(
+                  IllegalArgumentException.class,
+                  () -> tn.addDepartureToVariant( null, "1", LocalTime.MIN )
+                    );
+        assertThrows(
+                  IllegalArgumentException.class,
+                  () -> tn.addDepartureToVariant( "14", null, LocalTime.MIN )
+                    );
+        assertThrows(
+                  IllegalArgumentException.class,
+                  () -> tn.addDepartureToVariant( "14", "1", null )
+                    );
+    }
+
+    @Test
+    void addDepartureToVariantReturnTrueTest() {
+        var tn = newTransportNetworkHelper();
+        assertTrue(tn.addDepartureToVariant( "7B", "1", LocalTime.now()));
+    }
+    @Test
+    void addDepartureToVariantReturnFalseTest() {
+        var tn = newTransportNetworkHelper();
+        assertFalse(tn.addDepartureToVariant( "14", "1", LocalTime.now()));
+    }
+
 }

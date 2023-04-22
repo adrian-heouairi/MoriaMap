@@ -190,4 +190,55 @@ public final class TransportNetwork extends Graph {
         }
         return res;
     }
+
+    /**
+     * Returns the description of the given route as a String containing
+     * the arrival times at each Stop
+     * @param route the route containing all the stops and travel durations of each edge
+     * @param startTime the time when the first route edge is taken
+     * @return a string with the whole route to take with times at each line change
+     * String format: see PrettyPrinter.printTransportSegmentPathWithLineChangeTimes()
+     */
+    public String getRouteDescription(List<Edge> route, LocalTime startTime) {
+        LocalTime cur = startTime;
+        List<LocalTime> lts = new ArrayList<>();
+        for(Edge e : route) {
+            if (e instanceof TransportSegment transportSegment) {
+                Passages p = this.getPassages((Stop) e.getFrom());
+                LocalTime next = p.getNextTimeWithWrap(cur,
+                        transportSegment.getVariantName(),
+                        transportSegment.getLineName());
+                if (next == null)
+                    throw new IllegalStateException(
+                          "There are no transports on the line "
+                          + transportSegment.getLineName()
+                          + " variant "
+                          + transportSegment.getVariantName());
+                lts.add(next);
+                cur = next.plus(transportSegment.getTravelDuration());
+            }
+        }
+        return PrettyPrinter.printTransportSegmentPathWithLineChangeTimes(this,route,lts);
+    }
+
+    /**
+     * Add a departure time for a variant
+     * @param lineName the variant's line name
+     * @param variantName the variant's name
+     * @param departureTime the departure time to add to the variant
+     * @return true if the departure was added, false if not or if the line was not found
+     * @throws IllegalArgumentException if lineName, variantName or variantName are null
+     */
+    public boolean addDepartureToVariant(String lineName, String variantName, LocalTime departureTime) {
+        if( lineName == null || variantName == null || departureTime == null )
+            throw new IllegalArgumentException( ERR_NULL_ARG_MESSAGE );
+        for( Line l : this.getLines() ) {
+            if( l.getName().equals( lineName ) ) {
+                return l.getVariantNamed( variantName ).addDeparture( departureTime );
+            }
+        }
+        return false;
+    }
+
+
 }
