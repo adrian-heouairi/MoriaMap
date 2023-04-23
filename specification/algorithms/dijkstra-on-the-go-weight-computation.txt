@@ -1,0 +1,45 @@
+Le calcul actuel des poids des arêtes dans le cas où l'on veut obtenir le trajet
+le plus court en temps est trop lourd: on calcule pour chaque arrêt du réseau
+les horaires de passages de trains.
+On peut remplacer la Map<Edge, Double> en argument par une fonction qui calcule
+le poids de l'arête, ce qui permettrait de ne pas faire le pré-calcul coûteux
+précédent.
+
+- Chemin le plus court en distance
+
+DistanceAsWeight, implémente Function<Edge, Double>:
+    Edge: l'arête considérée
+    Double: le poids de l'arête (la distance que parcourt l'arête)
+
+- Chemin le plus court en temps
+
+TravelTimeAsWeight, implémente BiFunction<Double, Edge, Double>:
+    Double: nombre de secondes pour arriver à Edge.from
+    Edge: l'arête considérée
+    Double: le poids de l'arête ( = temps d'attente ( = horaire de passage du
+    prochain transport vers la fin du variant en secondes - nombre de secondes
+    pour arriver à Edge.from) + temps de trajet de l'arête en secondes)
+
+[UPDATE]
+TravelTimeAsWeight encapsule un LocalTime correspondant à l'horaire de
+départ et un TransportNetwork afin de l'interroger sur les prochains passages de
+transport pour un Stop donné
+
+Par besoin d'uniformisation, DistanceAsWeight est aussi une BiFunction qui
+n'utilise pas son premier argument.
+
+Comme l'argument Edge est abstrait, il est possible de mettre une classe fille
+quelconque, même une ne donnant pas un temps de trajet ou un temps d'attente de
+départ de transport (penser futur WalkSegment), il faudra donc vérifier que le
+type d'Edge donné en argument.
+
+[INUTILE]
+Pour le calcul du poids, on suppose actuellement que toute l'information
+nécessaire réside dans les arguments. Cependant pour le temps, il faut prendre
+en compte le passage du prochain transport, qui s'obtient actuellement à partir
+du réseau. On passe en effet un graphe à `traversal()` mais seulement car il
+faut les arcs sortants, on ne peut pas tester si le graphe est un
+TransportNetwork pour le garder le plus abstrait possible => les Stops doivent
+encapsuler les horaires de passages des transports, afin de pouvoir y accéder
+depuis TransportSegment lors du calcul du poids.
+[INUTILE]

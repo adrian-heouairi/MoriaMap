@@ -30,7 +30,7 @@ public class DijkstraTraversalStrategy implements TraversalStrategy {
     public Map<Vertex, Edge> traversal(
       Vertex src,
       Vertex dst,
-      Map<Edge, Double> weights,
+      Map<Edge, Double> weights, /* Update with bifunction */
       boolean singleDestination,
       Graph graph
     ) {
@@ -39,11 +39,13 @@ public class DijkstraTraversalStrategy implements TraversalStrategy {
             Objects.requireNonNull(dst);
         Objects.requireNonNull(weights);
         Objects.requireNonNull(graph);
-        if (src.equals(dst) && singleDestination) return new HashMap<Vertex,Edge>();
+        if (src.equals(dst) && singleDestination)
+            return new HashMap<Vertex,Edge>();
 
         List<Vertex> p = new ArrayList<>();
         Map<Vertex,Double> d = new HashMap<>();
-        for(Vertex v : graph.getVertices()) d.put(v,Double.POSITIVE_INFINITY);
+        for(Vertex v : graph.getVertices())
+            d.put(v,Double.POSITIVE_INFINITY);
         d.put(src, 0.0);
 
         Map<Vertex,Edge> res = new HashMap<>();

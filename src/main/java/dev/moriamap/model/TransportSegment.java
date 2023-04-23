@@ -43,15 +43,6 @@ public class TransportSegment extends Edge{
     }
 
     /**
-     * Returns the weight of a TransportSegment. Useful to implement algorithms such as A*.
-     * @return the weight of this TransportSegment
-     */
-    @Override
-    public double getWeight(){
-        return travelDuration.getSeconds() + distance;
-    }
-
-    /**
      * {@return the line's name of this TransportSegment}
      */
     public String getLineName(){

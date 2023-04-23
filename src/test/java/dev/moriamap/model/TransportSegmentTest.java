@@ -101,13 +101,6 @@ class TransportSegmentTest {
         TransportSegment ts2 = TransportSegment.from(s3, s2, "14","Variant 1", Duration.ZERO, 0.0);
         assertNotEquals(ts1, ts2);
     }
-    
-    @Test void testGetWeight(){
-        Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
-        Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
-        TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 1.0);
-        assertEquals(1.0, ts.getWeight());
-    }
 
     @Test void testGetFrom(){
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);

@@ -26,7 +26,7 @@ public class DFSTraversalStrategy implements TraversalStrategy {
     public Map<Vertex, Edge> traversal(
       Vertex src,
       Vertex dst,
-      Map<Edge, Double> weights,
+      Map<Edge, Double> weights, /* Update with bifunction, not used here */
       boolean stopAtDestination,
       Graph graph
     ) {

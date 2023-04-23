@@ -9,7 +9,6 @@ class DFSTraversalStrategyTest {
     static class DummyGraph extends Graph {}
     static class DummyEdge extends Edge {
         public DummyEdge(DummyVertex from, DummyVertex to) {super(from, to);}
-        @Override public double getWeight() {return 0.0;}
     }
 
     @Test void traversalWithNullSrcThrowsException() {

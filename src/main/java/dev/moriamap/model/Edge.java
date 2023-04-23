@@ -1,8 +1,8 @@
 package dev.moriamap.model;
 
 /**
- * A directed and weighted edge of graph. An Edge going from a Vertex to the same
- * Vertex (according to the equals method) is not allowed.
+ * A directed and weighted edge of graph. An Edge going from a Vertex to the
+ * same Vertex (according to the equals method) is not allowed.
  */
 public abstract class Edge {
     // The origin of this Edge
@@ -38,11 +38,4 @@ public abstract class Edge {
     public Vertex getTo() {
         return this.to;
     }
-
-    /**
-     * Returns the weight of an Edge. Useful to implement algorithms such as A*.
-     * To be implemented by subclasses.
-     * @return the weight of this Edge
-     */
-    public abstract double getWeight();
 }
