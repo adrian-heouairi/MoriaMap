@@ -64,9 +64,6 @@ public class PrettyPrinter {
 			else
 				stringBuilder.append( segment.getTo() );
 		}
-		stringBuilder.append("\n\nTotal traject duration: \033[5m\033[1m")
-				.append(totalDuration.toString().substring( 2 ))
-				.append( FORMAT_RESET );
 		return stringBuilder.toString();
 	}
 
