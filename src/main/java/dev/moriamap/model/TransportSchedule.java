@@ -3,8 +3,8 @@ package dev.moriamap.model;
 import java.time.LocalTime;
 
 /**
- * Record keeping time when a train from a variant
- * get to a stop, for a specific terminus
+ * Represents the time of departure of a transport going from a given Stop
+ * towards the end Stop of a Variant.
  */
 public record TransportSchedule(
 		  LocalTime time,
