@@ -81,6 +81,28 @@ public final class TransportNetwork extends Graph {
     }
 
     /**
+    * Finds the stop in the transport network stop list that has the closest name to the given stop name,
+    * as measured by the Levenshtein distance.
+    * @param name the name of the stop to find the closest match for
+    * @return the stop in the list with the closest name to the given stop name, or null if no match was found
+    */
+    public Stop getStopByInexactName(String name){
+        var stops = this.getStops();
+        var min = StopNameFinder.levenshteinDistance(name, stops.get(0).getName());
+        var res = stops.get(0);
+        for(int i=1;i<stops.size();i++){
+            var distance = StopNameFinder.levenshteinDistance(name, stops.get(i).getName());
+            if(distance< min){
+                min = distance;
+                res = stops.get(i);
+            }
+        }
+        // If the closest match is more than three edit operations away, return null
+        if(min >= 3) return null;
+        return res;
+    }
+
+    /**
      * {@return the lines (e.g. bus, tram) of this network}
      */
     public List<Line> getLines() {

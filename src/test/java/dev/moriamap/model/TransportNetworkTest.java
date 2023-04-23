@@ -104,6 +104,32 @@ class TransportNetworkTest {
     }
 
     @Test
+    void getStopByAnInexactName() {
+        TransportNetwork tn = TransportNetwork.empty();
+        Stop s1 = Stop.from("Lourmel",GeographicPosition.SOUTH_POLE);
+        Stop s2 = Stop.from("Châtelet",GeographicPosition.SOUTH_POLE);
+        Stop s3 = Stop.from("Hoche",GeographicPosition.SOUTH_POLE);
+        Stop s4 = Stop.from("Pyramide",GeographicPosition.SOUTH_POLE);
+        tn.addStop(s1);
+        tn.addStop(s2);
+        tn.addStop(s3);
+        tn.addStop(s4);
+        Stop s5 = tn.getStopByInexactName("Hochet");
+        assertEquals(s3,s5);
+
+    }
+
+    @Test
+    void getStopByATooFarInexactNameReturnsNull() {
+        TransportNetwork tn = TransportNetwork.empty();
+        Stop s1 = Stop.from("Châtelet",GeographicPosition.SOUTH_POLE);
+        tn.addStop(s1);
+        Stop s5 = tn.getStopByInexactName("Chatelet-les-halles");
+        assertNull(s5);
+
+    }
+
+    @Test
     void getStopFromPositionFails() {
         TransportNetwork tn = newTransportNetworkHelper();
         Stop s = tn.getStopFromPosition(GeographicPosition.NULL_ISLAND);
