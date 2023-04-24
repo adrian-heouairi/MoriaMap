@@ -3,9 +3,7 @@ package dev.moriamap.model;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents an arbitrary transport network. A TransportNetwork contains
@@ -198,20 +196,6 @@ public final class TransportNetwork extends Graph {
         this.addEdge(transportSegment);
     }
 
-    /**
-     * Loop through every edges of the TransportNetwork and associate
-     * each edge to its distance inside a Map.
-     * @return the map which associates every edge to its distance
-     */
-    public Map<Edge, Double> getDistanceWeights(){
-        var res = new HashMap<Edge, Double>();
-        for(Edge e : this.getEdges()){
-            if (e.getClass() == TransportSegment.class){
-                res.put(e,((TransportSegment)e).getDistance());
-            }
-        }
-        return res;
-    }
 
     /**
      * Returns the description of the given route as a String containing

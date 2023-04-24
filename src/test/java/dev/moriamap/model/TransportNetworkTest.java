@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -283,22 +282,6 @@ class TransportNetworkTest {
 
         assertEquals(res, tn.getPassages(s1).getTransportSchedules());
         
-    }
-
-    @Test
-    void getDistanceWeights(){
-        var tn = newTransportNetworkHelper();
-        Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);
-        Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
-        TransportSegment ts1 = TransportSegment.from(s1, s2, "7B", "1",
-                Duration.ofMinutes( 3 ), 4);
-        TransportSegment ts2 = TransportSegment.from(s2, s1, "7B", "2",
-                Duration.ofMinutes( 4 ), 4);
-
-        var res = new HashMap<Edge, Double>();
-        res.put(ts1,ts1.getDistance());
-        res.put(ts2,ts2.getDistance());
-        assertEquals(res, tn.getDistanceWeights());
     }
 
     @Test
