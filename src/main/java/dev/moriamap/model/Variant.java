@@ -73,8 +73,7 @@ public final class Variant {
             Stop from = (Stop)ts.getFrom();
             Stop to = (Stop)ts.getTo();
             prevTo.add(to);
-            if(stops.contains(to))
-                stops.remove(to);
+            stops.remove(to);
             if(!prevTo.contains(from))
                 stops.add(from);
         }
@@ -95,8 +94,7 @@ public final class Variant {
             Stop from = (Stop)ts.getFrom();
             Stop to = (Stop)ts.getTo();
             prevFrom.add(from);
-            if(stops.contains(from))
-                stops.remove(from);
+            stops.remove(from);
             if(!prevFrom.contains(to))
                 stops.add(to);
         }
@@ -149,10 +147,12 @@ public final class Variant {
     }
 
     /**
-     * {@return a copy of this Variant's transport departures list}
+     * {@return an ascending sorted copy of this Variant's transport departures list}
      */
     public List<LocalTime> getDepartures(){
-        return new ArrayList<>(this.departures);
+        ArrayList<LocalTime> res = new ArrayList<>(this.departures);
+        res.sort( LocalTime::compareTo );
+        return res;
     }
 
     /**
@@ -287,7 +287,7 @@ public final class Variant {
         if (to == null)
             throw new IllegalArgumentException(NULL_ARG_ERR_MSG);
         Duration res = Duration.ZERO;
-        TransportSegment ts = null;
+        TransportSegment ts;
         Stop cur = getStart();
         while (!cur.equals(to)) {
             ts = getOutgoingSegment(cur);

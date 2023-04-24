@@ -38,6 +38,11 @@ class VariantTest {
         assertEquals(v,v1);
     }
 
+    @Test void variantNotEqualToNull() {
+        Variant v = Variant.empty("1","14");
+        assertNotEquals(null, v);
+    }
+
     @Test void variantsHavingSameIdAndSameLineNameAndSameTransportSegmentsAreEqual() {
         Variant v = Variant.empty("Variant 1","14");
         Variant v1 = Variant.empty("Variant 1","14");
@@ -190,7 +195,7 @@ class VariantTest {
         Stop s1 = Stop.from("s1",GeographicPosition.SOUTH_POLE);
         Stop s2 = Stop.from("s2",GeographicPosition.NORTH_POLE);
         TransportSegment ts = TransportSegment.from(s1, s2, "14","Variant 1", Duration.ZERO, 0.0);
-        List<TransportSegment> res = new ArrayList<TransportSegment>();
+        List<TransportSegment> res = new ArrayList<>();
         v.addTransportSegment(ts);
         res.add(ts);
         assertEquals(res, v.getTransportSegments());
@@ -204,10 +209,26 @@ class VariantTest {
     @Test void getDepartures(){
         Variant v = Variant.empty("1", "14");
         LocalTime t = LocalTime.of(0, 0);
-        List<LocalTime> res = new ArrayList<LocalTime>();
+        List<LocalTime> res = new ArrayList<>();
         res.add(t);
         v.addDeparture(t);
         assertEquals(res, v.getDepartures());
+    }
+
+    @Test void getDeparturesIsSorted(){
+        Variant v = Variant.empty("1", "14");
+        LocalTime t2 = LocalTime.of(13, 26);
+        v.addDeparture(t2);
+
+        LocalTime t0 = LocalTime.of( 3,42 );
+        v.addDeparture(t0);
+
+        LocalTime t1 = LocalTime.of( 8, 52);
+        v.addDeparture(t1);
+        List<LocalTime> sortedDepartures = v.getDepartures();
+        assertEquals(t0, sortedDepartures.get(0));
+        assertEquals(t1, sortedDepartures.get(1));
+        assertEquals(t2, sortedDepartures.get(2));
     }
 
     @Test void hashCodeOfSemanticallyEqualVariantsAreEqual(){
@@ -268,7 +289,24 @@ class VariantTest {
         assertFalse(sut.hasStop(stop));
     }
 
-    @Test void hasStopReturnsTrueWhenStopIsPresent() {
+    @Test void hasStopReturnsFalseWhenStopIsAbsentWithOtherSegments() {
+        Variant sut = Variant.empty("A4", "Papier 80g");
+        Stop s1 = Stop.from("Clairefontaine", GeographicPosition.NULL_ISLAND);
+        Stop s2 = Stop.from("Otail", GeographicPosition.NORTH_POLE);
+        Stop s3 = Stop.from("Fromage", GeographicPosition.SOUTH_POLE);
+        TransportSegment ts = TransportSegment.from(
+              s1,
+              s2,
+              "Papier 80g",
+              "A4",
+              Duration.ZERO,
+              45.0 // FTL
+        );
+        sut.addTransportSegment(ts);
+        assertFalse(sut.hasStop(s3));
+    }
+
+    @Test void hasStopReturnsTrueWhenStopIsPresentInGetTo() {
         Variant sut = Variant.empty("A4", "Papier 80g");
         Stop s1 = Stop.from("Clairefontaine", GeographicPosition.NULL_ISLAND);
         Stop s2 = Stop.from("Otail", GeographicPosition.NORTH_POLE);
@@ -280,6 +318,22 @@ class VariantTest {
           Duration.ZERO,
           45.0 // FTL
         );
+        sut.addTransportSegment(ts);
+        assertTrue(sut.hasStop(s2));
+    }
+
+    @Test void hasStopReturnsTrueWhenStopIsPresentInGetFrom() {
+        Variant sut = Variant.empty("A4", "Papier 80g");
+        Stop s1 = Stop.from("Clairefontaine", GeographicPosition.NULL_ISLAND);
+        Stop s2 = Stop.from("Otail", GeographicPosition.NORTH_POLE);
+        TransportSegment ts = TransportSegment.from(
+                  s2,
+                  s1,
+                  "Papier 80g",
+                  "A4",
+                  Duration.ZERO,
+                  45.0 // FTL
+                                                   );
         sut.addTransportSegment(ts);
         assertTrue(sut.hasStop(s2));
     }
