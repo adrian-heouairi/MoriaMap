@@ -1,6 +1,5 @@
 package dev.moriamap.model;
 
-import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -47,11 +46,9 @@ public class PrettyPrinter {
 		String currentLine = segment.getLineName();
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append( lineChangeToString(tn, currentLine, segment) );
-		Duration totalDuration = Duration.ZERO;
 		for( int i = 0; i < path.size(); i++ ) {
 			Edge edge = path.get( i );
 			segment = (TransportSegment) edge;
-			totalDuration = totalDuration.plus( segment.getTravelDuration() );
 			String time = segment.getTravelDuration().toString().substring( 2 );
 			if( !segment.getLineName().equals( currentLine ) ) {
 				stringBuilder.append( "\n" )
