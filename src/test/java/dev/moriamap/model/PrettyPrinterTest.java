@@ -75,7 +75,9 @@ class PrettyPrinterTest {
 	void nonEmptyListGiveNonEmptyStringTest() {
 		Stop start = tn.getStopByName( "s1" );
 		Stop target = tn.getStopByName( "s3" );
-		Map<Vertex, Edge> dfs = tn.depthFirstSearch( start );
+        var dfsTrav = new DFSTraversalStrategy();
+		Map<Vertex, Edge> dfs = dfsTrav
+            .traversal(start, target, null, false, tn);
 		List<Edge> path = Graph.getRouteFromTraversal( dfs, start, target );
 		assertNotEquals("", PrettyPrinter.printTransportSegmentPath(tn, path ));
 	}

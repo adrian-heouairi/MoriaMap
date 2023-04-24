@@ -110,65 +110,6 @@ class GraphTest {
         assertTrue(sut.contains(v2));
     }
 
-    @Test void dfsFromNullVertexThrowsException() {
-        Graph sut = new DummyGraph();
-        assertThrows(
-          IllegalArgumentException.class,
-          () -> sut.depthFirstSearch(null)
-        );
-    }
-
-    @Test void dfsFromAbsentVertexThrowsException() {
-        Graph sut = new DummyGraph();
-        Vertex src = new DummyVertex();
-        assertThrows(
-          NoSuchElementException.class,
-          () -> sut.depthFirstSearch(src)
-        );
-    }
-
-    @Test void dsfInGraphWithOnlySourceReturnsEmtpyMap() {
-        Graph sut = new DummyGraph();
-        Vertex src = new DummyVertex();
-        sut.addVertex(src);
-        assertTrue(sut.depthFirstSearch(src).isEmpty());
-    }
-
-    @Test void dfsInGraphWithOneEdgeReturnsMapWithOneEntry() {
-        Graph sut = new DummyGraph();
-        Vertex src = new DummyVertex();
-        Vertex dst = new DummyVertex();
-        Edge edge = new DummyEdge(src, dst);
-        sut.addEdge(edge);
-        assertEquals(edge, sut.depthFirstSearch(src).get(dst));
-    }
-
-    @Test void dsfInGraphVisitsAllVertices() {
-        Graph sut = new DummyGraph();
-        Vertex v1 = new DummyVertex();
-        Vertex v2 = new DummyVertex();
-        Vertex v3 = new DummyVertex();
-        Vertex v4 = new DummyVertex();
-        Vertex v5 = new DummyVertex();
-        Vertex v6 = new DummyVertex();
-        sut.addEdge(new DummyEdge(v1, v2));
-        sut.addEdge(new DummyEdge(v1, v3));
-        sut.addEdge(new DummyEdge(v2, v5));
-        sut.addEdge(new DummyEdge(v3, v4));
-        sut.addEdge(new DummyEdge(v4, v1));
-        sut.addEdge(new DummyEdge(v5, v3));
-        sut.addEdge(new DummyEdge(v5, v4));
-        sut.addEdge(new DummyEdge(v5, v6));
-        sut.addEdge(new DummyEdge(v6, v2));
-        Map<Vertex, Edge> parents = sut.depthFirstSearch(v1);
-        assertTrue(parents.containsKey(v2));
-        assertTrue(parents.containsKey(v3));
-        assertTrue(parents.containsKey(v4));
-        assertTrue(parents.containsKey(v5));
-        assertTrue(parents.containsKey(v6));
-        assertFalse(parents.containsKey(v1));
-    }
-
     @Test void routeFromTraversalWithNullParentsThrowsException() {
         Vertex u = new DummyVertex();
         Vertex v = new DummyVertex();
@@ -230,33 +171,5 @@ class GraphTest {
         route.add(e1);
         route.add(e2);
         assertEquals(route, Graph.getRouteFromTraversal(parents, v1, v3));
-    }
-
-    @Test void dfsOnGraphWithPossibleRouteReturnsOneOfThem() {
-        Graph sut = new DummyGraph();
-        Vertex v1 = new DummyVertex();
-        Vertex v2 = new DummyVertex();
-        Vertex v3 = new DummyVertex();
-        Vertex v4 = new DummyVertex();
-        Vertex v5 = new DummyVertex();
-        Vertex v6 = new DummyVertex();
-        Edge e1 = new DummyEdge(v1, v2);
-        Edge e2 = new DummyEdge(v2, v5);
-        Edge e3 = new DummyEdge(v5, v6);
-        sut.addEdge(e1);
-        sut.addEdge(new DummyEdge(v1, v3));
-        sut.addEdge(e2);
-        sut.addEdge(new DummyEdge(v3, v4));
-        sut.addEdge(new DummyEdge(v4, v1));
-        sut.addEdge(new DummyEdge(v5, v3));
-        sut.addEdge(new DummyEdge(v5, v4));
-        sut.addEdge(e3);
-        sut.addEdge(new DummyEdge(v6, v2));
-        Map<Vertex, Edge> parents = sut.depthFirstSearch(v1);
-        List<Edge> route = new ArrayList<>();
-        route.add(e1);
-        route.add(e2);
-        route.add(e3);
-        assertEquals(route, Graph.getRouteFromTraversal(parents, v1, v6));
     }
 }

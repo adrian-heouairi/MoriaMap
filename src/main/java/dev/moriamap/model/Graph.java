@@ -120,42 +120,6 @@ public abstract class Graph {
     }
 
     /**
-     * Performs a depth-first search from the specified vertex and computes a
-     * map that associates each visited Vertex to the Edge that led to it during
-     * the traversal.
-     * @param src the starting vertex for the search
-     * @return a map that associates each visited Vertex to the Edge that led to
-     *         it during the traversal
-     * @throws IllegalArgumentException if src is null
-     * @throws NoSuchElementException if src is not in this Graph
-     */
-    public Map<Vertex, Edge> depthFirstSearch(Vertex src) {
-        if (src == null)
-            throw new IllegalArgumentException(NULL_ARGUMENT_ERROR_MSG);
-        if (!this.contains(src))
-            throw new NoSuchElementException(ABSENT_VERTEX_ERROR_MSG);
-        Deque<Vertex> stack = new ArrayDeque<>();
-        Map<Vertex, Edge> parents = new HashMap<>();
-        List<Vertex> visited = new ArrayList<>();
-        Vertex tmp = null;
-        Vertex to = null;
-        stack.push(src);
-        visited.add(src);
-        while (!stack.isEmpty()) {
-            tmp = stack.pop();
-            for (Edge outgoingEdge: this.getOutgoingEdgesOf(tmp)) {
-                to = outgoingEdge.getTo();
-                if (!visited.contains(to)) {
-                    visited.add(to);
-                    parents.put(to, outgoingEdge);
-                    stack.push(to);
-                }
-            }
-        }
-        return parents;
-    }
-
-    /**
      * {@return a list of Edge that forms a route from src to dst}
      * @param parents a map that associates each visited Vertex to the Edge that
      *                led to it during a Graph traversal
