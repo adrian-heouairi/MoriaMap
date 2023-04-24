@@ -1,6 +1,7 @@
 package dev.moriamap.model;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 /**
  * Represents the Depth-First Search graph traversal strategy.
@@ -16,7 +17,7 @@ public class DFSTraversalStrategy implements TraversalStrategy {
      * @param src the starting Vertex of the traversal
      * @param dst the Vertex at which the traversal stops if stopAtDestination
      *            is true
-     * @param weights not used by this TraversalStrategy
+     * @param weightFunction not used by this TraversalStrategy
      * @param stopAtDestination a flag that indicates whether to stop when
      *                          destination Vertex is found
      * @param graph the graph to explore
@@ -26,7 +27,7 @@ public class DFSTraversalStrategy implements TraversalStrategy {
     public Map<Vertex, Edge> traversal(
       Vertex src,
       Vertex dst,
-      Map<Edge, Double> weights, /* Update with bifunction, not used here */
+      BiFunction<Double, Edge, Double> weightFunction,
       boolean stopAtDestination,
       Graph graph
     ) {

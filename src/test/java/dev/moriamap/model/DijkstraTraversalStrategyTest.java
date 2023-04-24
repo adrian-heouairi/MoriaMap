@@ -1,13 +1,13 @@
 package dev.moriamap.model;
 
-import org.junit.jupiter.api.Test;
-
 import dev.moriamap.model.GraphTest.DummyEdge;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class DijkstraTraversalStrategyTest {
     static class DummyVertex implements Vertex {}
@@ -34,9 +34,8 @@ class DijkstraTraversalStrategyTest {
         var sut = new DijkstraTraversalStrategy();
         var src = new DummyVertex();
         var graph = new DummyGraph();
-        var weights = new HashMap<Edge, Double>();
         try {
-            sut.traversal(src, null, weights, false, graph);
+            sut.traversal(src, null, (Double d, Edge e) -> 0.0, false, graph);
         } catch (NullPointerException npe) {
             fail("Thrown NullPointerException");
         } catch (Throwable t) {}
@@ -82,21 +81,24 @@ class DijkstraTraversalStrategyTest {
       graph.addEdge(e3);
       graph.addEdge(e4);
 
-      Map<Edge,Double> map = new HashMap<>();
-      map.put(e1,1.0);
-      map.put(e2,1.0);
-      map.put(e3,1.0);
-      map.put(e4,11.0);
+        BiFunction<Double, Edge, Double> weightFunction = new BiFunction<>() {
+            @Override
+            public Double apply(Double d, Edge edge) {
+                if (edge.equals(e1)) return 1.0;
+                if (edge.equals(e2)) return 1.0;
+                if (edge.equals(e3)) return 1.0;
+                if (edge.equals(e4)) return 11.0;
+                return Double.POSITIVE_INFINITY;
+            }
+        };
 
-      DijkstraTraversalStrategy dijsktra = new DijkstraTraversalStrategy();
-      Map<Vertex,Edge> result = dijsktra.traversal(v1, v4, map, true, graph);
+      DijkstraTraversalStrategy dijkstra = new DijkstraTraversalStrategy();
+      Map<Vertex,Edge> result = dijkstra.traversal(v1, v4, weightFunction, false, graph);
       Map<Vertex,Edge> compare = new HashMap<>();
       compare.put(v2,e1);
       compare.put(v3,e2);
       compare.put(v4,e3);
 
       assertEquals(compare,result);
-      
-      
     }
 }

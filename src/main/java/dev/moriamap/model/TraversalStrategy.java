@@ -1,6 +1,7 @@
 package dev.moriamap.model;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 /**
  * Represents a graph traversal strategy.
@@ -9,15 +10,18 @@ public interface TraversalStrategy {
 
     /**
      * Explores the vertices of the given Graph, starting at src and stopping at
-     * dst if stopAtDestination is true. If weights is not empty and if the
-     * strategy involves weighted edges, each edge is considered according to
-     * its corresponding weight given by weights. The map returned corresponds
+     * dst if stopAtDestination is true. If the strategy involves weighted edges,
+     * the weight of each edge is calculated as the algorithm needs it with
+     * weightFunction. The weight function takes a Double which can be used
+     * by traversal strategies to represent whatever they need, and the Edge
+     * whose weight we need to calculate.
+     * The map returned corresponds
      * to the association of each visited Vertex to its incoming Edge during the
      * traversal.
      * @param src the starting Vertex of the traversal
      * @param dst the Vertex at which the traversal stops if stopAtDestination
      *            is true
-     * @param weights an association of Edges to their weight
+     * @param weightFunction the weight calculation function
      * @param stopAtDestination a flag that indicates whether to stop when
      *                          destination Vertex is found
      * @param graph the graph to explore
@@ -26,7 +30,7 @@ public interface TraversalStrategy {
      */
     Map<Vertex, Edge> traversal(Vertex src,
                                 Vertex dst,
-                                Map<Edge, Double> weights,
+                                BiFunction<Double, Edge, Double> weightFunction,
                                 boolean stopAtDestination,
                                 Graph graph);
 }
