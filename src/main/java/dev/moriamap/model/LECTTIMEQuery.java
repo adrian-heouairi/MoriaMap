@@ -27,7 +27,7 @@ public class LECTTIMEQuery extends Query {
     
     @Override
     protected String run(TransportNetwork network) throws QueryFailureException {
-        Stop stop = network.getStopByName(stopName);
+        Stop stop = network.getStopByInexactName(stopName);
         if( stop == null ) {
             throw new QueryFailureException("Stop was not found");
         }
