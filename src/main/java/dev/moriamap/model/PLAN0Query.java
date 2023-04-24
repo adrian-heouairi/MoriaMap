@@ -40,7 +40,9 @@ public class PLAN0Query extends Query {
 		Stop target = network.getStopByInexactName( targetStopName );
 		if(start == null || target == null)
 			throw new QueryFailureException("One of the stops was not found");
-		Map<Vertex, Edge> dfs = network.depthFirstSearch( start );
+        var traversalStrategy = new DFSTraversalStrategy();
+		Map<Vertex, Edge> dfs = traversalStrategy
+            .traversal(start, target, null, true, network);
 		List<Edge> path = Graph.getRouteFromTraversal( dfs, start, target );
 		return PrettyPrinter.printTransportSegmentPath(network, path );
 	}
