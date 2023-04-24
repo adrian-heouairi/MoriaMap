@@ -2,6 +2,7 @@ package dev.moriamap.model;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 /**
@@ -33,6 +34,8 @@ public class TravelTimeAsWeight implements BiFunction<Double, Edge, Double> {
 
 	@Override
 	public Double apply( Double current, Edge edge ) {
+		Objects.requireNonNull( current );
+		Objects.requireNonNull( edge );
 		if( edge instanceof TransportSegment segment) {
 			LocalTime time = startTime.plusSeconds( current.longValue() );
 			Duration nextFromSchdl = tn.getPassages( (Stop) segment.getFrom() ).getWaitTimeWithWrap

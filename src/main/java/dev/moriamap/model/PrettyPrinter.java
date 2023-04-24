@@ -64,6 +64,12 @@ public class PrettyPrinter {
 		return stringBuilder.toString();
 	}
 
+	private static Duration getEdgeDuration(Edge edge) {
+		if(edge instanceof TransportSegment segment)
+			return segment.getTravelDuration();
+		throw new UnsupportedOperationException("Segment type not yet supported");
+	}
+
 	/**
 	 * This method build a string that contain all the information to travel
 	 * on the transport network, and with times at every line change
@@ -84,32 +90,37 @@ public class PrettyPrinter {
 		if(route.isEmpty()) return "";
 		if(route.size() != lts.size())
 			throw new IllegalArgumentException("route and lts have different sizes");
-		StringBuilder stringBuilder = new StringBuilder();
+		StringBuilder builder = new StringBuilder();
 		String currentLine = null;
 		if(route.get( 0 ) instanceof TransportSegment firstSegment) {
 			currentLine = firstSegment.getLineName();
-			stringBuilder.append( "Taking line at " )
+			builder.append( "Taking line at " )
 					  .append( lts.get( 0 ))
 					  .append( lineChangeToString( tn, currentLine, firstSegment ) );
 		}
+		LocalTime arrivalTime = null;
 		for( int i = 0; i < route.size(); i++ ) {
 			Edge edge = route.get( i );
 			if(edge instanceof TransportSegment segment) {
 				if( !segment.getLineName().equals( currentLine ) ) {
-					stringBuilder
-							  .append( "\nSwitching line at " )
-							  .append( lts.get( i ).plus( segment.getTravelDuration() ))
+					builder
+							  .append("\nArrives at: ").append(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)) ))
+							  .append( ", leaving at: " ).append(lts.get(i))
 							  .append( lineChangeToString( tn, segment.getLineName(), segment ) );
 				}
-				stringBuilder.append( " --> " );
+				builder.append( " --> " );
 				currentLine = segment.getLineName();
 				if( i == route.size() - 1 )
-					stringBuilder.append( "\033[42m" ).append( segment.getTo() ).append( FORMAT_RESET );
+					builder.append( "\033[42m" ).append( segment.getTo() ).append( FORMAT_RESET );
 				else
-					stringBuilder.append( segment.getTo() );
+					builder.append( segment.getTo() );
+				if(i == route.size() - 1)
+					arrivalTime = lts.get( i ).plus( segment.getTravelDuration());
 			}
 		}
-		return stringBuilder.toString();
+		builder.append("\n\nArrival time : ")
+				  .append(arrivalTime);
+		return builder.toString();
 	}
 
 
