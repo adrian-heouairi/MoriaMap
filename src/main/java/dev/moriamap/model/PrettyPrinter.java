@@ -1,5 +1,6 @@
 package dev.moriamap.model;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class PrettyPrinter {
 		return stringBuilder.toString();
 	}
 
-	private static Duration getEdgeDuration(Edge edge) {
+	private static Duration getEdgeDuration( Edge edge ) {
 		if(edge instanceof TransportSegment segment)
 			return segment.getTravelDuration();
 		throw new UnsupportedOperationException("Segment type not yet supported");
