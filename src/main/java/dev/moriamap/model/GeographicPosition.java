@@ -78,7 +78,8 @@ public final class GeographicPosition {
 
     /**
      * Converts the specified GeographicPositions to cartesian representation
-     * and computes the euclidean distance between the obtained vectors.
+     * and computes the euclidean distance in meters between the obtained
+     * vectors.
      * @param  p1 a GeographicPosition
      * @param  p2 a GeographicPosition
      * @param  radius the radius of the sphere on which p1 and p2 are
@@ -100,8 +101,9 @@ public final class GeographicPosition {
     }
 
     /**
-     * Returns the euclidean distance between the specified GeographicPosition
-     * on Earth. Equivalent to `euclideanDistance(p1, p2, EARTH_RADIUS)`.
+     * Returns the euclidean distance in meters between the specified
+     * GeographicPosition on Earth. Equivalent to
+     * `euclideanDistance(p1, p2, EARTH_RADIUS)`.
      * @param  p1 a GeographicPosition
      * @param  p2 a GeographicPosition
      * @return the euclidean distance between p1 and p2 with Earth's radius
@@ -114,8 +116,8 @@ public final class GeographicPosition {
     }
 
     /**
-     * Computes the euclidean distance on Earth from this GeographicPosition
-     * to the specified GeographicPosition.
+     * Computes the euclidean distance in meters on Earth from this
+     * GeographicPosition to the specified GeographicPosition.
      * @param  other a GeographicPosition
      * @return `euclideanDistanceOnEarth(this, other)`
      */
