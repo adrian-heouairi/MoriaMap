@@ -25,6 +25,7 @@ public class DijkstraTraversalStrategy implements TraversalStrategy {
      * @return the shortest path tree from src to dst if singleDestination is
      *         true, the shortest path tree from src to all other vertices
      *         otherwise
+     * @throws NullPointerException if one of the arguments is null
      */
     @Override
     public Map<Vertex, Edge> traversal(

@@ -23,6 +23,7 @@ public class DFSTraversalStrategy implements TraversalStrategy {
      * @param graph the graph to explore
      * @return a map that associates to each visited Vertex its incoming Edge
      *         when explored
+     * @throws NullPointerException if one of the arguments except weightFunction is null.
      */
     public Map<Vertex, Edge> traversal(
       Vertex src,
