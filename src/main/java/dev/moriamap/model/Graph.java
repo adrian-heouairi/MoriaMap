@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Deque;
-import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.function.BiFunction;
