@@ -29,7 +29,12 @@ public class DistanceAsWeight implements BiFunction<Double, Edge, Double> {
 
 
     /**
-     * {@return the length in kilometers of edge if it is a TransportSegment}
+     * Returns the weight of the given Edge, considering its distance from one
+     * end to the other. In the case of a TransportSegment, returns the distance
+     * between the Stops it links. In the case of a WalkSegment, returns the
+     * Euclidean distance between the geographic points it links, multiplied
+     * by a drudgery factor, to take into account that the action of walking
+     * implies more effort than travelling using a transport medium.
      * @param current ignored
      * @param edge the Edge whose length we want
      */
@@ -37,12 +42,20 @@ public class DistanceAsWeight implements BiFunction<Double, Edge, Double> {
         Objects.requireNonNull(current);
         Objects.requireNonNull(edge);
         if (edge instanceof TransportSegment ts) {
-            Duration nextFromSchdl = tn.getPassages( (Stop) ts.getFrom() ).getWaitTimeWithWrap
-                      ( LocalTime.MIN, ts.getVariantName(), ts.getLineName());
-            if(nextFromSchdl == null)
+            Duration nextFromSchedule = tn
+                    .getPassages( (Stop) ts.getFrom() )
+                    .getWaitTimeWithWrap(
+                            LocalTime.MIN,
+                            ts.getVariantName(),
+                            ts.getLineName()
+                    );
+            if(nextFromSchedule == null)
                 return Double.POSITIVE_INFINITY;
             return ts.getDistance();
+        } else if (edge instanceof WalkSegment ws) {
+            return ws.distance * WalkSegment.WALK_DRUDGERY;
+        } else {
+            throw new UnsupportedOperationException("Unknown Edge");
         }
-        throw new UnsupportedOperationException("Edge is not TransportSegment");
     }
 }

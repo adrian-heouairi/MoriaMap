@@ -51,4 +51,15 @@ class DistanceAsWeightTest {
         var sut = new DistanceAsWeight(tn);
         assertEquals(dist, sut.apply(0.0, ts));
     }
+
+    @Test void dawOfWalkSegmentReturnsDistanceTimesDrudgery() {
+        var sut = new DistanceAsWeight(TransportNetwork.empty());
+        var gv1 = GeographicVertex.at(GeographicPosition.NORTH_POLE);
+        var gv2 = GeographicVertex.at(GeographicPosition.SOUTH_POLE);
+        var ws = new WalkSegment(gv1, gv2);
+        assertEquals(
+                ws.distance * WalkSegment.WALK_DRUDGERY,
+                sut.apply(0.0, ws)
+        );
+    }
 }
