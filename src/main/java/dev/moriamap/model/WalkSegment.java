@@ -36,11 +36,10 @@ public class WalkSegment extends Edge {
     }
 
     /**
-     * {@return the travel time in hours of this WalkSegment}
+     * {@return the travel duration of this WalkSegment}
      */
     public Duration travelTime() {
-        return Duration.ofHours((long) (this.distance
-                                        / 1000.0
-                                        / WalkSegment.WALK_SPEED));
+        return Duration.ofSeconds((long) (this.distance
+                                        * (WalkSegment.WALK_SPEED / 3.6)));
     }
 }

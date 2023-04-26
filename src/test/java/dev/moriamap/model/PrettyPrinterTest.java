@@ -53,11 +53,13 @@ class PrettyPrinterTest {
 		Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);
 		Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
 		Stop s3 = Stop.from("s3", GeographicPosition.NORTH_POLE);
+		WalkSegment ws1 = new WalkSegment( GeographicVertex.at( 1.5, 2.4 ),
+										   GeographicVertex.at(GeographicPosition.SOUTH_POLE) );
 		TransportSegment ts1 = TransportSegment.from( s1, s2, "7B", "1",
 													  Duration.ofMinutes( 2 ), 4 );
 		TransportSegment ts2 = TransportSegment.from(s2, s3, "14", "1",
 													 Duration.ofMinutes( 2 ), 4);
-		testRoute = List.of( ts1, ts2);
+		testRoute = List.of( ws1, ts1, ts2);
 	}
 
 	@Test
@@ -92,7 +94,8 @@ class PrettyPrinterTest {
 	void printTransportSegmentPathWithLineChangeTimesTest() {
 		List<LocalTime> lts = List.of(
 				  LocalTime.MIN,
-				  LocalTime.of( 0,3,0 ) );
+				  LocalTime.of( 0,3,0 ),
+				  LocalTime.of( 0,10,0 ) );
 		assertNotEquals("",
 						PrettyPrinter.printTransportSegmentPathWithLineChangeTimes
 											   (tn, testRoute, lts));
@@ -104,7 +107,7 @@ class PrettyPrinterTest {
 				  LocalTime.MIN);
 		assertThrows(IllegalArgumentException.class,
 					 () -> PrettyPrinter.printTransportSegmentPathWithLineChangeTimes
-											   (tn, testRoute, lts));
+												  (tn, testRoute, lts));
 	}
 
 	@Test
@@ -112,7 +115,43 @@ class PrettyPrinterTest {
 		List<LocalTime> lts = new ArrayList<>();
 		assertThrows(IllegalArgumentException.class,
 					 () -> PrettyPrinter.printTransportSegmentPathWithLineChangeTimes
-											   (tn, testRoute, lts));
+												  (tn, testRoute, lts));
 	}
+
+	@Test
+	void formatDurationOnlyHourTest() {
+		assertEquals( "1 hour", PrettyPrinter.formatDuration( Duration.ofHours( 1 ) ) );
+	}
+	@Test
+	void formatDurationOnlyHoursTest() {
+		assertEquals( "12 hours", PrettyPrinter.formatDuration( Duration.ofHours( 12 ) ) );
+	}
+
+	@Test
+	void formatDurationOnlyMinuteTest() {
+		assertEquals( "1 minute", PrettyPrinter.formatDuration( Duration.ofMinutes( 1 ) ) );
+	}
+	@Test
+	void formatDurationOnlyMinutesTest() {
+		assertEquals( "12 minutes", PrettyPrinter.formatDuration( Duration.ofMinutes( 12 ) ) );
+	}
+
+	@Test
+	void formatDurationOnlySecondTest() {
+		assertEquals( "1 second", PrettyPrinter.formatDuration( Duration.ofSeconds( 1 ) ) );
+	}
+	@Test
+	void formatDurationOnlySecondsTest() {
+		assertEquals( "12 seconds", PrettyPrinter.formatDuration( Duration.ofSeconds( 12 ) ) );
+	}
+
+	@Test
+	void formatDurationTest() {
+		assertEquals( "12 hours 49 minutes 10 seconds",
+					  PrettyPrinter.formatDuration( Duration.ofHours( 12 )
+															  .plusMinutes( 49 )
+															  .plusSeconds( 10 )) );
+	}
+
 
 }

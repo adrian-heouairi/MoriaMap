@@ -25,6 +25,9 @@ class WalkSegmentTest {
         var gv1 = GeographicVertex.at(GeographicPosition.NORTH_POLE);
         var gv2 = GeographicVertex.at(GeographicPosition.SOUTH_POLE);
         var sut = new WalkSegment(gv1, gv2);
-        assertEquals(Duration.ofHours((long)2831.5556), sut.travelTime());
+        Duration real = Duration.ofHours( 4424 )
+                                .plusMinutes( 18 )
+                                .plusSeconds( 20 );
+        assertEquals(real, sut.travelTime());
     }
 }

@@ -235,20 +235,24 @@ public final class TransportNetwork extends Graph {
     public String getRouteDescription(List<Edge> route, LocalTime startTime) {
         LocalTime cur = startTime;
         List<LocalTime> lts = new ArrayList<>();
-        for(Edge e : route) {
-            if (e instanceof TransportSegment transportSegment) {
-                Passages p = this.getPassages((Stop) e.getFrom());
-                LocalTime next = p.getNextTimeWithWrap(cur,
-                        transportSegment.getVariantName(),
-                        transportSegment.getLineName());
-                if (next == null)
+        for( int i = 0; i < route.size(); i++ ) {
+            Edge e = route.get( i );
+            if( e instanceof TransportSegment transportSegment ) {
+                Passages p = this.getPassages( (Stop) e.getFrom() );
+                LocalTime next = p.getNextTimeWithWrap( cur,
+                                                        transportSegment.getVariantName(),
+                                                        transportSegment.getLineName() );
+                if( next == null )
                     throw new IllegalStateException(
-                          "There are no transports on the line "
-                          + transportSegment.getLineName()
-                          + " variant "
-                          + transportSegment.getVariantName());
-                lts.add(next);
-                cur = next.plus(transportSegment.getTravelDuration());
+                              "There are no transports on the line "
+                              + transportSegment.getLineName()
+                              + " variant "
+                              + transportSegment.getVariantName() );
+                lts.add( next );
+                cur = next.plus( transportSegment.getTravelDuration() );
+            } else if( e instanceof WalkSegment segment ) {
+                lts.add(cur);
+                cur = cur.plus( segment.travelTime() );
             }
         }
         return PrettyPrinter.printTransportSegmentPathWithLineChangeTimes(this,route,lts);

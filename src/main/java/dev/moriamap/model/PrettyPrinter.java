@@ -13,6 +13,28 @@ public class PrettyPrinter {
 
 	private PrettyPrinter(){}
 
+
+	/**
+	 * Return a String of the given Duration
+	 * @param dur the duration
+	 * @return duration formatted as a string
+	 * format: H hour(s) M minute(s) S second(s)
+	 */
+	public static String formatDuration(Duration dur) {
+		String res = "";
+		int hours = dur.toHoursPart();
+		int minutes = dur.toMinutesPart();
+		int seconds = dur.toSecondsPart();
+
+		if(hours > 0)
+			res += hours + " hour" + ( hours > 1 ? "s" : "" );
+		if(minutes > 0)
+			res += ( res.equals( "" ) ? "" : " " ) + minutes + " minute" + ( minutes > 1 ? "s" : "" );
+		if(res.equals( "" ) || seconds > 0)
+			res += ( res.equals( "" ) ? "" : " " ) + seconds + " second" + ( seconds > 1 ? "s" : "" );
+		return res;
+	}
+
 	/**
 	 * This method return a String for when a change in line is detected
 	 * @param tn the transport network the new line belong to
@@ -50,12 +72,13 @@ public class PrettyPrinter {
 		for( int i = 0; i < path.size(); i++ ) {
 			Edge edge = path.get( i );
 			segment = (TransportSegment) edge;
-			String time = segment.getTravelDuration().toString().substring( 2 );
 			if( !segment.getLineName().equals( currentLine ) ) {
 				stringBuilder.append( "\n" )
 						.append( lineChangeToString( tn, segment.getLineName(), segment ) );
 			}
-			stringBuilder.append( " --(" ).append( time ).append( ")--> " );
+			stringBuilder.append( " --(" )
+						 .append( formatDuration(segment.getTravelDuration()) )
+						 .append( ")--> " );
 			currentLine = segment.getLineName();
 			if( i == path.size()-1 )
 				stringBuilder.append( "\033[42m" ).append( segment.getTo() ).append( FORMAT_RESET );
@@ -68,8 +91,11 @@ public class PrettyPrinter {
 	private static Duration getEdgeDuration( Edge edge ) {
 		if(edge instanceof TransportSegment segment)
 			return segment.getTravelDuration();
+		else if(edge instanceof WalkSegment segment)
+			return segment.travelTime();
 		throw new UnsupportedOperationException("Segment type not yet supported");
 	}
+
 
 	/**
 	 * This method build a string that contain all the information to travel
@@ -77,12 +103,11 @@ public class PrettyPrinter {
 	 * @param tn the transport network this route is on
 	 * @param route the route of edges to take in order
 	 * @param lts list of times for every edge
-	 * @return the built String with all the information
+	 * @return "" if route is empty or the built String with all the information
 	 * format:
 	 * 	'Switching line at [time]' (or for the first:'Taking line at: [starting time]')
 	 * 	[when changing line] ## [Line and variant names] ## [terminus of the variant]
 	 * 	[list of all the stops to go throught on the same line: s1 -> s2 -> s3]
-	 * @throws IllegalArgumentException if route and lts are different sizes
 	 */
 	public static String printTransportSegmentPathWithLineChangeTimes(
 			TransportNetwork tn,
@@ -105,7 +130,7 @@ public class PrettyPrinter {
 			if(edge instanceof TransportSegment segment) {
 				if( !segment.getLineName().equals( currentLine ) ) {
 					builder
-							  .append("\nArrives at: ").append(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)) ))
+							  .append("\n\nArrives at: ").append(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)) ))
 							  .append( ", leaving at: " ).append(lts.get(i))
 							  .append( lineChangeToString( tn, segment.getLineName(), segment ) );
 				}
@@ -117,6 +142,14 @@ public class PrettyPrinter {
 					builder.append( segment.getTo() );
 				if(i == route.size() - 1)
 					arrivalTime = lts.get( i ).plus( segment.getTravelDuration());
+			} else if(edge instanceof WalkSegment segment) {
+				builder.append( "\n\nWalk for ")
+					   .append( formatDuration(segment.travelTime()) )
+					   .append( " from '" )
+					   .append( segment.getFrom() )
+					   .append( "' to '" )
+					   .append( segment.getTo() )
+					   .append( "'");
 			}
 		}
 		builder.append("\n\nArrival time : ")
