@@ -1,12 +1,10 @@
 package dev.moriamap.model;
 
+import org.junit.jupiter.api.Test;
+
+import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.*;
-import java.util.NoSuchElementException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 class GraphTest {
     static class DummyGraph extends Graph {}
@@ -171,5 +169,60 @@ class GraphTest {
         route.add(e1);
         route.add(e2);
         assertEquals(route, Graph.getRouteFromTraversal(parents, v1, v3));
+    }
+    
+    @Test void removeAnInexistantVertexThrowsException() {
+        Graph sut = new DummyGraph();
+        DummyVertex v = new DummyVertex();
+        assertThrows(NoSuchElementException.class,() ->
+                sut.removeVertex(v));
+    }
+
+    @Test void removeNullVertexThrowsNPE() {
+        Graph sut = new DummyGraph();
+        assertThrows(NullPointerException.class,() ->
+                sut.removeVertex(null));
+    }
+    
+    @Test void removeVertexTest() {
+        Vertex v = new DummyVertex();
+        Graph sut = new DummyGraph();
+        sut.addVertex(v);
+        sut.removeVertex(v);
+        assertTrue(sut.getVertices().isEmpty());
+    }
+
+    @Test void removeVertexWithEdgeTest() {
+        Vertex u = new DummyVertex();
+        Vertex v = new DummyVertex();
+        Graph sut = new DummyGraph();
+        sut.addVertex(u);
+        sut.addEdge(new DummyEdge(u,v));
+        sut.removeVertex(v);
+        assertFalse(sut.contains(v));
+    }
+    
+    @Test void removeAnInexistantEdgeThrowsException() {
+        Graph sut = new DummyGraph();
+        DummyEdge e = new DummyEdge();
+        assertThrows(NoSuchElementException.class,() ->
+                sut.removeEdge(e));
+    }
+
+    @Test void removeNullEdgeThrowsNPE() {
+        Graph sut = new DummyGraph();
+        assertThrows(NullPointerException.class,() ->
+                sut.removeEdge(null));
+    }
+
+    @Test
+    void neverEntersIfOfRemoveEdge() {
+        Graph g = new DummyGraph();
+        Vertex v1 = new DummyVertex();
+        Vertex v2 = new DummyVertex();
+        Edge e = new DummyEdge(v1, v2);
+        g.addEdge(e);
+        g.removeVertex(v1);
+        assertEquals(List.of(v2), g.getVertices());
     }
 }
