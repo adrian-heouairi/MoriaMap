@@ -44,7 +44,10 @@ public class TravelTimeAsWeight implements BiFunction<Double, Edge, Double> {
 				return Double.POSITIVE_INFINITY;
 			return (double) nextFromSchdl.toSeconds() + segment.getTravelDuration().toSeconds();
 		}
-		throw new UnsupportedOperationException("Only TransportSegment are implemented for now");
+		else if(edge instanceof WalkSegment segment){
+			return (double) segment.travelTime().toSeconds();
+		}
+		throw new UnsupportedOperationException("Invalid edge type. The apply() method can only handle TransportSegment and WalkSegment edges.");
 	}
 
 }

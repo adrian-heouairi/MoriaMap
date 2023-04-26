@@ -66,7 +66,7 @@ class TravelTimeAsWeightTest {
 
 
 	@Test
-	void applyTest() {
+	void applyTestTransportSegment() {
 		Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);
 		Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
 		TransportSegment ts1 = TransportSegment.from( s1, s2, "7B", "1",
@@ -84,6 +84,17 @@ class TravelTimeAsWeightTest {
 
 		var travelTimeAsWeight = new TravelTimeAsWeight( LocalTime.MIN, tn);
 		assertEquals(184.0, travelTimeAsWeight.apply( 0.0, ts1 ));
+	}
+
+	@Test
+	void applyTestWalkSegment(){
+		Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);
+		Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
+		WalkSegment ws = new WalkSegment(s1, s2);
+		TransportNetwork tn = TransportNetwork.empty();
+		tn.addEdge(ws);
+		var travelTimeAsWeight = new TravelTimeAsWeight(LocalTime.MIN, tn);
+		assertEquals(1.01916E7,travelTimeAsWeight.apply(0.0, ws));
 	}
 
 }
