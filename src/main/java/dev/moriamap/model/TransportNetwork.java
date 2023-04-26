@@ -3,7 +3,10 @@ package dev.moriamap.model;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an arbitrary transport network. A TransportNetwork contains
@@ -98,6 +101,30 @@ public final class TransportNetwork extends Graph {
         // If the closest match is more than three edit operations away, return null
         if(min >= 3) return null;
         return res;
+    }
+
+    /**
+    * Returns a list of the X nearest stops to the given name, based on their
+    * Levenshtein distance.
+    * @param name the name to compare to.
+    * @param x the number of nearest stops to return.
+    * @return a list of the X nearest stop to the given name.
+    */
+    public List<Stop> getNearestStopsByInexactName(String name, int x){
+        Map<Stop, Integer> distances = new HashMap<>();
+        var stops = this.getStops();
+        for (Stop stop: stops) {
+            int distance = StopNameFinder.levenshteinDistance(name, stop.getName());
+            distances.put(stop, distance);
+        }
+        List<Stop> sortedNames = new ArrayList<>(distances.keySet());
+        Collections.sort(sortedNames, (name1, name2) -> distances.get(name1) - distances.get(name2));
+        List<Stop> nearestNames = new ArrayList<>();
+        for (int i = 0; i < Math.min(x, sortedNames.size()); i++) {
+            nearestNames.add(sortedNames.get(i));
+        }
+        return nearestNames;
+
     }
 
     /**

@@ -115,7 +115,23 @@ class TransportNetworkTest {
         tn.addStop(s4);
         Stop s5 = tn.getStopByInexactName("Hochet");
         assertEquals(s3,s5);
+    }
 
+    @Test
+    void getStopsByAnInexactName() {
+        TransportNetwork tn = TransportNetwork.empty();
+        Stop s1 = Stop.from("Thibault",GeographicPosition.SOUTH_POLE);
+        Stop s2 = Stop.from("Johnny",GeographicPosition.SOUTH_POLE);
+        Stop s3 = Stop.from("Bernard",GeographicPosition.SOUTH_POLE);
+        Stop s4 = Stop.from("Joan",GeographicPosition.SOUTH_POLE);
+        tn.addStop(s1);
+        tn.addStop(s2);
+        tn.addStop(s3);
+        tn.addStop(s4);
+        List<Stop> expected = new ArrayList<>();
+        expected.add(s4);
+        expected.add(s2);
+        assertEquals(expected,tn.getNearestStopsByInexactName("John", 2));
     }
 
     @Test

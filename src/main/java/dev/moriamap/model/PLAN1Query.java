@@ -54,8 +54,8 @@ public class PLAN1Query extends Query {
 			throw new UnsupportedOperationException("Optimization choice doesn't exists or is not yet supported");
 		network.setTraversalStrategy( new DijkstraTraversalStrategy() );
 
-		Stop start = network.getStopByInexactName( startStopName );
-		Stop target = network.getStopByInexactName( targetStopName );
+		Stop start = network.getStopByName( startStopName );
+		Stop target = network.getStopByName( targetStopName );
 		if(start == null || target == null)
 			throw new QueryFailureException("One of the stops was not found");
 		Map<Vertex, Edge> traversal =  network.traversal( start, target, optimizationBiFun, true );
