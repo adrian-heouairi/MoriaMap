@@ -1,11 +1,15 @@
 package dev.moriamap.model;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.io.InputStream;
 import java.time.LocalTime;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@TestInstance( TestInstance.Lifecycle.PER_CLASS )
 class PLAN1QueryTest {
 
 
