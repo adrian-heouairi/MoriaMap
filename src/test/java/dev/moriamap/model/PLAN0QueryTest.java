@@ -48,6 +48,12 @@ class PLAN0QueryTest {
 					  () -> query.run(tn));
 	}
 
+	@Test void sameStartAndTargetStopsTest() {
+		Query query = new PLAN0Query( null, "Lourmel", "Lourmel" );
+		assertThrows( QueryFailureException.class,
+					  () -> query.run(tn));
+	}
+
 	@Test void noProblemsFoundTest() {
 		PLAN0Query query = new PLAN0Query( null, "Lourmel", "Hoche" );
 		assertDoesNotThrow(

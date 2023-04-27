@@ -40,6 +40,8 @@ public class PLAN0Query extends Query {
 		Stop target = network.getStopByName( targetStopName );
 		if(start == null || target == null)
 			throw new QueryFailureException("One of the stops was not found");
+		if(start.equals( target ))
+			throw new QueryFailureException( "Start and target stop should be different" );
         var traversalStrategy = new DFSTraversalStrategy();
 		Map<Vertex, Edge> dfs = traversalStrategy
             .traversal(start, target, null, true, network);

@@ -48,6 +48,16 @@ class PLAN1QueryTest {
 					  () -> query.run(tn));
 	}
 
+	@Test void sameStartAndTargetStopsTest() {
+		Query query = new PLAN1Query( null,
+									  "Lourmel",
+									  "Lourmel",
+									  RouteOptimization.DISTANCE,
+									  LocalTime.MIN);
+		assertThrows( QueryFailureException.class,
+					  () -> query.run(tn));
+	}
+
 	@Test
 	void DistanceOptimizedTest() {
 		PLAN1Query query = new PLAN1Query( null, "Lourmel", "Invalides",RouteOptimization.DISTANCE, LocalTime.MIN);

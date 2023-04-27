@@ -58,6 +58,8 @@ public class PLAN1Query extends Query {
 		Stop target = network.getStopByName( targetStopName );
 		if(start == null || target == null)
 			throw new QueryFailureException("One of the stops was not found");
+		if(start.equals( target ))
+			throw new QueryFailureException( "Start and target stop should be different" );
 		Map<Vertex, Edge> traversal =  network.traversal( start, target, optimizationBiFun, true );
 		try {
 			List<Edge> path = Graph.getRouteFromTraversal( traversal, start, target );
