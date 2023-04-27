@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Represents an arbitrary transport network. A TransportNetwork contains
@@ -277,5 +279,88 @@ public final class TransportNetwork extends Graph {
         return false;
     }
 
+    /**
+     * Adds the specified GeographicVertex to this TransportNetwork. If it is already present, does
+     * nothing.
+     * @param geoVertex the GeographicVertex to add
+     * @throws NullPointerException if the given GeographicVertex is null
+     */
+    public void addGeographicVertex(GeographicVertex geoVertex) {
+        Objects.requireNonNull(geoVertex);
+        if(!this.contains(geoVertex))
+            addVertex(geoVertex);
+    }
+    
+    /**
+     * Removes the given GeographicVertex from the TransportNetwork and all edges
+     * that have this GeographicVertex on either side.
+     * @param geoVertex the GeographicVertex to be removed
+     * @throws NoSuchElementException if the GeographicVertex is not found
+     * @throws NullPointerException if the given GeographicVertex is null
+     */
+    public void removeGeographicVertex(GeographicVertex geoVertex){
+        Objects.requireNonNull(geoVertex);
+        this.removeVertex(geoVertex);
+    }
+    
+    /**
+     * Return the List of all GeographicVertices in the TransportNetwork
+     * @return a List of GeographicVertex
+     */
+    public List<GeographicVertex> getGeographicVertices(){
+        List<GeographicVertex> result = new ArrayList<>();
+        for(Vertex v : this.getVertices()){
+            if(v instanceof GeographicVertex){
+                GeographicVertex geoVertex = (GeographicVertex) v;
+                result.add(geoVertex);
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * Adds the specified WalkSegment to this TransportNetwork. If WalkSegment's source or destination
+     * are not already in this TransportNetwork, they are added too. If the specified WalkSegment
+     * is already present, does nothing.
+     * @param walkSegment the WalkSegment to add
+     * @throws NullPointerException if the WalkSegment is null
+     */
+    public void addWalkSegment(WalkSegment walkSegment){
+        Objects.requireNonNull(walkSegment);
+        boolean containEdge = false;
+        for(Edge e : this.getEdges()){
+            if(e.equals(walkSegment))
+                containEdge = true;
+        }
+        if(!containEdge)
+            this.addEdge(walkSegment);
+    }
+
+    /**
+     * Removes the given WalkSegment from the TransportNetwork. No vertices are removed.
+     * @param walkSegment the WalkSegment to be removed
+     * @throws NullPointerException if walkSegment is null
+     * @throws NoSuchElementException if the WalkSegment is not found
+     */
+    public void removeWalkSegment(WalkSegment walkSegment){
+        this.removeEdge(walkSegment);
+    }
+
+    /**
+     * Return the List of all WalkSegment in the TransportNetwork
+     * @return a List of WalkSegment
+     */
+    public List<WalkSegment> getWalkSegments(){
+        List<WalkSegment> result = new ArrayList<>();
+        for(Edge e : this.getEdges()){
+            if(e instanceof WalkSegment){
+                WalkSegment walkSegment = (WalkSegment) e;
+                result.add(walkSegment);
+            }
+        }
+        return result;
+    }
+    
 
 }
