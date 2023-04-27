@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalTime;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.List;
 
 class Main {
+    private static Scanner cachedScanner = null;
 
     private static void print(OutputStream out, String str) {
         try {
@@ -19,17 +21,45 @@ class Main {
         }
     }
 
-    private static LocalTime parseTime( String hoursStr, String minutesStr ) {
+    private static String getInput(InputStream in) {
+        if (cachedScanner == null) cachedScanner = new Scanner(in);
+        String ret = "";
         try {
-            int hours = Integer.parseInt( hoursStr );
-            int minutes = Integer.parseInt( minutesStr );
-            return LocalTime.of( hours, minutes );
-        } catch( Exception e ) {
-            return null;
+            ret = cachedScanner.nextLine();
+        } catch (NoSuchElementException e) {
+            System.exit(0);
         }
+        return ret;
     }
 
-    private static String getOptimizationsChoiceDescriptions() {
+    private static LocalTime getTime(InputStream in, OutputStream out) {
+        print( out, "When do you want to start your travel? (just press ENTER for right now)\n");
+        LocalTime lt = null;
+        while (lt == null) {
+            print(out, "   hour: ");
+            String hourStr = getInput(in);
+            if (hourStr.isBlank())
+                lt = LocalTime.now();
+            else {
+                print(out, "   minute: ");
+                String minuteStr = getInput(in);
+                if (minuteStr.isBlank())
+                    lt = LocalTime.now();
+                else {
+                    try {
+                        int hour = Integer.parseInt(hourStr);
+                        int minute = Integer.parseInt(minuteStr);
+                        lt = LocalTime.of(hour, minute);
+                    } catch (Exception e) {
+                        print(out, "Invalid input, retry\n");
+                    }
+                }
+            }
+        }
+        return lt;
+    }
+
+    private static String getOptimizationChoicesDescription() {
         StringBuilder res = new StringBuilder("How do you want to optimize the route?\n    ");
         int len = RouteOptimization.values().length;
         for( int i = 0; i < len; i++ ) {
@@ -43,122 +73,129 @@ class Main {
         return res.toString();
     }
 
-    private static String getStopName(String message, TransportNetwork tn,Scanner inputScanner, OutputStream out){
+    private static String getStopName(String message, TransportNetwork tn, InputStream in, OutputStream out){
         print(out, message);
-        String input = inputScanner.nextLine();
-        if(input.isBlank()) return null;
-        List<Stop> nearestStops = tn.getNearestStopsByInexactName(input, 2);
+
+        String input = getInput(in);
+        if(input.isBlank()) return "";
+
+        List<Stop> nearestStops = tn.getNearestStopsByInexactName(input, 5);
         if(nearestStops.get(0).getName().equals(input)) return input;
+
         StringBuilder askChoice = new StringBuilder("Did you mean...\n    ");
         int len = nearestStops.size();
         for( int i = 0; i < len; i++ ) {
             askChoice.append( i+1 )
-                      .append(" for ")
+                      .append(") ")
                       .append( nearestStops.get(i).getName() );
             if(i < len-1)
                 askChoice.append( ", " );
         }
-        askChoice.append("\n    Option: ");
+        askChoice.append("\n    Choice: ");
+
         print(out, askChoice.toString());
-        String choice = inputScanner.nextLine();
-        if(choice.isBlank()) return null;
-        if(choice.equals("1")){
-            return nearestStops.get(0).getName();
+        String choice = getInput(in);
+        int choiceInt = -1;
+        try {
+            choiceInt = Integer.parseInt(choice) - 1;
+        } catch (Exception e) {
+            return choice;
         }
-        else if(choice.equals("2")){
-            return nearestStops.get(1).getName();
+        if (0 <= choiceInt && choiceInt < nearestStops.size())
+            return nearestStops.get(choiceInt).getName();
+        else return "";
+    }
+
+    private static TransportNetwork createTransportNetwork(
+            InputStream transportNetworkInputStream, InputStream timetablesInputStream,
+            OutputStream out) {
+        TransportNetwork res = null;
+
+        try {
+            res = TransportNetworkParser.generateFrom( transportNetworkInputStream );
+        } catch( InconsistentCSVException e ) {
+            print(out, "An issue occurred while parsing the transport network\n");
+            System.exit( 1 );
         }
-        return getStopName(message, tn, inputScanner, out);
+        try {
+            DepartureParser.addDeparturesTo(res, timetablesInputStream );
+        } catch( InconsistentCSVException e ) {
+            print(out, "An issue occurred while parsing the transport schedules\n");
+            System.exit( 1 );
+        }
+
+        return res;
+    }
+
+    private static LECTTIMEQuery makeLECTTIMEQuery(TransportNetwork tn, InputStream in, OutputStream out) {
+        String stopName = getStopName("Name of the stop: ",tn, in, out);
+        return new LECTTIMEQuery( out, stopName );
+    }
+
+    private static PLAN0Query makePLAN0Query(TransportNetwork tn, InputStream in, OutputStream out) {
+        String startStopName = getStopName("Name of the starting stop: ",tn, in, out);
+        String targetStopName = getStopName("Name of the destination stop: ",tn, in, out);
+        return new PLAN0Query( out, startStopName, targetStopName );
+    }
+
+    private static PLAN1Query makePLAN1Query(TransportNetwork tn, InputStream in, OutputStream out) {
+        String startStopName = getStopName("Name of the starting stop: ",tn, in, out);
+        String targetStopName = getStopName("Name of the destination stop: ",tn, in, out);
+
+        print( out, getOptimizationChoicesDescription() );
+        RouteOptimization[] values = RouteOptimization.values();
+        RouteOptimization optimizationChoice = null;
+        while (optimizationChoice == null) {
+            try {
+                optimizationChoice = values[Integer.parseInt(getInput(in)) - 1];
+            } catch (Exception e) {
+                print(out, "Invalid input, retry\n");
+            }
+        }
+
+        LocalTime startTime = getTime(in, out);
+
+        return new PLAN1Query( out, startStopName, targetStopName, optimizationChoice, startTime );
     }
 
     public static void main(String[] args) {
         InputStream in = System.in;
         OutputStream out = System.out;
 
-        TransportNetwork tn = null;
-        try {
-            InputStream mapDataInputStream = Main.class.getResourceAsStream( "/map_data.csv" );
-            tn = TransportNetworkParser.generateFrom( mapDataInputStream );
-        } catch( InconsistentCSVException e ) {
-            print(out, "An issue occurred while parsing the transport network\n");
-            System.exit( 1 );
-        }
-        try {
-            InputStream timetablesInputStream = Main.class.getResourceAsStream( "/timetables.csv" );
-            DepartureParser.addDeparturesTo(tn, timetablesInputStream );
-        } catch( InconsistentCSVException e ) {
-            print(out, "An issue occurred while parsing the transports schedules\n");
-            System.exit( 1 );
-        }
-        Scanner inputScanner = new Scanner(in);
+        TransportNetwork tn = createTransportNetwork(
+                Main.class.getResourceAsStream( "/map_data.csv" ),
+                Main.class.getResourceAsStream( "/timetables.csv" ),
+                out
+        );
 
-        print(out, "At any moment waiting for an input, " +
-                            "pressing ENTER without typing anything exit the program\n" );
+        print(out, "Press Ctrl+C at any moment to exit the program\n");
 
         while(true) {
            print(out, """
                     What do you want to do?
-                      1 - Get a path from one stop to an another
-                      2 - Get the transport schedules of a stop
-                      3 - Get an optimized path from one stop to an another
+                      1 - Get the transport schedules of a stop
+                      2 - Get a path from a stop to another
+                      3 - Get an optimized path from a stop to another
                       4 - Exit
                     """);
-            print(out, "Option: ");
-            String option = inputScanner.nextLine();
-            if (option.isBlank()|| option.equals("4"))
-                break;
+            print(out, "Choice: ");
+            String option = getInput(in);
 
-            Query query = null;
-            if(option.equals("1")) {
-                String startStopName = getStopName("Name of the starting stop: ",tn, inputScanner, out);
-                if( startStopName == null ) break;
-                String targetStopName = getStopName("Name of the target stop: ",tn, inputScanner, out);
-                if( targetStopName == null ) break;
-                query = new PLAN0Query( out, startStopName, targetStopName );
-            } else if(option.equals("2")) {
-                print( out, "Name of the stop: " );
-                String stopName = getStopName("Name of the stop: ",tn, inputScanner, out);
-                if( stopName == null ) break;
-                query = new LECTTIMEQuery( out, stopName );
-            } else if(option.equals("3")) {
-                String startStopName = getStopName("Name of the starting stop: ",tn, inputScanner, out);
-                if( startStopName == null ) break;
-                String targetStopName = getStopName("Name of the target stop: ",tn, inputScanner, out);
-                if( targetStopName == null ) break;
+            if (option.equals("4")) break;
 
-                print( out, getOptimizationsChoiceDescriptions() );
-                RouteOptimization optimizationChoice;
-                try {
-                    int input = Integer.parseInt( inputScanner.nextLine() );
-                    if( input < 1 || input > RouteOptimization.values().length ) {
-                        print( out, "Entered input is not in bounds" );
-                        continue;
-                    }
-                    optimizationChoice = RouteOptimization.values()[input - 1];
-                } catch( NumberFormatException e ) {
-                    print( out, "Entered input is not a valid number" );
-                    continue;
-                }
+            Query query = switch (option) {
+                case "1" -> makeLECTTIMEQuery(tn, in, out);
+                case "2" -> makePLAN0Query(tn, in, out);
+                case "3" -> makePLAN1Query(tn, in, out);
+                default -> null;
+            };
 
-                print( out, "When do you want to start your travel? (just press ENTER for right now)" +
-                            "\n   hours: " );
-                String hoursStr = inputScanner.nextLine();
-                print( out, "   minutes: " );
-                String minutesStr = inputScanner.nextLine();
-                LocalTime startTime;
-                if( hoursStr.isBlank() || minutesStr.isBlank() )
-                    startTime = LocalTime.now();
-                else
-                    startTime = parseTime( hoursStr, minutesStr );
-                if( startTime != null )
-                    query = new PLAN1Query( out, startStopName, targetStopName, optimizationChoice, startTime );
+            print(out, "\n");
+
+            if (query != null) {
+                query.execute(tn);
+                print(out, "\n");
             }
-            if(query == null) continue;
-            print(out, "\n" );
-            query.execute( tn );
-            print(out, "\n" );
         }
-        inputScanner.close();
     }
-
 }
