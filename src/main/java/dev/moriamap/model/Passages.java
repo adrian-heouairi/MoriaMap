@@ -61,7 +61,7 @@ public final class Passages {
 
             res.append(": ");
 
-            res.append(tsch.time().toString());
+            res.append(PrettyPrinter.formatLocalTime( tsch.time() ));
 
             res.append("\n");
         }

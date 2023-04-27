@@ -3,6 +3,7 @@ package dev.moriamap.model;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class for printing different elements of the project
@@ -33,6 +34,19 @@ public class PrettyPrinter {
 		if(res.equals( "" ) || seconds > 0)
 			res += ( res.equals( "" ) ? "" : " " ) + seconds + " second" + ( seconds > 1 ? "s" : "" );
 		return res;
+	}
+
+	/**
+	 * Return a String of the given LocalTime
+	 * @param lt the localTime to format
+	 * @return the localtime formatted as a string
+	 * format: HH:MM:SS
+	 */
+	public static String formatLocalTime(LocalTime lt) {
+		Objects.requireNonNull(lt);
+		return (lt.getHour() < 10 ? "0" : "") + lt.getHour() + ":"
+			   + (lt.getMinute() < 10 ? "0" : "") + lt.getMinute() + ":"
+			   + (lt.getSecond() < 10 ? "0" : "") + lt.getSecond();
 	}
 
 	/**
@@ -121,7 +135,7 @@ public class PrettyPrinter {
 		if(route.get( 0 ) instanceof TransportSegment firstSegment) {
 			currentLine = firstSegment.getLineName();
 			builder.append( "Taking line at " )
-					  .append( lts.get( 0 ))
+					  .append( formatLocalTime(lts.get( 0 )))
 					  .append( lineChangeToString( tn, currentLine, firstSegment ) );
 		}
 		LocalTime arrivalTime = null;
@@ -130,8 +144,8 @@ public class PrettyPrinter {
 			if(edge instanceof TransportSegment segment) {
 				if( !segment.getLineName().equals( currentLine ) ) {
 					builder
-							  .append("\n\nArrives at: ").append(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)) ))
-							  .append( ", leaving at: " ).append(lts.get(i))
+							  .append("\n\nArrives at: ").append(formatLocalTime(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)))))
+							  .append( ", leaving at: " ).append(formatLocalTime(lts.get(i)))
 							  .append( lineChangeToString( tn, segment.getLineName(), segment ) );
 				}
 				builder.append( " --> " );
@@ -152,8 +166,8 @@ public class PrettyPrinter {
 					   .append( "'");
 			}
 		}
-		builder.append("\n\nArrival time : ")
-				  .append(arrivalTime);
+		if(arrivalTime != null)
+			builder.append("\n\nArrival time : ").append(formatLocalTime(arrivalTime));
 		return builder.toString();
 	}
 
