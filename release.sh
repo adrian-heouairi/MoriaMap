@@ -43,6 +43,7 @@ artifacts="$master"_worktree
 [ -e "$artifacts" ] || git worktree add "$artifacts" artifacts
 
 cd "$artifacts"
+git checkout artifacts
 git pull
 [ -e artifacts ] || mkdir artifacts
 cd artifacts
@@ -52,7 +53,7 @@ if ! [ -e "$zip" ]; then
     files=()
     for i; do files+=("$master/$i"); done
 
-    zip -j "$zip" "$master/build/libs/MoriaMap.jar" "$master/Instructions.txt" "$master/MoriaMap.sh" "${files[@]}"
+    zip -j "$zip" "$master/build/libs/MoriaMap.jar" "$master/Instructions.txt" "$master/RUN_LINUX.sh" "$master/RUN_WINDOWS.bat" "${files[@]}"
     git add "$zip"
     git commit -m "Add release zip for v$version"
     git push
