@@ -58,5 +58,10 @@ class GeographicVertexTest {
         GeographicVertex v = GeographicVertex.at(88.134, 25.4);
         assertEquals(u.hashCode(), v.hashCode());
     }
+
+    @Test void toStringReturns2digitprecisionCoordinates() {
+        GeographicVertex v = new GeographicVertex(GeographicPosition.at(12.4,15.5));
+        assertEquals("(12.40,15.50)", v.toString());
+    }
 }
 
