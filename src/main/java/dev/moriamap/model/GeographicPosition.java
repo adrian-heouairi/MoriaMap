@@ -267,7 +267,7 @@ public final class GeographicPosition {
             }
         }
 
-        return new GeographicPosition(latitudeDouble, longitudeDouble);
+        return GeographicPosition.at(latitudeDouble, longitudeDouble);
     }
 
     /** read the Degree Minute Second and return a Decimal in the form double 

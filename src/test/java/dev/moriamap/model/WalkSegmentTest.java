@@ -1,8 +1,10 @@
 package dev.moriamap.model;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
 import java.time.Duration;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WalkSegmentTest {
 
@@ -25,9 +27,7 @@ class WalkSegmentTest {
         var gv1 = GeographicVertex.at(GeographicPosition.NORTH_POLE);
         var gv2 = GeographicVertex.at(GeographicPosition.SOUTH_POLE);
         var sut = new WalkSegment(gv1, gv2);
-        Duration real = Duration.ofHours( 4424 )
-                                .plusMinutes( 18 )
-                                .plusSeconds( 20 );
+        Duration real = Duration.ofSeconds(10193600);
         assertEquals(real, sut.travelTime());
     }
 }

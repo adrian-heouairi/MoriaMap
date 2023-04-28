@@ -23,7 +23,7 @@ public class PrettyPrinter {
 	 */
 	public static String formatDuration(Duration dur) {
 		String res = "";
-		int hours = dur.toHoursPart();
+		long hours = dur.toHours();
 		int minutes = dur.toMinutesPart();
 		int seconds = dur.toSecondsPart();
 
@@ -144,8 +144,8 @@ public class PrettyPrinter {
 			if(edge instanceof TransportSegment segment) {
 				if( !segment.getLineName().equals( currentLine ) ) {
 					builder
-							  .append("\n\nArrives at: ").append(formatLocalTime(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)))))
-							  .append( ", leaving at: " ).append(formatLocalTime(lts.get(i)))
+							  .append("\n\nArrival at: ").append(formatLocalTime(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)))))
+							  .append( ", departure at: " ).append(formatLocalTime(lts.get(i)))
 							  .append( lineChangeToString( tn, segment.getLineName(), segment ) );
 				}
 				builder.append( " --> " );

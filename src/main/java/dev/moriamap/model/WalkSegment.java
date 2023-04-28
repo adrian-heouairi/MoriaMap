@@ -40,6 +40,6 @@ public class WalkSegment extends Edge {
      */
     public Duration travelTime() {
         return Duration.ofSeconds((long) (this.distance
-                                        * (WalkSegment.WALK_SPEED / 3.6)));
+                                        / (WalkSegment.WALK_SPEED / 3.6)));
     }
 }

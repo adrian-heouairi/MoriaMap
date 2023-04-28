@@ -1,11 +1,12 @@
 package dev.moriamap.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.LocalTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TravelTimeAsWeightTest {
 
@@ -94,7 +95,7 @@ class TravelTimeAsWeightTest {
 		TransportNetwork tn = TransportNetwork.empty();
 		tn.addEdge(ws);
 		var travelTimeAsWeight = new TravelTimeAsWeight(LocalTime.MIN, tn);
-		assertEquals(1.59275E7,travelTimeAsWeight.apply(0.0, ws));
+		assertEquals(10193600,travelTimeAsWeight.apply(0.0, ws));
 	}
 
 }

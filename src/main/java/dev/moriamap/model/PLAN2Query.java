@@ -117,6 +117,9 @@ public class PLAN2Query extends Query {
 			network.addGeographicVertex(targetGV);
 		}
 
+		if (startGV.equals(targetGV))
+			throw new QueryFailureException("Start and target stop should be different");
+
 		this.addWalkSegments(network, startGV, true);
 		this.addWalkSegments(network, targetGV, false);
 

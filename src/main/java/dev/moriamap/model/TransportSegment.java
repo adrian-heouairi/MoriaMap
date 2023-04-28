@@ -64,7 +64,7 @@ public class TransportSegment extends Edge{
     }
 
     /**
-     * {@return the distance of this TransportSegment}
+     * {@return the distance of this TransportSegment in kilometers}
      */
     public double getDistance(){
         return this.distance;

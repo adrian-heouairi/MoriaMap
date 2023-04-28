@@ -1,8 +1,12 @@
 package dev.moriamap.model;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import java.time.*;
+
+import java.time.Duration;
+import java.time.LocalTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DistanceAsWeightTest {
     static class DummyVertex implements Vertex {}
@@ -58,7 +62,7 @@ class DistanceAsWeightTest {
         var gv2 = GeographicVertex.at(GeographicPosition.SOUTH_POLE);
         var ws = new WalkSegment(gv1, gv2);
         assertEquals(
-                ws.distance * WalkSegment.WALK_DRUDGERY,
+                ws.distance * WalkSegment.WALK_DRUDGERY / 1000.0,
                 sut.apply(0.0, ws)
         );
     }
