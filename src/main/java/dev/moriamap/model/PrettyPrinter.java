@@ -164,6 +164,8 @@ public class PrettyPrinter {
 					   .append( "' to '" )
 					   .append( segment.getTo() )
 					   .append( "'");
+				if(i == route.size() - 1)
+					arrivalTime = lts.get( i ).plus( segment.travelTime());
 			}
 		}
 		if(arrivalTime != null)

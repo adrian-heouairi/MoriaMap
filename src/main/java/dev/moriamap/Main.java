@@ -106,6 +106,27 @@ class Main {
         else return "";
     }
 
+    private static String getInputWithPrompt(String message, InputStream in, OutputStream out){
+        print(out, message);
+        String input = getInput(in);
+        return input;
+    }
+
+    private static RouteOptimization getRouteOptimization(InputStream in, OutputStream out){
+        print( out, getOptimizationChoicesDescription() );
+        RouteOptimization[] values = RouteOptimization.values();
+        RouteOptimization optimizationChoice = null;
+        while (optimizationChoice == null) {
+            try {
+                optimizationChoice = values[Integer.parseInt(getInput(in)) - 1];
+            } catch (Exception e) {
+                print(out, "Invalid input, retry\n");
+            }
+        }
+
+        return optimizationChoice;
+    }
+
     private static TransportNetwork createTransportNetwork(
             InputStream transportNetworkInputStream, InputStream timetablesInputStream,
             OutputStream out) {
@@ -141,21 +162,20 @@ class Main {
     private static PLAN1Query makePLAN1Query(TransportNetwork tn, InputStream in, OutputStream out) {
         String startStopName = getStopName("Name of the starting stop: ",tn, in, out);
         String targetStopName = getStopName("Name of the destination stop: ",tn, in, out);
-
-        print( out, getOptimizationChoicesDescription() );
-        RouteOptimization[] values = RouteOptimization.values();
-        RouteOptimization optimizationChoice = null;
-        while (optimizationChoice == null) {
-            try {
-                optimizationChoice = values[Integer.parseInt(getInput(in)) - 1];
-            } catch (Exception e) {
-                print(out, "Invalid input, retry\n");
-            }
-        }
-
+        RouteOptimization optimizationChoice = getRouteOptimization(in, out);
         LocalTime startTime = getTime(in, out);
-
         return new PLAN1Query( out, startStopName, targetStopName, optimizationChoice, startTime );
+    }
+
+    private static PLAN2Query makePLAN2Query(TransportNetwork tn, InputStream in, OutputStream out){
+        String startLatitude = getInputWithPrompt("Latitude of the starting position \n(for example: -4, 20.5, 24 12 35 N or 27 12 45 S): ", in, out);
+        String startLongitude = getInputWithPrompt("Longitude of the starting position \n(for example: 98, -102.36745, 35 59 11 W, 0 56 32 E): ", in, out);
+        String targetLatitude = getInputWithPrompt("Latitude of the target position: ", in, out);
+        String targetLongitude = getInputWithPrompt("Longitude of the target position: ", in, out);
+        RouteOptimization optimizationChoice = getRouteOptimization(in, out);
+        LocalTime startTime = getTime(in, out);
+        
+        return new PLAN2Query(out, startLatitude, startLongitude, targetLatitude, targetLongitude, optimizationChoice, startTime);
     }
 
     public static void main(String[] args) {
@@ -176,17 +196,19 @@ class Main {
                       1 - Get the transport schedules of a stop
                       2 - Get a path from a stop to another
                       3 - Get an optimized path from a stop to another
-                      4 - Exit
+                      4 - Get an optimized path from a position to another
+                      5 - Exit
                     """);
             print(out, "Choice: ");
             String option = getInput(in);
 
-            if (option.equals("4")) break;
+            if (option.equals("5")) break;
 
             Query query = switch (option) {
                 case "1" -> makeLECTTIMEQuery(tn, in, out);
                 case "2" -> makePLAN0Query(tn, in, out);
                 case "3" -> makePLAN1Query(tn, in, out);
+                case "4" -> makePLAN2Query(tn, in, out);
                 default -> null;
             };
 
