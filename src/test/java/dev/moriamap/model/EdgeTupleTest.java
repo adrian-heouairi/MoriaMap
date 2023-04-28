@@ -32,14 +32,14 @@ class EdgeTupleTest {
         List<List<String>> lines = new ArrayList<>();
         try {
 
-            InputStream resouce = CSVParserTest.class.getResourceAsStream("/test_map_data_incomplete.csv");
+            InputStream resouce = CSVParserTest.class.getResourceAsStream("/test_map_data.csv");
             lines = CSVParser.extractLines(resouce);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         List<EdgeRecord> liste  = EdgeRecord.fromTuples(lines);
-        assertEquals(5,liste.size());
+        assertEquals(27,liste.size());
     }
 
     @Test void constructorParsingNullFromName() {

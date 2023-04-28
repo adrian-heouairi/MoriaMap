@@ -7,22 +7,22 @@ import java.io.InputStream;
 
 class TransportNetworkParserTest {    
     @Test void testNumberOfTransportLine() throws InconsistentCSVException{
-        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data_incomplete.csv");
+        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data.csv");
         TransportNetwork tn = TransportNetworkParser.generateFrom(resource);
-        assertEquals(1,tn.getLines().size());
+        assertEquals(3,tn.getLines().size());
     }
 
     @Test void testNumberOfVariant() throws InconsistentCSVException{
 
-        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data_incomplete.csv");
+        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data.csv");
         TransportNetwork tn = TransportNetworkParser.generateFrom(resource);
 
-        assertEquals(1,tn.getVariants().size());
+        assertEquals(4,tn.getVariants().size());
 
     }
 
     @Test void findLineNameEqualTrue() throws InconsistentCSVException{
-        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data_incomplete.csv");
+        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data.csv");
 
         TransportNetwork tn = TransportNetworkParser.generateFrom(resource);
 
@@ -30,7 +30,7 @@ class TransportNetworkParserTest {
     }
 
     @Test void findLineObjectEqualFalse()throws InconsistentCSVException{
-        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data_incomplete.csv");
+        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data.csv");
 
         TransportNetwork tn = TransportNetworkParser.generateFrom(resource);
         Line l = Line.of("8");
@@ -38,11 +38,11 @@ class TransportNetworkParserTest {
     }
 
     @Test void findStopObjectEqualtrue() throws InconsistentCSVException {
-        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data_incomplete.csv");
+        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data.csv");
         TransportNetwork tn = TransportNetworkParser.generateFrom(resource);
         Stop stop = Stop.from("Lourmel", GeographicPosition.at(48.83866086365992, 2.2822419598550767));
        
-       assertEquals(tn.getStopByName("Lourmel"),stop) ;
+        assertEquals(tn.getStopByName("Lourmel"),stop) ;
     }
 
 }

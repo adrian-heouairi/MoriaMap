@@ -309,12 +309,9 @@ public final class TransportNetwork extends Graph {
      */
     public List<GeographicVertex> getGeographicVertices(){
         List<GeographicVertex> result = new ArrayList<>();
-        for(Vertex v : this.getVertices()){
-            if(v instanceof GeographicVertex){
-                GeographicVertex geoVertex = (GeographicVertex) v;
+        for(Vertex v : this.getVertices())
+            if(v instanceof GeographicVertex geoVertex)
                 result.add(geoVertex);
-            }
-        }
         return result;
     }
 
@@ -353,12 +350,9 @@ public final class TransportNetwork extends Graph {
      */
     public List<WalkSegment> getWalkSegments(){
         List<WalkSegment> result = new ArrayList<>();
-        for(Edge e : this.getEdges()){
-            if(e instanceof WalkSegment){
-                WalkSegment walkSegment = (WalkSegment) e;
+        for(Edge e : this.getEdges())
+            if(e instanceof WalkSegment walkSegment)
                 result.add(walkSegment);
-            }
-        }
         return result;
     }
     

@@ -55,7 +55,7 @@ class PLAN0QueryTest {
 	}
 
 	@Test void noProblemsFoundTest() {
-		PLAN0Query query = new PLAN0Query( null, "Lourmel", "Hoche" );
+		PLAN0Query query = new PLAN0Query( null, "Lourmel", "Reuilly - Diderot" );
 		assertDoesNotThrow(
 				  () -> query.execute( tn )
 						  );
