@@ -32,32 +32,32 @@ class PLAN2QueryTest {
 
 	@Test void startingPointIsAStop() {
 		// Coordinates of Lourmel
-		PLAN2Query query = new PLAN2Query( null, "48.83866086365992",
-				"2.2822419598550767", "0", "0",
-				RouteOptimization.DISTANCE, LocalTime.MIN);
+
+		PLAN2Query query = new PLAN2Query( null, tn.getStopByName( "Lourmel" ),
+										   GeographicVertex.at( 0,0 ),
+										   RouteOptimization.DISTANCE, LocalTime.MIN);
 		assertDoesNotThrow(() -> query.run(tn));
 	}
 
 	@Test void destinationPointIsAStop() {
 		// Coordinates of Lourmel
-		PLAN2Query query = new PLAN2Query( null, "0", "0",
-				"48.83866086365992",
-				"2.2822419598550767",
-				RouteOptimization.DISTANCE, LocalTime.MIN);
+		PLAN2Query query = new PLAN2Query( null, GeographicVertex.at( 0,0 ),
+										   tn.getStopByName( "Porte de Charenton" ),
+										   RouteOptimization.DISTANCE, LocalTime.MIN);
 		assertDoesNotThrow(() -> query.run(tn));
 	}
 
 	@Test void brokenTNDoesNotThrow() {
-		PLAN2Query query = new PLAN2Query( null, "0", "0",
-				"1", "1",
-				RouteOptimization.TIME, LocalTime.MIN);
+		PLAN2Query query = new PLAN2Query( null, GeographicVertex.at( 0,0 ),
+										   GeographicVertex.at( 1,1 ),
+										   RouteOptimization.TIME, LocalTime.MIN);
 		assertDoesNotThrow(() -> query.run(brokenTN));
 	}
 
 	@Test void betweenTwoGVsSucceeds() {
-		PLAN2Query query = new PLAN2Query( null, "0", "0",
-				"1", "1",
-				RouteOptimization.TIME, LocalTime.MIN);
+		PLAN2Query query = new PLAN2Query( null, GeographicVertex.at( 0,0 ),
+										   GeographicVertex.at( 1,1 ),
+										   RouteOptimization.TIME, LocalTime.MIN);
 		assertDoesNotThrow(() -> query.run(tn));
 	}
 }

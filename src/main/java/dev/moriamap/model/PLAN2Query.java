@@ -26,42 +26,32 @@ public class PLAN2Query extends Query {
 	 */
 	private static final int MAX_CLOSEST_GEOVERTICES = 5;
 
-	private final String startLatitude;
-	private final String startLongitude;
-	private final String targetLatitude;
-	private final String targetLongitude;
+	private final GeographicVertex startPoint;
+	private final GeographicVertex targetPoint;
 	private final RouteOptimization optimizationChoice;
 	private final LocalTime startTime;
 
 	/**
 	 * Constructor of PLAN2Query
 	 * @param out the outputStream where the result will be written
-	 * @param startLatitude the latitude of the trip start point
-	 * @param startLongitude the longitude of the trip start point
-	 * @param targetLatitude the latitude of the destination
-	 * @param targetLongitude the longitude of the destination
+	 * @param startPoint geographic Vertex of the starting point
+	 * @param targetPoint geographic Vertex of the starting point
 	 * @param optimizationChoice optimization method used
 	 * @param startTime starting time when the travel start
 	 * @throws NullPointerException if any argument is null except out
 	 */
 	public PLAN2Query(OutputStream out,
-                      String startLatitude,
-					  String startLongitude,
-                      String targetLatitude,
-					  String targetLongitude,
+					  GeographicVertex startPoint ,
+					  GeographicVertex targetPoint,
                       RouteOptimization optimizationChoice,
                       LocalTime startTime) {
 		super(out);
-		Objects.requireNonNull(startLatitude);
-		Objects.requireNonNull(startLongitude);
-		Objects.requireNonNull(targetLatitude);
-		Objects.requireNonNull(targetLongitude);
+		Objects.requireNonNull(startPoint);
+		Objects.requireNonNull(targetPoint);
 		Objects.requireNonNull(optimizationChoice);
 		Objects.requireNonNull(startTime);
-		this.startLatitude = startLatitude;
-		this.startLongitude = startLongitude;
-		this.targetLatitude = targetLatitude;
-		this.targetLongitude = targetLongitude;
+		this.startPoint = startPoint;
+		this.targetPoint = targetPoint;
 		this.optimizationChoice = optimizationChoice;
 		this.startTime = startTime;
 	}
@@ -83,6 +73,25 @@ public class PLAN2Query extends Query {
 	}
 
 	/**
+	 * This method take a geographic vertex and try to find a Stop in the transport network
+	 * that have exactly the same position, if a Stop if found then it's returned,
+	 * otherwise it add the geographic vertex to the network and return the same geographic vertex;
+	 * @param network the network where we try to find the Stop
+	 * @param gv the geographic vertex we try to convert to a Stop
+	 * @return a geographic vertex, which is either instance of a Stop or the same gv as passed to method's arguments
+	 */
+	private GeographicVertex getStopFromGeoVertex(TransportNetwork network, GeographicVertex gv) {
+		if (!(gv instanceof Stop)) {
+			GeographicVertex startStop = network.getStopFromPosition( gv.getGeographicPosition() );
+			if(startStop == null) {
+				network.addGeographicVertex( gv );
+			} else
+				return startStop;
+		}
+		return gv;
+	}
+
+	/**
 	 * Returns an optimized route between two positions. If one of the positions
 	 * matches a Stop that is in the transport network, the route uses it
 	 * as start/destination. If the start or destination is not a Stop,
@@ -96,26 +105,8 @@ public class PLAN2Query extends Query {
 	 */
 	@Override
 	protected String run( TransportNetwork network ) throws QueryFailureException {
-		GeographicPosition startPosition;
-		GeographicPosition targetPosition;
-		try {
-			startPosition = GeographicPosition.from(this.startLatitude, this.startLongitude);
-			targetPosition = GeographicPosition.from(this.targetLatitude, this.targetLongitude);
-		} catch (IllegalArgumentException e) {
-			throw new QueryFailureException("Invalid start or target latitude or longitude");
-		}
-
-		GeographicVertex startGV = network.getStopFromPosition(startPosition);
-		GeographicVertex targetGV = network.getStopFromPosition(targetPosition);
-
-		if (startGV == null) {
-			startGV = GeographicVertex.at(startPosition);
-			network.addGeographicVertex(startGV);
-		}
-		if (targetGV == null) {
-			targetGV = GeographicVertex.at(targetPosition);
-			network.addGeographicVertex(targetGV);
-		}
+		GeographicVertex startGV = getStopFromGeoVertex(network, startPoint);
+		GeographicVertex targetGV = getStopFromGeoVertex(network, targetPoint);
 
 		if (startGV.equals(targetGV))
 			throw new QueryFailureException("Start and target stop should be different");
@@ -140,7 +131,7 @@ public class PLAN2Query extends Query {
 			List<Edge> path = Graph.getRouteFromTraversal( traversal, startGV, targetGV );
 			return network.getRouteDescription( path, startTime );
 		} catch( NoSuchElementException | IllegalStateException e ) {
-			throw new QueryFailureException("Impossible to find a route");
+			throw new QueryFailureException("Impossible to find a route " + e.getMessage());
 		} finally {
 			for (WalkSegment ws : network.getWalkSegments()) network.removeWalkSegment(ws);
 			if (!(startGV instanceof Stop)) network.removeGeographicVertex(startGV);
