@@ -95,7 +95,7 @@ class TravelTimeAsWeightTest {
 		TransportNetwork tn = TransportNetwork.empty();
 		tn.addEdge(ws);
 		var travelTimeAsWeight = new TravelTimeAsWeight(LocalTime.MIN, tn);
-		assertEquals(10193600,travelTimeAsWeight.apply(0.0, ws));
+		assertEquals(2.29356E7,travelTimeAsWeight.apply(0.0, ws));
 	}
 
 }

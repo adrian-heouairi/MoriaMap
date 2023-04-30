@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class WalkSegmentTest {
 
     @Test void walkSegmentHasWalkSpeed() {
-        assertEquals(4.5, WalkSegment.WALK_SPEED);
+        assertEquals(2, WalkSegment.WALK_SPEED);
     }
 
     @Test void walkSegmentHasDrudgery() {
@@ -27,7 +27,7 @@ class WalkSegmentTest {
         var gv1 = GeographicVertex.at(GeographicPosition.NORTH_POLE);
         var gv2 = GeographicVertex.at(GeographicPosition.SOUTH_POLE);
         var sut = new WalkSegment(gv1, gv2);
-        Duration real = Duration.ofSeconds(10193600);
+        Duration real = Duration.ofHours( 6371 );
         assertEquals(real, sut.travelTime());
     }
 }
