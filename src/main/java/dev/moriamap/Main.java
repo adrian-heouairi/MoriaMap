@@ -203,6 +203,17 @@ class Main {
         return new OptimizedRouteBetweenPositionsQuery( out, startGeoVertex, targetGeoVertex, optimizationChoice, startTime);
     }
 
+    private static OptimizedRouteBetweenPositionsWithWalkQuery makeOptimizedRouteBetweenPositionsWithWalkQuery( TransportNetwork tn ){
+        GeographicVertex startGeoVertex = getGeographicVertex(tn, "starting");
+        if(startGeoVertex == null) return null;
+        GeographicVertex targetGeoVertex = getGeographicVertex(tn, "destination");
+        if(targetGeoVertex == null) return null;
+        RouteOptimization optimizationChoice = getRouteOptimization();
+        LocalTime startTime = getTime();
+
+        return new OptimizedRouteBetweenPositionsWithWalkQuery( out, startGeoVertex, targetGeoVertex, optimizationChoice, startTime);
+    }
+
     public static void main(String[] args) {
         in = System.in;
         out = new PrintStream( new FileOutputStream( FileDescriptor.out));
@@ -220,18 +231,22 @@ class Main {
                       2 - Get a path from a stop to another
                       3 - Get an optimized path from a stop to another
                       4 - Get an optimized path from a position to another
-                      5 - Exit
+                          without walking sections between stops
+                      5 - Get an optimized path from a position to another
+                          with walking sections between stops
+                      6 - Exit
                     """);
             print("Choice: ");
             String option = getInput();
 
-            if (option.equals("5")) break;
+            if (option.equals("6")) break;
 
             Query query = switch (option) {
                 case "1" -> makeTransportSchedulesQuery(tn);
                 case "2" -> makeRouteBetweenStopsQuery(tn);
                 case "3" -> makeOptimizedRouteBetweenStopsQuery(tn);
                 case "4" -> makeOptimizedRouteBetweenPositionsQuery(tn);
+                case "5" -> makeOptimizedRouteBetweenPositionsWithWalkQuery(tn);
                 default -> null;
             };
 

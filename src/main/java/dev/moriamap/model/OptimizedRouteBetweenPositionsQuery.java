@@ -15,7 +15,7 @@ public class OptimizedRouteBetweenPositionsQuery extends Query {
 	 * vertices that are close to the start or the destination point of the route.
 	 * It is in meters.
 	 */
-	private static final double GEOVERTEX_SEARCH_RADIUS = 2000;
+	protected static final double GEOVERTEX_SEARCH_RADIUS = 2000;
 
 	/**
 	 * The maximum number of geographic vertices to keep within the
@@ -92,6 +92,14 @@ public class OptimizedRouteBetweenPositionsQuery extends Query {
 	}
 
 	/**
+	 * For use by subclasses. Run at the start of run().
+	 * @param network the network this Query acts on
+	 */
+	protected void pre(TransportNetwork network) {
+		// For use by subclasses
+	}
+
+	/**
 	 * Returns an optimized route between two positions. If one of the positions
 	 * matches a Stop that is in the transport network, the route uses it
 	 * as start/destination. If the start or destination is not a Stop,
@@ -105,6 +113,8 @@ public class OptimizedRouteBetweenPositionsQuery extends Query {
 	 */
 	@Override
 	protected String run( TransportNetwork network ) throws QueryFailureException {
+		pre(network);
+
 		GeographicVertex startGV = getStopFromGeoVertex(network, startPoint);
 		GeographicVertex targetGV = getStopFromGeoVertex(network, targetPoint);
 

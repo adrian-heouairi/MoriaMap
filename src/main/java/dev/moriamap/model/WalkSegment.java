@@ -11,7 +11,7 @@ public class WalkSegment extends Edge {
     /**
      * Walk speed in km/h.
      */
-    public static final double WALK_SPEED = 4.5;
+    public static final double WALK_SPEED = 2.0;
 
     /**
      * Drudgery factor of the action of walking.
