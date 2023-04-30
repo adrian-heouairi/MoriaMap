@@ -321,17 +321,10 @@ public final class TransportNetwork extends Graph {
      * are not already in this TransportNetwork, they are added too. If the specified WalkSegment
      * is already present, does nothing.
      * @param walkSegment the WalkSegment to add
-     * @throws NullPointerException if the WalkSegment is null
+     * @throws IllegalArgumentException if the WalkSegment is null
      */
     public void addWalkSegment(WalkSegment walkSegment){
-        Objects.requireNonNull(walkSegment);
-        boolean containEdge = false;
-        for(Edge e : this.getEdges()){
-            if(e.equals(walkSegment))
-                containEdge = true;
-        }
-        if(!containEdge)
-            this.addEdge(walkSegment);
+        this.addEdge(walkSegment);
     }
 
     /**

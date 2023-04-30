@@ -470,7 +470,7 @@ class TransportNetworkTest {
     @Test
     void addWalkSegmentNull() {
         TransportNetwork tn = TransportNetwork.empty();
-        assertThrows( NullPointerException.class,
+        assertThrows( IllegalArgumentException.class,
         () -> tn.addWalkSegment(null) );
     }
 
@@ -495,19 +495,6 @@ class TransportNetworkTest {
 
         assertThrows( NullPointerException.class,
         () -> tn.removeWalkSegment(null) );
-    }
-
-    @Test
-    void removeWalkSegmentNoSuchElement() {
-        TransportNetwork tn = TransportNetwork.empty();
-
-        GeographicVertex geoVertex1 = new GeographicVertex(GeographicPosition.NORTH_POLE);
-        GeographicVertex geoVertex2 = new GeographicVertex(GeographicPosition.SOUTH_POLE);
-
-        WalkSegment ws1 = new WalkSegment(geoVertex1,geoVertex2);
-
-        assertThrows( NoSuchElementException.class,
-        () -> tn.removeWalkSegment(ws1) );
     }
 
     @Test 

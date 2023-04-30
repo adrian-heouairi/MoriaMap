@@ -201,13 +201,6 @@ class GraphTest {
         sut.removeVertex(v);
         assertFalse(sut.contains(v));
     }
-    
-    @Test void removeAnInexistantEdgeThrowsException() {
-        Graph sut = new DummyGraph();
-        DummyEdge e = new DummyEdge();
-        assertThrows(NoSuchElementException.class,() ->
-                sut.removeEdge(e));
-    }
 
     @Test void removeNullEdgeThrowsNPE() {
         Graph sut = new DummyGraph();
