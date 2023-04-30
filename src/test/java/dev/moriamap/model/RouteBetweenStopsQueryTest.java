@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
-class PLAN0QueryTest {
+class RouteBetweenStopsQueryTest {
 
 	TransportNetwork tn;
 	{
@@ -19,19 +19,19 @@ class PLAN0QueryTest {
 	@Test void startingStopNullTest() {
 		assertThrows(
 				  IllegalArgumentException.class,
-				  () -> new PLAN0Query( null, null, "Hoche" )
+				  () -> new RouteBetweenStopsQuery( null, null, "Hoche" )
 					);
 	}
 
 	@Test void targetStopNullTest() {
 		assertThrows(
 				  IllegalArgumentException.class,
-				  () -> new PLAN0Query( null, "Lourmet", null )
+				  () -> new RouteBetweenStopsQuery( null, "Lourmet", null )
 					);
 	}
 
 	@Test void startingStopNotFoundTest() {
-		PLAN0Query query = new PLAN0Query( null, "Java", "Hoche" );
+		RouteBetweenStopsQuery query = new RouteBetweenStopsQuery( null, "Java", "Hoche" );
 		assertDoesNotThrow(
 				  () -> query.execute( tn )
 						  );
@@ -40,7 +40,7 @@ class PLAN0QueryTest {
 	}
 
 	@Test void targetStopNotFoundTest() {
-		PLAN0Query query = new PLAN0Query( null, "Lourmel", "Ocaml" );
+		RouteBetweenStopsQuery query = new RouteBetweenStopsQuery( null, "Lourmel", "Ocaml" );
 		assertDoesNotThrow(
 				  () -> query.execute( tn )
 						  );
@@ -49,13 +49,13 @@ class PLAN0QueryTest {
 	}
 
 	@Test void sameStartAndTargetStopsTest() {
-		Query query = new PLAN0Query( null, "Lourmel", "Lourmel" );
+		Query query = new RouteBetweenStopsQuery( null, "Lourmel", "Lourmel" );
 		assertThrows( QueryFailureException.class,
 					  () -> query.run(tn));
 	}
 
 	@Test void noProblemsFoundTest() {
-		PLAN0Query query = new PLAN0Query( null, "Lourmel", "Reuilly - Diderot" );
+		RouteBetweenStopsQuery query = new RouteBetweenStopsQuery( null, "Lourmel", "Reuilly - Diderot" );
 		assertDoesNotThrow(
 				  () -> query.execute( tn )
 						  );

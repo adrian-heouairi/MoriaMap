@@ -6,7 +6,7 @@ import org.junit.jupiter.api.TestInstance;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
-class LECTTIMEQueryTest {
+class TransportSchedulesQueryTest {
 
     TransportNetwork tn;
     {
@@ -21,12 +21,12 @@ class LECTTIMEQueryTest {
     void stopNullTest() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> new LECTTIMEQuery( null, null)
+                () -> new TransportSchedulesQuery( null, null)
         );
     }
 
     @Test void stopNotFoundTest() {
-        LECTTIMEQuery query = new LECTTIMEQuery(null, "Java");
+        TransportSchedulesQuery query = new TransportSchedulesQuery( null, "Java");
         assertDoesNotThrow(
                 () -> query.execute( tn )
         );
@@ -35,7 +35,7 @@ class LECTTIMEQueryTest {
     }
 
     @Test void noProblemsFoundTest() {
-        LECTTIMEQuery query = new LECTTIMEQuery( null, "Lourmel");
+        TransportSchedulesQuery query = new TransportSchedulesQuery( null, "Lourmel");
         assertDoesNotThrow(
                 () -> query.execute( tn )
         );

@@ -3,9 +3,9 @@ package dev.moriamap.model;
 import java.io.OutputStream;
 
 /**
- * A LECTTIMEQuery represents a request for schedule information fetching.
+ * A TransportSchedulesQuery represents a request for schedule information fetching.
  */
-public class LECTTIMEQuery extends Query {
+public class TransportSchedulesQuery extends Query {
 
     /**
      * The name of the stop this query use for getting schedules
@@ -14,11 +14,11 @@ public class LECTTIMEQuery extends Query {
 
 
     /**
-     * Constructor of LECTTIMEQuery
+     * Constructor of TransportSchedulesQuery
      * @param out the outputStream where the result will be written
      * @param stopName the name of the stop used in the query
      */
-    public LECTTIMEQuery(OutputStream out, String stopName){
+    public TransportSchedulesQuery( OutputStream out, String stopName ){
         super(out);
         if (stopName == null)
             throw new IllegalArgumentException("Stop name can't be null");

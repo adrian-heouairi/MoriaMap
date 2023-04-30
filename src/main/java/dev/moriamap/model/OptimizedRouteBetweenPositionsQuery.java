@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
  * Query that computes and prints the shortest path from a starting geographic
  * position to a target geographic position with the selected optimization method
  */
-public class PLAN2Query extends Query {
+public class OptimizedRouteBetweenPositionsQuery extends Query {
 	/**
 	 * The radius of the circle inside which we are looking for geographic
 	 * vertices that are close to the start or the destination point of the route.
@@ -32,7 +32,7 @@ public class PLAN2Query extends Query {
 	private final LocalTime startTime;
 
 	/**
-	 * Constructor of PLAN2Query
+	 * Constructor of OptimizedRouteBetweenPositionsQuery
 	 * @param out the outputStream where the result will be written
 	 * @param startPoint geographic Vertex of the starting point
 	 * @param targetPoint geographic Vertex of the starting point
@@ -40,11 +40,11 @@ public class PLAN2Query extends Query {
 	 * @param startTime starting time when the travel start
 	 * @throws NullPointerException if any argument is null except out
 	 */
-	public PLAN2Query(OutputStream out,
-					  GeographicVertex startPoint ,
-					  GeographicVertex targetPoint,
-                      RouteOptimization optimizationChoice,
-                      LocalTime startTime) {
+	public OptimizedRouteBetweenPositionsQuery( OutputStream out,
+												GeographicVertex startPoint ,
+												GeographicVertex targetPoint,
+												RouteOptimization optimizationChoice,
+												LocalTime startTime ) {
 		super(out);
 		Objects.requireNonNull(startPoint);
 		Objects.requireNonNull(targetPoint);
