@@ -131,7 +131,7 @@ public class PLAN2Query extends Query {
 			List<Edge> path = Graph.getRouteFromTraversal( traversal, startGV, targetGV );
 			return network.getRouteDescription( path, startTime );
 		} catch( NoSuchElementException | IllegalStateException e ) {
-			throw new QueryFailureException("Impossible to find a route " + e.getMessage());
+			throw new QueryFailureException("Impossible to find a route");
 		} finally {
 			for (WalkSegment ws : network.getWalkSegments()) network.removeWalkSegment(ws);
 			if (!(startGV instanceof Stop)) network.removeGeographicVertex(startGV);
