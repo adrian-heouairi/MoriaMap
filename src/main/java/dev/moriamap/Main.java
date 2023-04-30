@@ -2,9 +2,7 @@ package dev.moriamap;
 
 import dev.moriamap.model.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.time.LocalTime;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -201,7 +199,7 @@ class Main {
 
     public static void main(String[] args) {
         in = System.in;
-        out = System.out;
+        out = new PrintStream( new FileOutputStream( FileDescriptor.out));
 
         TransportNetwork tn = createTransportNetwork(
                 Main.class.getResourceAsStream( "/map_data.csv" ),

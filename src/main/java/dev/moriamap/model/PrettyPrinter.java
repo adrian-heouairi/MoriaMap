@@ -111,6 +111,34 @@ public class PrettyPrinter {
 	}
 
 
+	private static String getWalkSegmentDescription(WalkSegment segment,
+													String startMessage,
+													LocalTime startAt) {
+		return "\n\n" + startMessage + ": " + formatLocalTime(startAt)
+				  + "\nWalk for " + formatDuration(segment.travelTime())
+				  + " from '" + segment.getFrom() + "' to '" + segment.getTo() + "'";
+	}
+
+	private static String getTransportSegmentDescription(TransportSegment segment,
+														 TransportNetwork tn,
+														 List<Edge> route,
+														 List<LocalTime> lts,
+														 String currentLine,
+														 int i) {
+		String res = "";
+		if( !segment.getLineName().equals( currentLine ) ) {
+			res += "\n\nArrival at: " + formatLocalTime(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1))))
+				  + ", departure at: " + formatLocalTime(lts.get(i))
+				  + lineChangeToString( tn, segment.getLineName(), segment );
+		}
+		res += " --> ";
+		if( i == route.size() - 1 )
+			res += "\033[42m" + segment.getTo() + FORMAT_RESET;
+		else
+			res += segment.getTo();
+		return res;
+	}
+
 	/**
 	 * This method build a string that contain all the information to travel
 	 * on the transport network, and with times at every line change
@@ -130,6 +158,7 @@ public class PrettyPrinter {
 		if(route.isEmpty()) return "";
 		if(route.size() != lts.size())
 			throw new IllegalArgumentException("route and lts have different sizes");
+
 		StringBuilder builder = new StringBuilder();
 		String currentLine = null;
 		if(route.get( 0 ) instanceof TransportSegment firstSegment) {
@@ -137,39 +166,26 @@ public class PrettyPrinter {
 			builder.append( "Taking line at " )
 					  .append( formatLocalTime(lts.get( 0 )))
 					  .append( lineChangeToString( tn, currentLine, firstSegment ) );
+		} else if(route.get( 0 ) instanceof WalkSegment firstSegment) {
+			builder.append(getWalkSegmentDescription( firstSegment, "Starting at", lts.get( 0 )));
 		}
-		LocalTime arrivalTime = null;
 		for( int i = 0; i < route.size(); i++ ) {
 			Edge edge = route.get( i );
 			if(edge instanceof TransportSegment segment) {
-				if( !segment.getLineName().equals( currentLine ) ) {
-					builder
-							  .append("\n\nArrival at: ").append(formatLocalTime(lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)))))
-							  .append( ", departure at: " ).append(formatLocalTime(lts.get(i)))
-							  .append( lineChangeToString( tn, segment.getLineName(), segment ) );
-				}
-				builder.append( " --> " );
-				currentLine = segment.getLineName();
-				if( i == route.size() - 1 )
-					builder.append( "\033[42m" ).append( segment.getTo() ).append( FORMAT_RESET );
-				else
-					builder.append( segment.getTo() );
+				builder.append (getTransportSegmentDescription( segment, tn, route, lts, currentLine, i ) );
+			  	currentLine = segment.getLineName();
 				if(i == route.size() - 1)
-					arrivalTime = lts.get( i ).plus( segment.getTravelDuration());
-			} else if(edge instanceof WalkSegment segment) {
-				builder.append( "\n\nWalk for ")
-					   .append( formatDuration(segment.travelTime()) )
-					   .append( " from '" )
-					   .append( segment.getFrom() )
-					   .append( "' to '" )
-					   .append( segment.getTo() )
-					   .append( "'");
+					builder.append("\n\nArrival time : ").append(formatLocalTime(
+							  lts.get( i ).plus( segment.getTravelDuration())));
+			} else if(edge instanceof WalkSegment segment && i > 0) {
+				builder.append(getWalkSegmentDescription(
+						  segment, "Arrival at",
+						  lts.get( i-1 ).plus( getEdgeDuration(route.get(i-1)))));
 				if(i == route.size() - 1)
-					arrivalTime = lts.get( i ).plus( segment.travelTime());
+					builder.append("\n\nArrival time : ").append(formatLocalTime(
+							  lts.get( i ).plus( segment.travelTime())));
 			}
 		}
-		if(arrivalTime != null)
-			builder.append("\n\nArrival time : ").append(formatLocalTime(arrivalTime));
 		return builder.toString();
 	}
 
