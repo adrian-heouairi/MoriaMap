@@ -53,7 +53,7 @@ if ! [ -e "$zip" ]; then
     files=()
     for i; do files+=("$master/$i"); done
 
-    zip -j "$zip" "$master/build/libs/MoriaMap.jar" "$master/Instructions.txt" "$master/RUN_LINUX.sh" "$master/RUN_WINDOWS.bat" "${files[@]}"
+    zip -j "$zip" "$master/build/libs/MoriaMap.jar" "$master/README.md" "$master/RUN_LINUX.sh" "$master/RUN_WINDOWS.bat" "${files[@]}"
     git add "$zip"
     git commit -m "Add release zip for v$version"
     git push
