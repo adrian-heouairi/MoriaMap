@@ -41,36 +41,33 @@ public class DijkstraTraversalStrategy implements TraversalStrategy {
         Objects.requireNonNull(weightFunction);
         Objects.requireNonNull(graph);
 
-        List<Vertex> p = new ArrayList<>();
-        Map<Vertex,Double> d = new HashMap<>();
-        for(Vertex v : graph.getVertices())
-            d.put(v,Double.POSITIVE_INFINITY);
-        d.put(src, 0.0);
+        List<Vertex> visited = new ArrayList<>();
+        Map<Vertex,Double> distance = new HashMap<>();
+        for (Vertex v : graph.getVertices())
+            distance.put(v, Double.POSITIVE_INFINITY);
+        distance.put(src, 0.0);
 
         Map<Vertex,Edge> res = new HashMap<>();
-        List<Vertex> pComplement = graph.getVertices();
+        List<Vertex> notVisited = graph.getVertices();
 
-        while(!pComplement.isEmpty()){
-            Vertex a = pComplement.get(0);
-            double minD = Double.POSITIVE_INFINITY;
-            for(Vertex v : pComplement){
-                if(d.get(v) < minD){
-                    minD = d.get(v);
-                    a = v;
-                }
-            }
+        while (!notVisited.isEmpty()) {
+            Vertex a = findMin(distance, notVisited);
 
-            if (a.equals(dst) && singleDestination) return res;
+            if (hasToStop(a, dst, singleDestination))
+                return res;
 
-            pComplement.remove(a);
-            p.add(a);
+            notVisited.remove(a);
+            visited.add(a);
 
-            for(Edge ab : graph.getOutgoingEdgesOf(a)){
-                if( !p.contains(ab.getTo())){
-                    double distanceFromSrcToB = d.get(a) + weightFunction.apply(d.get(a), ab);
-                    if(d.get(ab.getTo()) > distanceFromSrcToB){
-                        d.put(ab.getTo(),distanceFromSrcToB);
-                        res.put(ab.getTo(), ab);
+            for (Edge ab: graph.getOutgoingEdgesOf(a)) {
+                if (!visited.contains(ab.getTo())) {
+                    double distA = distance.get(a);
+                    double distanceFromSrcToB = 
+                        distA + weightFunction.apply(distA, ab);
+                    Vertex to = ab.getTo();
+                    if (distance.get(to) > distanceFromSrcToB) {
+                        distance.put(to, distanceFromSrcToB);
+                        res.put(to, ab);
                     }
                 }
             }
@@ -79,4 +76,24 @@ public class DijkstraTraversalStrategy implements TraversalStrategy {
         return res;
     }
 
+    // Returns true if a and dst are equal and single destination is true
+    private boolean hasToStop(Vertex a, Vertex dst, boolean singleDestination) {
+        return a.equals(dst) && singleDestination;
+    }
+
+    // Returns the Vertex of vertices that has the minimal value associated in
+    // dist. If none of the vertices is at strictly less than 
+    // Double.POSITIVE_INFINITY distance, returns the first element of 
+    // vertices.
+    private Vertex findMin(Map<Vertex, Double> dist, List<Vertex> vertices) {
+        Vertex a = vertices.get(0);
+        double minD = Double.POSITIVE_INFINITY;        
+        for(Vertex v : vertices){
+            if(dist.get(v) < minD){
+                minD = dist.get(v);
+                a = v;
+            }
+        }
+        return a;
+    }
 }
