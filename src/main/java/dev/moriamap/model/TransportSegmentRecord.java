@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This record holds datas for an Edge
+ * This record holds datas for a transport segment
  * @param fromName name of first stop of the edge
  * @param fromLongitude longitude of startStop of the edge
  * @param fromLatitude latitude of startStop of the edge
@@ -17,7 +17,7 @@ import java.util.List;
  * @param duration the duration form startStop to destinationStop
  * @param distance distance between the two stops of this edge tuple
  */
-public record EdgeRecord(String fromName,
+public record TransportSegmentRecord(String fromName,
                         double fromLongitude,
                         double fromLatitude,
                         String toName,
@@ -29,7 +29,7 @@ public record EdgeRecord(String fromName,
                         double distance) {
 
     /**
-     * This record holds datas for an Edge
+     * This record holds datas for a transport segment
      * @param fromName name of first stop of the edge
      * @param fromLongitude longitude of startStop of the edge
      * @param fromLatitude latitude of startStop of the edge
@@ -41,20 +41,20 @@ public record EdgeRecord(String fromName,
      * @param duration the duration form startStop to destinationStop
      * @param distance distance between the two stops of this edge tuple
      */
-    public EdgeRecord {
+    public TransportSegmentRecord {
         if( fromName == null || toName == null || lineName == null || variantName == null || duration == null )
-            throw new IllegalArgumentException("No non-primitive EdgeTuple values can be null");
+            throw new IllegalArgumentException("No non-primitive TransportSegmentRecord values can be null");
     }
 
     /**
-     * Transforms a list of strings to an EdgeTuple.
+     * Transforms a list of strings to a TransportSegmentRecord .
      * <p>
      *     The format of fields is assumed to be correct.
      * </p>
      * @param fields the field of the given line
-     * @return an EdgeTuple represented by fields parameter
+     * @return a TransportSegmentRecord represented by fields parameter
      */
-    private static EdgeRecord fromLine(List<String> fields) {
+    private static TransportSegmentRecord fromLine(List<String> fields) {
         String [] longitudeAndLatitude = fields.get(1).split(", ");
         double lon1 = Double.parseDouble(longitudeAndLatitude[0]);
         double lat1 = Double.parseDouble(longitudeAndLatitude[1]);
@@ -66,7 +66,7 @@ public record EdgeRecord(String fromName,
         String [] time = fields.get(5).split(":");
         Duration d = Duration.ofSeconds(Integer.parseInt(time[0].trim()) * 60L + Integer.parseInt(time[1].trim()));
 
-        return new EdgeRecord(fields.get(0),
+        return new TransportSegmentRecord(fields.get(0),
                 lon1,
                 lat1,
                 fields.get(2),
@@ -80,12 +80,12 @@ public record EdgeRecord(String fromName,
     }
 
     /**
-     * Transforms lines of a list of lists of strings into a list of EdgeTuples.
+     * Transforms lines of a list of lists of strings into a list of TransportSegmentRecords.
      * @param lines list containing information to create tuples
-     * @return a list of EdgeTuples
+     * @return a list of TransportSegmentRecords 
      */
-    public static List<EdgeRecord> fromTuples(List<List<String>> lines) {
-        ArrayList<EdgeRecord> res = new ArrayList<>();
+    public static List<TransportSegmentRecord> fromTuples(List<List<String>> lines) {
+        ArrayList<TransportSegmentRecord> res = new ArrayList<>();
         for ( List<String> line: lines) {
             res.add(fromLine(line));
         }

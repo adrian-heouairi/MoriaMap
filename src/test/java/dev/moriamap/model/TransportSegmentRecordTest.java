@@ -3,7 +3,6 @@ package dev.moriamap.model;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -13,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
-class EdgeTupleTest {
+class TransportSegmentRecordTest {
 
-    EdgeRecord e = new EdgeRecord(
+    TransportSegmentRecord e = new TransportSegmentRecord(
             "Olympiades",
             40.5,
             40.5,
@@ -38,14 +37,14 @@ class EdgeTupleTest {
             e.printStackTrace();
         }
 
-        List<EdgeRecord> liste  = EdgeRecord.fromTuples(lines);
+        List<TransportSegmentRecord> liste  = TransportSegmentRecord.fromTuples(lines);
         assertEquals(27,liste.size());
     }
 
     @Test void constructorParsingNullFromName() {
         assertThrows( IllegalArgumentException.class,
                 () ->{
-                    new EdgeRecord(
+                    new TransportSegmentRecord(
                             null,
                             40.5,
                             40.5,
@@ -62,7 +61,7 @@ class EdgeTupleTest {
     @Test void constructorParsingNullToName() {
         assertThrows( IllegalArgumentException.class,
                 () ->{
-                    new EdgeRecord(
+                    new TransportSegmentRecord(
                             "Olympiades",
                             40.5,
                             40.5,
@@ -79,7 +78,7 @@ class EdgeTupleTest {
     @Test void constructorParsingNullLineName() {
         assertThrows( IllegalArgumentException.class,
                 () ->{
-                    new EdgeRecord(
+                    new TransportSegmentRecord(
                             "Olympiades",
                             40.5,
                             40.5,
@@ -96,7 +95,7 @@ class EdgeTupleTest {
     @Test void constructorParsingNullVariantName() {
         assertThrows( IllegalArgumentException.class,
                 () ->{
-                    new EdgeRecord(
+                    new TransportSegmentRecord(
                             "Olympiades",
                             40.5,
                             40.5,
@@ -113,7 +112,7 @@ class EdgeTupleTest {
     @Test void constructorParsingNullDuration() {
         assertThrows( IllegalArgumentException.class,
                 () ->
-                    new EdgeRecord(
+                    new TransportSegmentRecord(
                             "Olympiades",
                             40.5,
                             40.5,
