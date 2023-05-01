@@ -61,8 +61,10 @@ public final class CSVParser {
             }
         }
         if (!same) {
+            sc.close();
             throw new InconsistentCSVException();
         }
+        sc.close();
         return content;
     }
 }
