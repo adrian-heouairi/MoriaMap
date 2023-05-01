@@ -34,7 +34,7 @@ git fetch
 [ "$(git branch --show-current)" = master ] || error "Run the script on branch master"
 
 git pull
-./gradlew build
+./gradlew assemble
 
 #version=$(sed -En "s/^version +['\"](.+)['\"]$/\1/p" build.gradle)
 #[ "$version" ]

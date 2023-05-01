@@ -4,6 +4,7 @@ plugins {
     id 'idea'
     id 'jacoco'
     id "org.sonarqube" version "3.5.0.2730"
+    id 'com.diffplug.spotless' version '6.15.0'
 }
 
 group 'dev.moriamap'
@@ -17,6 +18,8 @@ repositories {
 dependencies {
     testImplementation(platform('org.junit:junit-bom:5.7.0'))
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation("com.diffplug.spotless:spotless-lib:2.35.0")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.15.0")
 }
 
 tasks.named('test') {
@@ -64,4 +67,19 @@ run {
 
 javadoc {
     options.addBooleanOption('Xwerror', true)
+}
+
+spotless {
+    java {
+        target fileTree('.') {
+            include '**/*.java'
+            exclude '**/build/**', '**/build-*/**', '**/bin/**'
+        }
+        toggleOffOn()
+        //palantirJavaFormat()
+        googleJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
