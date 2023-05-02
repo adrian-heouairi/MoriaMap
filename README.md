@@ -7,6 +7,20 @@ UML diagram:
 
 Javadoc:  
 
+## Important notice
+For the calculation of routes including walking sections, a walk speed of 2 km/h is assumed when optimizing for time.
+We had to choose this speed because the time transport segments take in the CSV file provided to us is
+exaggerated. If we were to walk at 4.5 km/h, Saint-Denis - Université to Basilique de Saint-Denis takes 14 m 18 s.
+Compare this to the transport segment on line 13 variant 6 which takes 15 m 34 s.
+
+When optimizing for distance, walking has a drudgery factor of 10 which means that a walk segment is 10 times
+longer than its real length, which is calculated using the geographic coordinates between the two points.
+Unfortunately this is not enough because the length of transport segments in the
+CSV file provided is greatly exaggerated, for example there is a distance of 100 km between Gare de Lyon and
+Châtelet (see below). As a result, distance-optimized routes only have walking sections. We are sorry.
+
+`Gare de Lyon;2.372519782814122, 48.8442498880687;Châtelet;2.346411849769497, 48.85955653272677;14 variant 1;26:45;100.92811590723446`
+
 ## Features
 At the current state the program is able to load the transport network described
 in `map_data.csv` (LECT_NET) and the schedule described in `schedule.csv`.  
