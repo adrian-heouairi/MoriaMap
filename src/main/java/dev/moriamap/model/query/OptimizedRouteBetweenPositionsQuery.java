@@ -86,7 +86,7 @@ public class OptimizedRouteBetweenPositionsQuery extends Query {
 
 	/**
 	 * This method take a geographic vertex and try to find a Stop in the transport network
-	 * that have exactly the same position, if a Stop if found then it's returned,
+	 * that have exactly the same position, if a Stop is found then it's returned,
 	 * otherwise it add the geographic vertex to the network and return the same geographic vertex;
 	 * @param network the network where we try to find the Stop
 	 * @param gv the geographic vertex we try to convert to a Stop
@@ -142,7 +142,7 @@ public class OptimizedRouteBetweenPositionsQuery extends Query {
 		else if(optimizationChoice == RouteOptimization.TIME){
 			optimizationBiFun = new TravelTimeAsWeight( startTime, network );
 		} else
-			throw new UnsupportedOperationException("Optimization choice doesn't exists or is not yet supported");
+			throw new UnsupportedOperationException("Optimization choice doesn't exist or is not yet supported");
 
 		network.setTraversalStrategy( new DijkstraTraversalStrategy() );
 

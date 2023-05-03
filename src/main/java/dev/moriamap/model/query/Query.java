@@ -34,7 +34,7 @@ public abstract class Query {
     protected abstract String run(TransportNetwork network) throws QueryFailureException;
 
     /**
-     * Call the method run() and print it's result in the outputStream
+     * Call the method run() and print its result in the outputStream
      * @param network the network that will be passed to the run() method
      * @throws IOException if an issue happened writing ou the OutputStream
      */

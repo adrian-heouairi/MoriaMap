@@ -56,7 +56,7 @@ class GeographicVertexTest {
         assertEquals(u.hashCode(), v.hashCode());
     }
 
-    @Test void toStringReturns2digitprecisionCoordinates() {
+    @Test void toStringReturns2digitPrecisionCoordinates() {
         GeographicVertex v = new GeographicVertex(GeographicPosition.at(12.4,15.5));
         assertEquals("(12.40,15.50)", v.toString());
     }

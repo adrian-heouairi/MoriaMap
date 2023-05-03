@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class QueryTest {
 
     private static class DummyQuery extends Query {
-        String in;
+        final String in;
         protected DummyQuery(OutputStream out, String in) {
             super(out);
             this.in = in;

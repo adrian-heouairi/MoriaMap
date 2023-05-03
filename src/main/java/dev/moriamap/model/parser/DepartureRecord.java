@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.time.LocalTime;
 
 /**
- * Holds the data that represents the departure time of a transport from the
+ * Holds the data that represents the departure time of transport from the
  * starting terminus of a certain variant in a line.
  */
 public record DepartureRecord(
@@ -67,7 +67,7 @@ public record DepartureRecord(
      * parsed.
      * @param tuple data as a String tuple
      * @throws NullPointerException if tuple is null
-     * @throws IllegalArgumentException if the size of tuple is different than
+     * @throws IllegalArgumentException if the size of tuple is different from
      *                                  VALID_TUPLE_SIZE
      */
     public static DepartureRecord fromTuple(List<String> tuple) {

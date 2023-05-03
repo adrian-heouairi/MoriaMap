@@ -34,8 +34,10 @@ class PassagesTest {
     void getFullDescription() {
         List<TransportSchedule> ltsch = this.newListTransportScheduleHelper();
         Passages p = Passages.of(ltsch);
-        assertEquals("At Lourmel: line 8 direction Boucicaut (variant 1): 14:37:00\n"+
-                        "At Lourmel: line 8 direction Boucicaut (variant 1): 00:00:00\n" ,
+        assertEquals("""
+                        At Lourmel: line 8 direction Boucicaut (variant 1): 14:37:00
+                        At Lourmel: line 8 direction Boucicaut (variant 1): 00:00:00
+                        """,
                 p.getFullDescription());
     }
 

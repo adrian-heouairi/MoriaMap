@@ -18,7 +18,7 @@ public class DepartureParser {
     /**
      * Take a TransportNetwork and a departure file and add 
      * the departures read from it to the TransportNetwork
-     * @param tn the TransportNetwork to wich we add the departures
+     * @param tn the TransportNetwork to which we add the departures
      * @param departures a Stream to the departures file
      * @throws InconsistentCSVException if there is an error in the departure file
      * @throws IllegalArgumentException if the TransportNetwork is null
@@ -32,9 +32,8 @@ public class DepartureParser {
            if(l == null) throw new InconsistentCSVException();
            
            Variant v = l.getVariantNamed(t.variantName());
-           if(v == null) throw new InconsistentCSVException();
 
-           if(!t.terminusName().equals(v.getStart().getName())) throw new InconsistentCSVException();
+            if(!t.terminusName().equals(v.getStart().getName())) throw new InconsistentCSVException();
 
            v.addDeparture(t.departureTime());
         }

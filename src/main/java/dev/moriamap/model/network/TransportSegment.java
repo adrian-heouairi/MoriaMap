@@ -8,16 +8,16 @@ import java.time.Duration;
 public class TransportSegment extends Edge {
 
     /** The variant's name of this TransportSegment */
-    private String variantName;
+    private final String variantName;
 
     /** The line's name of this TransportSegment */
-    private String lineName;
+    private final String lineName;
 
     /** The travel duration of this TransportSegment */
-    private Duration travelDuration;
+    private final Duration travelDuration;
 
     /** The distance of this TransportSegment */
-    private double distance;
+    private final double distance;
 
     private TransportSegment(Stop from, Stop to,String lineName, String variantName,Duration travelDuration, double distance){
         super(from, to);
@@ -99,8 +99,8 @@ public class TransportSegment extends Edge {
         final int prime = 13;
         int hash = 1;
         hash *= prime;
-        hash += ((Stop)this.getFrom()).hashCode();
-        hash += ((Stop)this.getTo()).hashCode();
+        hash += this.getFrom().hashCode();
+        hash += this.getTo().hashCode();
         hash += this.lineName.hashCode();
         hash += this.variantName.hashCode();
         hash += this.travelDuration.hashCode();

@@ -112,7 +112,7 @@ class DepartureRecordTest {
     }
 
     @Test void departureRecordsFromTuplesWithInvalidSizeThrowsException() {
-        List<List<String>> tuples = Arrays.asList(new ArrayList<>());
+        List<List<String>> tuples = List.of(new ArrayList<>());
         assertThrows(
           IllegalArgumentException.class,
           () -> DepartureRecord.fromTuples(tuples)
@@ -120,8 +120,8 @@ class DepartureRecordTest {
     }
 
     @Test void depRecordsFromTuplesWithInvalidDepartureTimeThrowsException() {
-        List<List<String>> tuples = Arrays.asList(
-          Arrays.asList("", "", "66:42", "")
+        List<List<String>> tuples = List.of(
+                Arrays.asList("", "", "66:42", "")
         );
         assertThrows(
           DateTimeParseException.class,

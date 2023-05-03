@@ -23,7 +23,7 @@ public class DistanceAsWeight implements BiFunction<Double, Edge, Double> {
     /**
      * Transport network the travel is on
      */
-    TransportNetwork tn;
+    final TransportNetwork tn;
 
     /**
      * Constructor for TravelTimeAsWeight

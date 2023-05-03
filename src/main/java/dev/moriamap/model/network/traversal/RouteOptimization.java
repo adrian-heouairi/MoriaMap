@@ -13,6 +13,6 @@ public enum RouteOptimization {
 	/**
 	 * Traversal strategy that optimize the distance taken
 	 */
-	DISTANCE;
+	DISTANCE
 
 }

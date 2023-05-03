@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This record holds datas for a transport segment
+ * This record holds data for a transport segment
  * @param fromName name of first stop of the edge
  * @param fromLongitude longitude of startStop of the edge
  * @param fromLatitude latitude of startStop of the edge
@@ -29,7 +29,7 @@ public record TransportSegmentRecord(String fromName,
                         double distance) {
 
     /**
-     * This record holds datas for a transport segment
+     * This record holds data for a transport segment
      * @param fromName name of first stop of the edge
      * @param fromLongitude longitude of startStop of the edge
      * @param fromLatitude latitude of startStop of the edge

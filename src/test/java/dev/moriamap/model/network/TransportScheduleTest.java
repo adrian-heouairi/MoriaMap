@@ -10,9 +10,9 @@ import java.time.LocalTime;
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
 class TransportScheduleTest {
 
-	LocalTime time = LocalTime.of( 4,20,4);
-	Stop stop = Stop.from( "stop1", GeographicPosition.at( 12, 21 ) );
-	Variant variant = Variant.empty( "Variant 2", "14" );
+	final LocalTime time = LocalTime.of( 4,20,4);
+	final Stop stop = Stop.from( "stop1", GeographicPosition.at( 12, 21 ) );
+	final Variant variant = Variant.empty( "Variant 2", "14" );
 
 	@Test void constructorPassingNullTimeTest() {
 		assertThrows(

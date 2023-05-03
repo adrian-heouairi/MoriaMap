@@ -41,8 +41,7 @@ public final class Line {
      */
     public List<Variant> getVariants() {
         List <Variant> res = new ArrayList<>(this.variants.size());
-        for (Variant v : this.variants)
-            res.add(v);
+        res.addAll(this.variants);
 
         return res;
     }
@@ -126,8 +125,8 @@ public final class Line {
         int hash = 1;
         hash *= prime;
         hash += this.name.hashCode();
-        for(int i=0;i<this.variants.size();i++){
-            hash += this.variants.get(i).hashCode();
+        for (Variant variant : this.variants) {
+            hash += variant.hashCode();
         }
         return hash;
     }

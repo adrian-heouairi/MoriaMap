@@ -14,7 +14,7 @@ public final class GeographicPosition {
     // Maximum latitude value in Celsius degrees.
     private static final double MAX_LATITUDE = 90.0;
 
-    // Minimum latitude value in Celsius degress.
+    // Minimum latitude value in Celsius degrees.
     private static final double MIN_LATITUDE = -90.0;
 
     // Maximum longitude value in Celsius degrees.
@@ -30,13 +30,13 @@ public final class GeographicPosition {
         new GeographicPosition(0.0, 0.0);
 
     /**
-     * The geographic position of the north pole on Earth.
+     * The geographic position of the North Pole on Earth.
      */
     public static final GeographicPosition NORTH_POLE =
         new GeographicPosition(90.0, 0.0);
 
     /**
-     * The geographic position of the south pole on Earth.
+     * The geographic position of the South Pole on Earth.
      */
     public static final GeographicPosition SOUTH_POLE =
         new GeographicPosition(-90.0, 0.0);
@@ -153,11 +153,11 @@ public final class GeographicPosition {
      * Returns an array that correspond to the cartesian representation of this
      * GeographicPosition on a sphere of specified radius. The projection is
      * computed as follows:
-     *
+     * <p>
      *     X-axis = radius * cos(this.latitude) * cos(this.longitude)
      *     Y-axis = radius * cos(this.latitude) * sin(this.longitude)
      *     Z-axis = radius * sin(this.latitude)
-     *
+     * <p>
      * and each value is rounded to 4 decimal places for 11.1m precision at the
      * equator.
      * @param  radius the distance from this GeographicPosition and the center
@@ -197,8 +197,7 @@ public final class GeographicPosition {
     public List<Double> toCartesianAsList(double radius) {
         double[] res = this.toCartesian(radius);
         List<Double> resAsList = new ArrayList<>();
-        for (int i = 0; i < res.length; i++)
-            resAsList.add(res[i]);
+        for (double re : res) resAsList.add(re);
         return resAsList;
     }
 
@@ -243,8 +242,8 @@ public final class GeographicPosition {
         if(latitude == null || longitude == null)
             throw new IllegalArgumentException("one of the argument is null");
 
-        Double latitudeDouble ;
-        Double longitudeDouble ;
+        double latitudeDouble ;
+        double longitudeDouble ;
 
         if(latitude.contains("N") || latitude.contains("S")){ // if contains N or S then Complete Format for latitude
             latitudeDouble = readCompleteFormat(latitude);

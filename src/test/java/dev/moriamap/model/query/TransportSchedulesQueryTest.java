@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
 class TransportSchedulesQueryTest {
 
-    TransportNetwork tn;
+    final TransportNetwork tn;
     {
         try {
             tn = TransportNetworkParser.generateFrom(TransportSchedulesQueryTest.class.getResourceAsStream("/test_map_data.csv"));

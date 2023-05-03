@@ -141,7 +141,7 @@ public abstract class Graph {
         List<Edge> route = new ArrayList<>();
         route.add(parents.get(dst));
         Vertex parent = parents.get(dst).getFrom();
-        Edge edgeToParent = null;
+        Edge edgeToParent;
         while (!parent.equals(src)) {
             edgeToParent = parents.get(parent);
             route.add(edgeToParent);
@@ -157,7 +157,7 @@ public abstract class Graph {
       Map<Vertex, Edge> parents,
       Vertex source
     ) {
-        Edge current = null;
+        Edge current;
         for (Map.Entry<Vertex, Edge> entries: parents.entrySet()) {
             current = entries.getValue();
             if (current != null && current.getFrom().equals(source))

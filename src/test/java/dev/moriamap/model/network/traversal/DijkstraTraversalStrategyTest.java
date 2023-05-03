@@ -20,8 +20,7 @@ class DijkstraTraversalStrategyTest {
       }
     }
     private static class DummyEdge extends Edge {
-      public DummyEdge() { super(new DummyVertex(), new DummyVertex()); }
-      public DummyEdge(Vertex from, Vertex to) { super(from, to); }
+        public DummyEdge(Vertex from, Vertex to) { super(from, to); }
     }
 
     @Test void traversalWithNullSrcThrowsException() {
@@ -91,15 +90,12 @@ class DijkstraTraversalStrategyTest {
       graph.addDummyEdge(e3);
       graph.addDummyEdge(e4);
 
-        BiFunction<Double, Edge, Double> weightFunction = new BiFunction<>() {
-            @Override
-            public Double apply(Double d, Edge edge) {
-                if (edge.equals(e1)) return 1.0;
-                if (edge.equals(e2)) return 1.0;
-                if (edge.equals(e3)) return 1.0;
-                if (edge.equals(e4)) return 11.0;
-                return Double.POSITIVE_INFINITY;
-            }
+        BiFunction<Double, Edge, Double> weightFunction = (d, edge) -> {
+            if (edge.equals(e1)) return 1.0;
+            if (edge.equals(e2)) return 1.0;
+            if (edge.equals(e3)) return 1.0;
+            if (edge.equals(e4)) return 11.0;
+            return Double.POSITIVE_INFINITY;
         };
 
       DijkstraTraversalStrategy dijkstra = new DijkstraTraversalStrategy();

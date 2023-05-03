@@ -2,13 +2,7 @@ package dev.moriamap.model.network;
 
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 import dev.moriamap.model.query.PrettyPrinter;
 
@@ -122,7 +116,7 @@ public final class TransportNetwork extends Graph {
             distances.put(stop, distance);
         }
         List<Stop> sortedNames = new ArrayList<>(distances.keySet());
-        Collections.sort(sortedNames, (name1, name2) -> distances.get(name1) - distances.get(name2));
+        sortedNames.sort(Comparator.comparingInt(distances::get));
         List<Stop> nearestNames = new ArrayList<>();
         for (int i = 0; i < Math.min(x, sortedNames.size()); i++) {
             nearestNames.add(sortedNames.get(i));
@@ -239,24 +233,23 @@ public final class TransportNetwork extends Graph {
     public String getRouteDescription(List<Edge> route, LocalTime startTime) {
         LocalTime cur = startTime;
         List<LocalTime> lts = new ArrayList<>();
-        for( int i = 0; i < route.size(); i++ ) {
-            Edge e = route.get( i );
-            if( e instanceof TransportSegment transportSegment ) {
-                Passages p = this.getPassages( (Stop) e.getFrom() );
-                LocalTime next = p.getNextTimeWithWrap( cur,
-                                                        transportSegment.getVariantName(),
-                                                        transportSegment.getLineName() );
-                if( next == null )
+        for (Edge e : route) {
+            if (e instanceof TransportSegment transportSegment) {
+                Passages p = this.getPassages((Stop) e.getFrom());
+                LocalTime next = p.getNextTimeWithWrap(cur,
+                        transportSegment.getVariantName(),
+                        transportSegment.getLineName());
+                if (next == null)
                     throw new IllegalStateException(
-                              "There are no transports on the line "
-                              + transportSegment.getLineName()
-                              + " variant "
-                              + transportSegment.getVariantName() );
-                lts.add( next );
-                cur = next.plus( transportSegment.getTravelDuration() );
-            } else if( e instanceof WalkSegment segment ) {
+                            "There are no transports on the line "
+                                    + transportSegment.getLineName()
+                                    + " variant "
+                                    + transportSegment.getVariantName());
+                lts.add(next);
+                cur = next.plus(transportSegment.getTravelDuration());
+            } else if (e instanceof WalkSegment segment) {
                 lts.add(cur);
-                cur = cur.plus( segment.travelTime() );
+                cur = cur.plus(segment.travelTime());
             }
         }
         return PrettyPrinter.printTransportSegmentPathWithLineChangeTimes(this,route,lts);

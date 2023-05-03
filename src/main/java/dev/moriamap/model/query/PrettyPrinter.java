@@ -156,7 +156,7 @@ public class PrettyPrinter {
 	 * format:
 	 * 	'Switching line at [time]' (or for the first:'Taking line at: [starting time]')
 	 * 	[when changing line] ## [Line and variant names] ## [terminus of the variant]
-	 * 	[list of all the stops to go throught on the same line: s1 -> s2 -> s3]
+	 * 	[list of all the stops to go through on the same line: s1 -> s2 -> s3]
 	 */
 	public static String printTransportSegmentPathWithLineChangeTimes(
 			TransportNetwork tn,

@@ -51,7 +51,7 @@ class GraphTest {
         assertEquals(2, sut.getVertices().size());
     }
 
-    @Test void getOutgoindEdgesOfNullVertexThrowsIllegalArgumentException() {
+    @Test void getOutgoingEdgesOfNullVertexThrowsIllegalArgumentException() {
         Graph sut = new DummyGraph();
         assertThrows(
             IllegalArgumentException.class,

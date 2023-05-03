@@ -17,22 +17,22 @@ public final class Variant {
     /**
      * The name of this Variant.
      */
-    private String name;
+    private final String name;
 
     /**
      * The name of the owner Line.
      */
-    private String lineName;
+    private final String lineName;
 
     /**
      * The TransportSegments in this Variant.
      */
-    private List<TransportSegment> transportSegments;
+    private final List<TransportSegment> transportSegments;
 
     /**
      * The departures of transports from this Variant first Stop.
      */
-    private List<LocalTime> departures;
+    private final List<LocalTime> departures;
 
     /**
      * Class constructor specifying variant name and owner line name
@@ -120,7 +120,7 @@ public final class Variant {
 
     /**
      * Adds the given departure to this Variant.
-     * @param departure the departure to be add
+     * @param departure the departure to be added
      * @return true if the given departure was added
      * @throws IllegalArgumentException if departure is null
      */
@@ -187,7 +187,7 @@ public final class Variant {
     /**
      * {@return the list of Stop in the order of the traversal contained in this variant }
      * @throws NoSuchElementException if during the traversal one of the stops
-     *                                encountered is not the destination and it
+     *                                encountered is not the destination, and it
      *                                has no outgoing segment.
      * @throws IllegalStateException if the given stop has an outgoing segment
      *                               in this Variant but was not found
@@ -195,7 +195,7 @@ public final class Variant {
     public List<Stop> getStops(){
         List<Stop> res = new ArrayList<>();
         Stop cur = getStart();
-        TransportSegment ts = null;
+        TransportSegment ts;
         Stop end = getEnd();
         while(!cur.equals(end)){
             res.add(cur);
@@ -278,7 +278,7 @@ public final class Variant {
      * @param to the destination Stop
      * @throws IllegalArgumentException if to is null
      * @throws NoSuchElementException if during the traversal one of the stops
-     *                                encountered is not the destination and it
+     *                                encountered is not the destination, and it
      *                                has no outgoing segment.
      * @throws IllegalStateException if the given stop has an outgoing segment
      *                               in this Variant but was not found

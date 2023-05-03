@@ -26,7 +26,7 @@ import java.util.Map;
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
 class PrettyPrinterTest {
 
-	TransportNetwork tn;
+	final TransportNetwork tn;
 	{
 			Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);
 			Stop s2 = Stop.from("s2", GeographicPosition.NORTH_POLE);
@@ -60,7 +60,7 @@ class PrettyPrinterTest {
 			tn.addLine(l2);
 	}
 
-	List<Edge> testRoute;
+	final List<Edge> testRoute;
 	{
 
 		Stop s1 = Stop.from("s1", GeographicPosition.SOUTH_POLE);

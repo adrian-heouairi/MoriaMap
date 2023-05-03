@@ -20,7 +20,7 @@ public class TransportNetworkParser {
     /**
      * apply the algorithm described in diagrams/transport-network-generation-algorithm to produce a TransportNetwork
      * @param tuples a List of TransportSegmentRecord
-     * @return a TransportNetwork corrsponding to the network given in argument
+     * @return a TransportNetwork coresponding to the network given in argument
      */
     public static TransportNetwork generateFromTransportSegmentRecord(List<TransportSegmentRecord> tuples ){
         TransportNetwork tn = TransportNetwork.empty();
@@ -48,7 +48,7 @@ public class TransportNetworkParser {
      * apply the algorithm described in diagrams/transport-network-generation-algorithm to produce a TransportNetwork
      * @param transportNetworkFileContent the stream to the data csv file 
      * @throws InconsistentCSVException if the line of the given CSV does not contain the expected number of fields
-     * @return a TransportNetwork corrsponding to the network given in argument
+     * @return a TransportNetwork corresponding to the network given in argument
      */
     public static TransportNetwork generateFrom(InputStream transportNetworkFileContent) throws InconsistentCSVException{
         List<TransportSegmentRecord> tuples = TransportSegmentRecord.fromTuples(CSVParser.extractLines(transportNetworkFileContent));

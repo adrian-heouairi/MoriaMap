@@ -10,6 +10,7 @@ import dev.moriamap.model.network.TransportNetwork;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.InputStream;
+import java.util.Objects;
 
 class TransportNetworkParserTest {    
     @Test void testNumberOfTransportLine() throws InconsistentCSVException{
@@ -32,7 +33,7 @@ class TransportNetworkParserTest {
 
         TransportNetwork tn = TransportNetworkParser.generateFrom(resource);
 
-        assertEquals("8",tn.findLine("8").getName() );
+        assertEquals("8", Objects.requireNonNull(tn.findLine("8")).getName() );
     }
 
     @Test void findLineObjectEqualFalse()throws InconsistentCSVException{

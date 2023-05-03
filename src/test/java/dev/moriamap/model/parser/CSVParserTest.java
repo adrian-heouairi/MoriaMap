@@ -2,7 +2,6 @@ package dev.moriamap.model.parser;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -10,20 +9,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CSVParserTest {
     @Test void extractLinesThrowsExceptionWhenArgumentIsNull() {
-        assertThrows(IllegalArgumentException.class,() ->{
-            CSVParser.extractLines(null);
-        });
+        assertThrows(IllegalArgumentException.class,() -> CSVParser.extractLines(null));
     }
     @Test void extractedInconsistentDataThrowsException() {
         assertThrows(InconsistentCSVException.class,() ->{
-            InputStream resouce = CSVParserTest.class.getResourceAsStream("/InconsistentCSV.csv");
-            CSVParser.extractLines(resouce);
+            InputStream resource = CSVParserTest.class.getResourceAsStream("/InconsistentCSV.csv");
+            CSVParser.extractLines(resource);
         });
     }
 
-    @Test void parserExtractsExceptedNumberOfLines() throws InconsistentCSVException, IOException {
-        InputStream resouce = CSVParserTest.class.getResourceAsStream("/test_map_data.csv");
-        List<List<String>> lines = CSVParser.extractLines(resouce);
+    @Test void parserExtractsExceptedNumberOfLines() throws InconsistentCSVException {
+        InputStream resource = CSVParserTest.class.getResourceAsStream("/test_map_data.csv");
+        List<List<String>> lines = CSVParser.extractLines(resource);
         assertEquals(27,lines.size());
     }
 

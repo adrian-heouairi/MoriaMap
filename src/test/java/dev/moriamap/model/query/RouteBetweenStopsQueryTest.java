@@ -11,7 +11,7 @@ import dev.moriamap.model.parser.TransportNetworkParser;
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
 class RouteBetweenStopsQueryTest {
 
-	TransportNetwork tn;
+	final TransportNetwork tn;
 	{
 		try {
 			tn = TransportNetworkParser.generateFrom(RouteBetweenStopsQueryTest.class.getResourceAsStream("/test_map_data.csv"));

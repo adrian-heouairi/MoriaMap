@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @TestInstance( TestInstance.Lifecycle.PER_CLASS )
 class TransportSegmentRecordTest {
 
-    TransportSegmentRecord e = new TransportSegmentRecord(
+    final TransportSegmentRecord e = new TransportSegmentRecord(
             "Olympiades",
             40.5,
             40.5,
@@ -43,70 +43,62 @@ class TransportSegmentRecordTest {
 
     @Test void constructorParsingNullFromName() {
         assertThrows( IllegalArgumentException.class,
-                () ->{
-                    new TransportSegmentRecord(
-                            null,
-                            40.5,
-                            40.5,
-                            "Olympiades",
-                            50.6,
-                            50.6,
-                            "12",
-                            "1",
-                            Duration.ZERO,
-                            23.4);
-        });
+                () -> new TransportSegmentRecord(
+                        null,
+                        40.5,
+                        40.5,
+                        "Olympiades",
+                        50.6,
+                        50.6,
+                        "12",
+                        "1",
+                        Duration.ZERO,
+                        23.4));
     }
 
     @Test void constructorParsingNullToName() {
         assertThrows( IllegalArgumentException.class,
-                () ->{
-                    new TransportSegmentRecord(
-                            "Olympiades",
-                            40.5,
-                            40.5,
-                            null,
-                            50.6,
-                            50.6,
-                            "12",
-                            "1",
-                            Duration.ZERO,
-                            23.4);
-                });
+                () -> new TransportSegmentRecord(
+                        "Olympiades",
+                        40.5,
+                        40.5,
+                        null,
+                        50.6,
+                        50.6,
+                        "12",
+                        "1",
+                        Duration.ZERO,
+                        23.4));
     }
 
     @Test void constructorParsingNullLineName() {
         assertThrows( IllegalArgumentException.class,
-                () ->{
-                    new TransportSegmentRecord(
-                            "Olympiades",
-                            40.5,
-                            40.5,
-                            "BNF",
-                            50.6,
-                            50.6,
-                            null,
-                            "1",
-                            Duration.ZERO,
-                            23.4);
-                });
+                () -> new TransportSegmentRecord(
+                        "Olympiades",
+                        40.5,
+                        40.5,
+                        "BNF",
+                        50.6,
+                        50.6,
+                        null,
+                        "1",
+                        Duration.ZERO,
+                        23.4));
     }
 
     @Test void constructorParsingNullVariantName() {
         assertThrows( IllegalArgumentException.class,
-                () ->{
-                    new TransportSegmentRecord(
-                            "Olympiades",
-                            40.5,
-                            40.5,
-                            "BNF",
-                            50.6,
-                            50.6,
-                            "14",
-                            null,
-                            Duration.ZERO,
-                            23.4);
-                });
+                () -> new TransportSegmentRecord(
+                        "Olympiades",
+                        40.5,
+                        40.5,
+                        "BNF",
+                        50.6,
+                        50.6,
+                        "14",
+                        null,
+                        Duration.ZERO,
+                        23.4));
     }
 
     @Test void constructorParsingNullDuration() {
