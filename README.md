@@ -1,6 +1,8 @@
 # MoriaMap
 
 ## Links
+Releases: https://gaufre.informatique.univ-paris-diderot.fr/tazouev/moriamap/releases
+
 Presentation video:  
 
 UML diagram:  
