@@ -3,7 +3,7 @@
 ## Links
 Releases: https://gaufre.informatique.univ-paris-diderot.fr/tazouev/moriamap/releases
 
-Presentation video:  
+Presentation video: https://youtu.be/BYNyww98u38
 
 UML diagrams: https://gaufre.informatique.univ-paris-diderot.fr/tazouev/moriamap/raw/artifacts/artifacts/UMLs.pdf?inline=false
 
