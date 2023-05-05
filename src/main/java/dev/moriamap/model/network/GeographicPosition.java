@@ -116,8 +116,8 @@ public final class GeographicPosition {
   }
 
   /**
-   * Gets the value of the angle in degrees formed by this GeographicPosition and the
-   * Equator (latitude of 0.0).
+   * Gets the value of the angle in degrees formed by this GeographicPosition and the Equator
+   * (latitude of 0.0).
    *
    * @return the latitude coordinate of this GeographicPosition
    */
@@ -126,8 +126,8 @@ public final class GeographicPosition {
   }
 
   /**
-   * Gets the value of the angle in degrees formed by this GeographicPosition and the prime
-   * meridian (longitude of 0.0).
+   * Gets the value of the angle in degrees formed by this GeographicPosition and the prime meridian
+   * (longitude of 0.0).
    *
    * @return the longitude coordinate of this GeographicPosition
    */

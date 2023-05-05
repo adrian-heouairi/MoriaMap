@@ -5,9 +5,9 @@ Releases: https://gaufre.informatique.univ-paris-diderot.fr/tazouev/moriamap/rel
 
 Presentation video:  
 
-UML diagram:  
+UML diagrams: https://gaufre.informatique.univ-paris-diderot.fr/tazouev/moriamap/raw/artifacts/artifacts/UMLs.pdf?inline=false
 
-Javadoc:  https://gaufre.informatique.univ-paris-diderot.fr/tazouev/moriamap/raw/artifacts/artifacts/MoriaMap_javadoc.zip
+Javadoc: https://gaufre.informatique.univ-paris-diderot.fr/tazouev/moriamap/raw/artifacts/artifacts/MoriaMap_javadoc.zip
 
 ## Important notice
 For the calculation of routes including walking sections, a walk speed of 2 km/h is assumed when optimizing for time.
