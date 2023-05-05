@@ -11,16 +11,16 @@ import java.util.List;
  */
 public final class GeographicPosition {
 
-  // Maximum latitude value in Celsius degrees.
+  // Maximum latitude value in degrees.
   private static final double MAX_LATITUDE = 90.0;
 
-  // Minimum latitude value in Celsius degrees.
+  // Minimum latitude value in degrees.
   private static final double MIN_LATITUDE = -90.0;
 
-  // Maximum longitude value in Celsius degrees.
+  // Maximum longitude value in degrees.
   private static final double MAX_LONGITUDE = 180.0;
 
-  // Minimum longitude value in Celsius degrees.
+  // Minimum longitude value in degrees.
   private static final double MIN_LONGITUDE = -180.0;
 
   /** The geographic position of the Null Island. */
@@ -35,10 +35,10 @@ public final class GeographicPosition {
   /** The radius of the Earth in meters. */
   public static final double EARTH_RADIUS = 6371000.0;
 
-  // The angle between north and south poles on a sphere in Celsius degrees.
+  // The angle between north and south poles on a sphere in degrees.
   private final double latitude;
 
-  // The angle between west and east poles on a sphere in Celsius degrees.
+  // The angle between west and east poles on a sphere in degrees.
   private final double longitude;
 
   // Returns true if lat <= MAX_LATITUDE && lat >= MIN_LATITUDE
@@ -54,8 +54,8 @@ public final class GeographicPosition {
   /**
    * Creates a new GeographicPosition at specified latitude and longitude.
    *
-   * @param latitude a value between +/- 90 Celsius degrees
-   * @param longitude a value between +/- 180 Celsius degrees
+   * @param latitude a value between +/- 90 degrees
+   * @param longitude a value between +/- 180 degrees
    * @return a new GeographicPosition at latitude and longitude
    * @throws IllegalArgumentException if the values for latitude or longitude are not valid
    */
@@ -116,7 +116,7 @@ public final class GeographicPosition {
   }
 
   /**
-   * Gets the value of the angle in Celsius degrees formed by this GeographicPosition and the
+   * Gets the value of the angle in degrees formed by this GeographicPosition and the
    * Equator (latitude of 0.0).
    *
    * @return the latitude coordinate of this GeographicPosition
@@ -126,7 +126,7 @@ public final class GeographicPosition {
   }
 
   /**
-   * Gets the value of the angle in Celsius degrees formed by this GeographicPosition and the prime
+   * Gets the value of the angle in degrees formed by this GeographicPosition and the prime
    * meridian (longitude of 0.0).
    *
    * @return the longitude coordinate of this GeographicPosition
