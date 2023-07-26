@@ -3,6 +3,14 @@
 ## Description
 Computer science degree fourth year project. A Java command-line route calculator (like Google Maps) that knows the Paris metro network. The Dijkstra algorithm is used to give the shortest route between two arbitrary positions.
 
+Project realized by:
+- Adrian HEOUAIRI
+- Guillermo MORON USON
+- Sevi DERVISHI
+- Virgile GUINET
+- Pierre SAMSON
+- Arbi TAZOUEV
+
 ## Links
 Presentation video: https://youtu.be/BYNyww98u38
 
