@@ -1,7 +1,7 @@
 # MoriaMap
 
 ## Description
-A Java command-line route calculator (like Google Maps) that knows the Paris metro network. The Dijkstra algorithm is used to give the shortest route between two arbitrary positions.
+Computer science degree fourth year project. A Java command-line route calculator (like Google Maps) that knows the Paris metro network. The Dijkstra algorithm is used to give the shortest route between two arbitrary positions.
 
 ## Links
 Presentation video: https://youtu.be/BYNyww98u38
